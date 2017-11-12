@@ -26,6 +26,22 @@ namespace ZooER.DAL
         public DbSet<Drug> Drugs { get; set; }
         public DbSet<Veterinary> Veterinaries { get; set; }
 
+        // Some adaptations
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Visit>()
+                .HasMany(c => c.Drugs)
+                .WithMany(c => c.Visits)
+                .Map(m =>
+                {
+                    m.ToTable("VisitsDrugs");
+                    m.MapLeftKey("VisitID");
+                    m.MapRightKey("DrugID");
+                });
+
+        }
+
 
     }
 

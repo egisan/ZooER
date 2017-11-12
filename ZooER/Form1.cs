@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ZooER.DAL;
 using ZooER.Models;
+using System.Data.Entity;
 
 namespace ZooER
 {
@@ -24,6 +25,8 @@ namespace ZooER
         {
             using (var db = new ZooContext())
             {
+
+
                 // Create and save a new Blog 
 
 
@@ -31,6 +34,8 @@ namespace ZooER
                 Animal cat = new Animal { Name = "Cat", Weight = 1.0 };
                 Animal horse = new Animal { Name = "Horse", Weight = 122.5 };
                 Animal eagle = new Animal { Name = "Eagle", Weight = 2.5 };
+
+                var visit1 = new Visit();
                
 
 

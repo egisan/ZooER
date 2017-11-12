@@ -10,7 +10,7 @@ namespace ZooER.Models
     {
         public int ID { get; set; }
         public DateTime Start { get; set; }
-        public DateTime End { get; set; }
+        public DateTime? End { get; set; }
 
         // Nav
         public virtual Animal Animal { get; set; }

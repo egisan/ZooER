@@ -12,6 +12,7 @@ namespace ZooER.Models
     {
 
         public int ID { get; set; }
+   
         public string Name { get; set; }
         public double Weight { get; set; }
 

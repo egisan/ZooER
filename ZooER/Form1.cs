@@ -11,6 +11,8 @@ using System.Windows.Forms;
 using ZooER.DAL;
 using ZooER.Models;
 using System.Data.Entity;
+using System.Xml;
+using System.Data.Entity.Infrastructure;
 
 namespace ZooER
 {
@@ -20,6 +22,23 @@ namespace ZooER
         {
             InitializeComponent();
         }
+
+        // Derive the model from the context!
+        //
+        public void CreateDesignModel()
+        {
+            using (var context = new ZooContext())
+            {
+                XmlWriterSettings settings = new XmlWriterSettings();
+                settings.Indent = true;
+
+                using (XmlWriter writer = XmlWriter.Create(@"Model.edmx", settings))
+                {
+                    EdmxWriter.WriteEdmx(context, writer);
+                }
+            }
+        }
+
 
         private void button1_Click(object sender, EventArgs e)
         {

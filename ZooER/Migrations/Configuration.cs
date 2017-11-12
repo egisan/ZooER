@@ -25,13 +25,7 @@ namespace ZooER.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
 
-            AddAnimals();
-            AddDiagnosis();
-            AddVets();
-            AddDrugs();
-            AddVisits();
-
-            /*
+            // Add first the Entities on the "one" side
             context.Species.AddOrUpdate(
                 x => x.Name,
                     new Species { Name = "Mammals" },
@@ -62,7 +56,12 @@ namespace ZooER.Migrations
                     new Origin { Name = "Europe" },
                     new Origin { Name = "Australia" }
             );
-            */
+
+            AddAnimals();
+            //AddDiagnosis();
+            //AddVets();
+            //AddDrugs();
+            //AddVisits();
 
         }
 
@@ -70,61 +69,61 @@ namespace ZooER.Migrations
         private void AddAnimals()
         {
             context.Animals.AddOrUpdate(
-                x => x.Name,
+                x => x.ID,
                     new Animal
                     {
                         Name = "Eagle",
                         Weight = 15.1,
-                        Habitat = new Habitat { Name = "Tree" },
-                        Species = new Species { Name = "Birds" },
-                        Diet = new Diet { Name = "Carnivors" },
-                        Origin = new Origin { Name = "North America" },
+                        //  Habitat = context.Habitats.Where(c => c.Name == "Tree").FirstOrDefault(),
+                        //  Species = context.Species.Where(c => c.Name == "Birds").FirstOrDefault(),
+                        //   Diet = context.Diets.Where(c => c.Name == "Carnivors").FirstOrDefault(),
+                        //   Origin = context.Origins.Where( c => c.Name == "North America").FirstOrDefault(),
                         // Visits = new List<Visit> { new Visit { Start = new DateTime(2017, 10, 02), End = new DateTime(2017, 10, 03) } }
-                    },
-
-                    new Animal
-                    {
-                        Name = "Horse",
-                        Weight = 300.3,
-                        Habitat = new Habitat { Name = "Ground" },
-                        Species = new Species { Name = "Mammals" },
-                        Diet = new Diet { Name = "Vegetarian" },
-                        Origin = new Origin { Name = "North America" },
-                        // Visits = new List<Visit> { new Visit { Start = new DateTime(2017, 06, 10), End = new DateTime(2017, 06, 11) } }
-                    },
-
-                    new Animal
-                    {
-                        Name = "Dog",
-                        Weight = 15.4,
-                        Habitat = new Habitat { Name = "Ground" },
-                        Species = new Species { Name = "Mammals" },
-                        Diet = new Diet { Name = "Carnivor" },
-                        Origin = new Origin { Name = "Europe" },
-                        Visits = new List<Visit> { new Visit { Start = new DateTime(2017, 11, 3), End = new DateTime(2017, 11, 5) } }
-                    },
-
-                    new Animal
-                    {
-                        Name = "Cat",
-                        Weight = 9.0,
-                        Habitat = new Habitat { Name = "Ground" },
-                        Species = new Species { Name = "Mammals" },
-                        Diet = new Diet { Name = "Carnivor" },
-                        Origin = new Origin { Name = "Europe" },
-                        // Visits = new List<Visit> { new Visit { Start = new DateTime(2017, 03, 16), End = new DateTime(2017, 03, 18) } }
-                    },
-
-                    new Animal
-                    {
-                        Name = "Wale",
-                        Weight = 1200.2,
-                        Habitat = new Habitat { Name = "Sea" },
-                        Species = new Species { Name = "Mammals" },
-                        Diet = new Diet { Name = "Carnivor" },
-                        Origin = new Origin { Name = "North America" },
-                        // Visits = new List<Visit> { new Visit { Start = new DateTime(2017, 03, 16), End = new DateTime(2017, 03, 18) } }
                     }
+
+                    //new Animal
+                    //{
+                    //    Name = "Horse",
+                    //    Weight = 300.3,
+                    //    //Habitat = context.Habitats.Where(c => c.Name == "Ground").FirstOrDefault(),
+                    //    //Species = context.Species.Where(c => c.Name == "Mammals").FirstOrDefault(),
+                    //    //Diet = context.Diets.Where(c => c.Name == "Vegetarian").FirstOrDefault(),
+                    //    //Origin = context.Origins.Where(c => c.Name == "North America").FirstOrDefault()
+                    //    // Visits = new List<Visit> { new Visit { Start = new DateTime(2017, 06, 10), End = new DateTime(2017, 06, 11) } }
+                    //},
+
+                    //new Animal
+                    //{
+                    //    Name = "Dog",
+                    //    Weight = 15.4,
+                    //    //Habitat = context.Habitats.Where(c => c.Name == "Ground").FirstOrDefault(),
+                    //    //Species = context.Species.Where(c => c.Name == "Mammals").FirstOrDefault(),
+                    //    //Diet = context.Diets.Where(c => c.Name == "Carnivor").FirstOrDefault(),
+                    //    //Origin = context.Origins.Where(c => c.Name == "Europe").FirstOrDefault(),
+                    //    //  Visits = new List<Visit> { new Visit { Start = new DateTime(2017, 11, 3), End = new DateTime(2017, 11, 5) } }
+                    //},
+
+                    //new Animal
+                    //{
+                    //    Name = "Cat",
+                    //    Weight = 9.0,
+                    //    //Habitat = context.Habitats.Where(c => c.Name == "Ground").FirstOrDefault(),
+                    //    //Species = context.Species.Where(c => c.Name == "Mammals").FirstOrDefault(),
+                    //    //Diet = context.Diets.Where(c => c.Name == "Carnivor").FirstOrDefault(),
+                    //    //Origin = context.Origins.Where(c => c.Name == "Europe").FirstOrDefault(),
+                    //    // Visits = new List<Visit> { new Visit { Start = new DateTime(2017, 03, 16), End = new DateTime(2017, 03, 18) } }
+                    //},
+
+                    //new Animal
+                    //{
+                    //    Name = "Wale",
+                    //    Weight = 1200.2,
+                    //    //Habitat = context.Habitats.Where(c => c.Name == "Sea").FirstOrDefault(),
+                    //    //Species = context.Species.Where(c => c.Name == "Mammals").FirstOrDefault(),
+                    //    //Diet = context.Diets.Where(c => c.Name == "Carnivor").FirstOrDefault(),
+                    //    //Origin = context.Origins.Where(c => c.Name == "North America").FirstOrDefault(),
+                    //    // Visits = new List<Visit> { new Visit { Start = new DateTime(2017, 03, 16), End = new DateTime(2017, 03, 18) } }
+                    //}
             );
         }
 
@@ -137,6 +136,8 @@ namespace ZooER.Migrations
                     new Diagnosis { Description = "Low blod pressure" },
                     new Diagnosis { Description = "Trauma" }
             );
+
+            
         }
 
         private void AddVets()

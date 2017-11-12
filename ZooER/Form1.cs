@@ -49,39 +49,55 @@ namespace ZooER
                 // Create and save a new Blog 
 
 
-                Animal dog = new Animal { Name = "Dog", Weight = 12.5 };
-                Animal cat = new Animal { Name = "Cat", Weight = 1.0 };
-                Animal horse = new Animal { Name = "Horse", Weight = 122.5 };
-                Animal eagle = new Animal { Name = "Eagle", Weight = 2.5 };
+                //Animal dog = new Animal { Name = "Dog", Weight = 12.5 };
+                //Animal cat = new Animal { Name = "Cat", Weight = 1.0 };
+                //Animal horse = new Animal { Name = "Horse", Weight = 122.5 };
+                //Animal eagle = new Animal { Name = "Eagle", Weight = 2.5 };
 
-                var visit1 = new Visit();
-               
+                var visit1 = new Visit { Start = DateTime.Now , Drugs = new List<Drug>() };
 
+                var visit2 = new Visit { Start = DateTime.Now };
+
+                var drug1 = new Drug { Name = "drug1", Visits = new List<Visit>() };
+                var drug2 = new Drug { Name = "drug2", Visits = new List<Visit>() };
+                var drug3 = new Drug { Name = "drug3", Visits = new List<Visit>() };
+
+                drug3.Visits.Add(visit2);
+
+                visit1.Drugs.Add(drug1);
+                visit1.Drugs.Add(drug2);
+                visit1.Drugs.Add(drug3);
+
+                Animal dogPappa = new Animal { Name = "DogPappa", Weight = 20.0 };
+             
+                
 
                 // define the RELATIONS Parent - Child
                 var rel1 = new ChildParent();
-                rel1.Parent = horse;
-                rel1.Child = eagle;
+                rel1.Parent = db.Animals.Where(c => c.Name == "Horse").FirstOrDefault();
+                rel1.Child = db.Animals.Where(c => c.Name == "Eagle").FirstOrDefault(); ;
 
                 var rel2 = new ChildParent();
-                rel2.Parent = dog;
-                rel2.Child = horse;
+                rel2.Parent = db.Animals.Where(c => c.Name == "Horse").FirstOrDefault();
+                rel2.Child = db.Animals.Where(c => c.Name == "Wale").FirstOrDefault(); 
 
                 var rel3 = new ChildParent();
-                rel3.Parent = dog;
-                rel3.Child = cat;
+                rel3.Parent = db.Animals.Where(c => c.Name == "Dog").FirstOrDefault();
+                rel3.Child = db.Animals.Where(c => c.Name == "Horse").FirstOrDefault();
 
+                var rel4 = new ChildParent();
+                rel4.Parent = db.Animals.Where(c => c.Name == "Dog").FirstOrDefault();
+                rel4.Child = db.Animals.Where(c => c.Name == "Cat").FirstOrDefault();
                 // Add the relations to the LINK table and...
                 // Also the Animals table will be updated automatically
                 db.ChildrenParents.Add(rel1);
                 db.ChildrenParents.Add(rel2);
                 db.ChildrenParents.Add(rel3);
+                db.ChildrenParents.Add(rel4);
 
                 // Removing Dog as parent of horse ==> removing the relation 'IsChildOf'
                 db.SaveChanges();
                
-                db.Entry(horse).Reference("IsChildOf").CurrentValue = null;
-                db.SaveChanges();
                 // Display all Blogs from the database 
                 var query = db.Animals.Select(c => c);
 

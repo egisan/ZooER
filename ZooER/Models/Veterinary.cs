@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace ZooER.Models
 {
-    class Veterinary
+    public class Veterinary
     {
+        public int ID { get; set; }
+        public string Name { get; set; }
+
+        // Nav
+        public virtual ICollection<Visit> Visits { get; set; }
     }
 }

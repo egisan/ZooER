@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ZooER.Models
 {
-    public class Origin
+    public class Habitat
     {
         public int ID { get; set; }
         public string Name { get; set; }

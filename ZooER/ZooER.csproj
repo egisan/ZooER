@@ -64,12 +64,11 @@
     <Compile Include="Models\Diagnosis.cs" />
     <Compile Include="Models\Diet.cs" />
     <Compile Include="Models\Drug.cs" />
-    <Compile Include="Models\Environment.cs" />
+    <Compile Include="Models\Habitat.cs" />
     <Compile Include="Models\Origin.cs" />
     <Compile Include="Models\Species.cs" />
     <Compile Include="Models\Veterinary.cs" />
     <Compile Include="Models\Visit.cs" />
-    <Compile Include="Models\VisitDrug.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

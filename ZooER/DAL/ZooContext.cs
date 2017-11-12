@@ -16,6 +16,17 @@ namespace ZooER.DAL
 
         public DbSet<Animal> Animals { get; set; }
         public DbSet<ChildParent> ChildrenParents { get; set; }
+
+        public DbSet<Habitat> Habitats { get; set; }
+        public DbSet<Species> Species  { get; set; }
+        public DbSet<Diet> Diets { get; set; }
+        public DbSet<Origin> Origins { get; set; }
+        public DbSet<Diagnosis> Diagnosises { get; set; }
+        public DbSet<Visit> Visits { get; set; }
+        public DbSet<Drug> Drugs { get; set; }
+        public DbSet<Veterinary> Veterinaries { get; set; }
+
+
     }
 
 

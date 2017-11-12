@@ -53,9 +53,11 @@ namespace ZooER
                 db.ChildrenParents.Add(rel2);
                 db.ChildrenParents.Add(rel3);
 
+                // Removing Dog as parent of horse ==> removing the relation 'IsChildOf'
                 db.SaveChanges();
                
-
+                db.Entry(horse).Reference("IsChildOf").CurrentValue = null;
+                db.SaveChanges();
                 // Display all Blogs from the database 
                 var query = db.Animals.Select(c => c);
 

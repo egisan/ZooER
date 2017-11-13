@@ -7,13 +7,13 @@ namespace ZooER.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class Init : IMigrationMetadata
+    public sealed partial class SeedTest : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Init));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(SeedTest));
         
         string IMigrationMetadata.Id
         {
-            get { return "201711122249272_Init"; }
+            get { return "201711131422139_SeedTest"; }
         }
         
         string IMigrationMetadata.Source

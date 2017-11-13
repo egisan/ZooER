@@ -28,10 +28,13 @@ namespace ZooER.Models
         public virtual ICollection<Animal> IsParentOf { get; set; }
 
         // Nav to other entities
+        [Required]
         public virtual Habitat Habitat { get; set; }
         [Required]
         public virtual Species Species { get; set; }
+        [Required]
         public virtual Diet Diet { get; set; }
+        [Required]
         public virtual Origin Origin { get; set; }
         public virtual ICollection<Visit> Visits { get; set; }
 

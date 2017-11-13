@@ -3,7 +3,7 @@ namespace ZooER.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Init : DbMigration
+    public partial class SeedTest : DbMigration
     {
         public override void Up()
         {
@@ -14,16 +14,16 @@ namespace ZooER.Migrations
                         ID = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 30),
                         Weight = c.Double(nullable: false),
-                        Diet_ID = c.Int(),
-                        Habitat_ID = c.Int(),
-                        Origin_ID = c.Int(),
-                        Species_ID = c.Int(),
+                        Diet_ID = c.Int(nullable: false),
+                        Habitat_ID = c.Int(nullable: false),
+                        Origin_ID = c.Int(nullable: false),
+                        Species_ID = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Diets", t => t.Diet_ID)
-                .ForeignKey("dbo.Habitats", t => t.Habitat_ID)
-                .ForeignKey("dbo.Origins", t => t.Origin_ID)
-                .ForeignKey("dbo.Species", t => t.Species_ID)
+                .ForeignKey("dbo.Diets", t => t.Diet_ID, cascadeDelete: true)
+                .ForeignKey("dbo.Habitats", t => t.Habitat_ID, cascadeDelete: true)
+                .ForeignKey("dbo.Origins", t => t.Origin_ID, cascadeDelete: true)
+                .ForeignKey("dbo.Species", t => t.Species_ID, cascadeDelete: true)
                 .Index(t => t.Diet_ID)
                 .Index(t => t.Habitat_ID)
                 .Index(t => t.Origin_ID)
@@ -48,20 +48,6 @@ namespace ZooER.Migrations
                     })
                 .PrimaryKey(t => t.ID)
                 .Index(t => t.Name, unique: true);
-            
-            CreateTable(
-                "dbo.ChildParents",
-                c => new
-                    {
-                        ID = c.Int(nullable: false, identity: true),
-                        ChildID = c.Int(),
-                        ParentID = c.Int(),
-                    })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Animals", t => t.ChildID)
-                .ForeignKey("dbo.Animals", t => t.ParentID)
-                .Index(t => t.ChildID)
-                .Index(t => t.ParentID);
             
             CreateTable(
                 "dbo.Origins",
@@ -90,14 +76,14 @@ namespace ZooER.Migrations
                         ID = c.Int(nullable: false, identity: true),
                         Start = c.DateTime(nullable: false),
                         End = c.DateTime(),
-                        Animal_ID = c.Int(),
-                        Diagnosis_ID = c.Int(),
-                        Veterinary_ID = c.Int(),
+                        Animal_ID = c.Int(nullable: false),
+                        Diagnosis_ID = c.Int(nullable: false),
+                        Veterinary_ID = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Animals", t => t.Animal_ID)
-                .ForeignKey("dbo.Diagnosis", t => t.Diagnosis_ID)
-                .ForeignKey("dbo.Veterinaries", t => t.Veterinary_ID)
+                .ForeignKey("dbo.Animals", t => t.Animal_ID, cascadeDelete: true)
+                .ForeignKey("dbo.Diagnosis", t => t.Diagnosis_ID, cascadeDelete: true)
+                .ForeignKey("dbo.Veterinaries", t => t.Veterinary_ID, cascadeDelete: true)
                 .Index(t => t.Animal_ID)
                 .Index(t => t.Diagnosis_ID)
                 .Index(t => t.Veterinary_ID);
@@ -130,6 +116,19 @@ namespace ZooER.Migrations
                 .PrimaryKey(t => t.ID);
             
             CreateTable(
+                "dbo.ChildrenParents",
+                c => new
+                    {
+                        ChildID = c.Int(nullable: false),
+                        ParentID = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.ChildID, t.ParentID })
+                .ForeignKey("dbo.Animals", t => t.ChildID)
+                .ForeignKey("dbo.Animals", t => t.ParentID)
+                .Index(t => t.ChildID)
+                .Index(t => t.ParentID);
+            
+            CreateTable(
                 "dbo.VisitsDrugs",
                 c => new
                     {
@@ -153,19 +152,19 @@ namespace ZooER.Migrations
             DropForeignKey("dbo.Visits", "Animal_ID", "dbo.Animals");
             DropForeignKey("dbo.Animals", "Species_ID", "dbo.Species");
             DropForeignKey("dbo.Animals", "Origin_ID", "dbo.Origins");
-            DropForeignKey("dbo.ChildParents", "ParentID", "dbo.Animals");
-            DropForeignKey("dbo.ChildParents", "ChildID", "dbo.Animals");
+            DropForeignKey("dbo.ChildrenParents", "ParentID", "dbo.Animals");
+            DropForeignKey("dbo.ChildrenParents", "ChildID", "dbo.Animals");
             DropForeignKey("dbo.Animals", "Habitat_ID", "dbo.Habitats");
             DropForeignKey("dbo.Animals", "Diet_ID", "dbo.Diets");
             DropIndex("dbo.VisitsDrugs", new[] { "DrugID" });
             DropIndex("dbo.VisitsDrugs", new[] { "VisitID" });
+            DropIndex("dbo.ChildrenParents", new[] { "ParentID" });
+            DropIndex("dbo.ChildrenParents", new[] { "ChildID" });
             DropIndex("dbo.Visits", new[] { "Veterinary_ID" });
             DropIndex("dbo.Visits", new[] { "Diagnosis_ID" });
             DropIndex("dbo.Visits", new[] { "Animal_ID" });
             DropIndex("dbo.Species", new[] { "Name" });
             DropIndex("dbo.Origins", new[] { "Name" });
-            DropIndex("dbo.ChildParents", new[] { "ParentID" });
-            DropIndex("dbo.ChildParents", new[] { "ChildID" });
             DropIndex("dbo.Habitats", new[] { "Name" });
             DropIndex("dbo.Diets", new[] { "Name" });
             DropIndex("dbo.Animals", new[] { "Species_ID" });
@@ -173,13 +172,13 @@ namespace ZooER.Migrations
             DropIndex("dbo.Animals", new[] { "Habitat_ID" });
             DropIndex("dbo.Animals", new[] { "Diet_ID" });
             DropTable("dbo.VisitsDrugs");
+            DropTable("dbo.ChildrenParents");
             DropTable("dbo.Veterinaries");
             DropTable("dbo.Drugs");
             DropTable("dbo.Diagnosis");
             DropTable("dbo.Visits");
             DropTable("dbo.Species");
             DropTable("dbo.Origins");
-            DropTable("dbo.ChildParents");
             DropTable("dbo.Habitats");
             DropTable("dbo.Diets");
             DropTable("dbo.Animals");

@@ -30,6 +30,8 @@ namespace ZooER.DAL
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+
+            // Many to many relation Edit for Visits <--> Drugs
             modelBuilder.Entity<Visit>()
                 .HasMany(c => c.Drugs)
                 .WithMany(c => c.Visits)
@@ -40,8 +42,18 @@ namespace ZooER.DAL
                     m.MapRightKey("DrugID");
                 });
 
-           // modelBuilder.Entity<Visit>()
-           //         .HasOptional(p => p.Drugs).WithOptionalPrincipal();
+            // Many to many relation Edit for Animal.Child <--> Animal.Parent
+            modelBuilder.Entity<Animal>()
+               .HasMany(c => c.IsChildOf)
+               .WithMany(d => d.IsParentOf)
+               .Map(m =>
+               {
+                   m.ToTable("ChildrenParents");
+                   m.MapLeftKey("ChildID");
+                   m.MapRightKey("ParentID");
+               });
+            // modelBuilder.Entity<Visit>()
+            //         .HasOptional(p => p.Drugs).WithOptionalPrincipal();
 
         }
 

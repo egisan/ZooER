@@ -3,7 +3,7 @@ namespace ZooER.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration
+    public partial class Init : DbMigration
     {
         public override void Up()
         {
@@ -12,7 +12,7 @@ namespace ZooER.Migrations
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(nullable: false, maxLength: 30),
                         Weight = c.Double(nullable: false),
                         Diet_ID = c.Int(),
                         Habitat_ID = c.Int(),
@@ -34,18 +34,20 @@ namespace ZooER.Migrations
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(nullable: false, maxLength: 30),
                     })
-                .PrimaryKey(t => t.ID);
+                .PrimaryKey(t => t.ID)
+                .Index(t => t.Name, unique: true);
             
             CreateTable(
                 "dbo.Habitats",
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(nullable: false, maxLength: 30),
                     })
-                .PrimaryKey(t => t.ID);
+                .PrimaryKey(t => t.ID)
+                .Index(t => t.Name, unique: true);
             
             CreateTable(
                 "dbo.ChildParents",
@@ -66,18 +68,20 @@ namespace ZooER.Migrations
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(nullable: false, maxLength: 30),
                     })
-                .PrimaryKey(t => t.ID);
+                .PrimaryKey(t => t.ID)
+                .Index(t => t.Name, unique: true);
             
             CreateTable(
                 "dbo.Species",
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(nullable: false, maxLength: 30),
                     })
-                .PrimaryKey(t => t.ID);
+                .PrimaryKey(t => t.ID)
+                .Index(t => t.Name, unique: true);
             
             CreateTable(
                 "dbo.Visits",
@@ -85,7 +89,7 @@ namespace ZooER.Migrations
                     {
                         ID = c.Int(nullable: false, identity: true),
                         Start = c.DateTime(nullable: false),
-                        End = c.DateTime(nullable: false),
+                        End = c.DateTime(),
                         Animal_ID = c.Int(),
                         Diagnosis_ID = c.Int(),
                         Veterinary_ID = c.Int(),
@@ -103,7 +107,7 @@ namespace ZooER.Migrations
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        Description = c.String(),
+                        Description = c.String(nullable: false, maxLength: 60),
                     })
                 .PrimaryKey(t => t.ID);
             
@@ -112,7 +116,7 @@ namespace ZooER.Migrations
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(nullable: false, maxLength: 30),
                     })
                 .PrimaryKey(t => t.ID);
             
@@ -121,7 +125,7 @@ namespace ZooER.Migrations
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(nullable: false, maxLength: 30),
                     })
                 .PrimaryKey(t => t.ID);
             
@@ -158,8 +162,12 @@ namespace ZooER.Migrations
             DropIndex("dbo.Visits", new[] { "Veterinary_ID" });
             DropIndex("dbo.Visits", new[] { "Diagnosis_ID" });
             DropIndex("dbo.Visits", new[] { "Animal_ID" });
+            DropIndex("dbo.Species", new[] { "Name" });
+            DropIndex("dbo.Origins", new[] { "Name" });
             DropIndex("dbo.ChildParents", new[] { "ParentID" });
             DropIndex("dbo.ChildParents", new[] { "ChildID" });
+            DropIndex("dbo.Habitats", new[] { "Name" });
+            DropIndex("dbo.Diets", new[] { "Name" });
             DropIndex("dbo.Animals", new[] { "Species_ID" });
             DropIndex("dbo.Animals", new[] { "Origin_ID" });
             DropIndex("dbo.Animals", new[] { "Habitat_ID" });

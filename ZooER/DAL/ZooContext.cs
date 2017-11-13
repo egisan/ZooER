@@ -10,7 +10,7 @@ namespace ZooER.DAL
 {
     class ZooContext : DbContext
     {
-        public ZooContext() : base ("ZooER")
+        public ZooContext() : base("ZooER")
         {
         }
 
@@ -18,7 +18,7 @@ namespace ZooER.DAL
         public DbSet<ChildParent> ChildrenParents { get; set; }
 
         public DbSet<Habitat> Habitats { get; set; }
-        public DbSet<Species> Species  { get; set; }
+        public DbSet<Species> Species { get; set; }
         public DbSet<Diet> Diets { get; set; }
         public DbSet<Origin> Origins { get; set; }
         public DbSet<Diagnosis> Diagnosises { get; set; }
@@ -40,8 +40,10 @@ namespace ZooER.DAL
                     m.MapRightKey("DrugID");
                 });
 
-        }
+           // modelBuilder.Entity<Visit>()
+           //         .HasOptional(p => p.Drugs).WithOptionalPrincipal();
 
+        }
 
     }
 

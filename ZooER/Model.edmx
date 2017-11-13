@@ -1,0 +1,752 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Edmx Version="3.0" xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <Runtime>
+    <ConceptualModels>
+      <Schema Namespace="ZooER.DAL" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Animal" customannotation:ClrType="ZooER.Models.Animal, ZooER, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Weight" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Diet" Relationship="Self.Diet_Animals" FromRole="Diet_Animals_Target" ToRole="Diet_Animals_Source" />
+          <NavigationProperty Name="Habitat" Relationship="Self.Habitat_Animals" FromRole="Habitat_Animals_Target" ToRole="Habitat_Animals_Source" />
+          <NavigationProperty Name="IsChildOf" Relationship="Self.Animal_IsChildOf" FromRole="Animal_IsChildOf_Source" ToRole="Animal_IsChildOf_Target" />
+          <NavigationProperty Name="IsParentOf" Relationship="Self.Animal_IsChildOf" FromRole="Animal_IsChildOf_Target" ToRole="Animal_IsChildOf_Source" />
+          <NavigationProperty Name="Origin" Relationship="Self.Origin_Animals" FromRole="Origin_Animals_Target" ToRole="Origin_Animals_Source" />
+          <NavigationProperty Name="Species" Relationship="Self.Species_Animals" FromRole="Species_Animals_Target" ToRole="Species_Animals_Source" />
+          <NavigationProperty Name="Visits" Relationship="Self.Visit_Animal" FromRole="Visit_Animal_Target" ToRole="Visit_Animal_Source" />
+        </EntityType>
+        <EntityType Name="Diet" customannotation:ClrType="ZooER.Models.Diet, ZooER, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Animals" Relationship="Self.Diet_Animals" FromRole="Diet_Animals_Source" ToRole="Diet_Animals_Target" />
+        </EntityType>
+        <EntityType Name="Habitat" customannotation:ClrType="ZooER.Models.Habitat, ZooER, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Animals" Relationship="Self.Habitat_Animals" FromRole="Habitat_Animals_Source" ToRole="Habitat_Animals_Target" />
+        </EntityType>
+        <EntityType Name="Origin" customannotation:ClrType="ZooER.Models.Origin, ZooER, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Animals" Relationship="Self.Origin_Animals" FromRole="Origin_Animals_Source" ToRole="Origin_Animals_Target" />
+        </EntityType>
+        <EntityType Name="Species" customannotation:ClrType="ZooER.Models.Species, ZooER, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Animals" Relationship="Self.Species_Animals" FromRole="Species_Animals_Source" ToRole="Species_Animals_Target" />
+        </EntityType>
+        <EntityType Name="Visit" customannotation:ClrType="ZooER.Models.Visit, ZooER, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Start" Type="DateTime" Nullable="false" />
+          <Property Name="End" Type="DateTime" />
+          <NavigationProperty Name="Animal" Relationship="Self.Visit_Animal" FromRole="Visit_Animal_Source" ToRole="Visit_Animal_Target" />
+          <NavigationProperty Name="Diagnosis" Relationship="Self.Diagnosis_Visits" FromRole="Diagnosis_Visits_Target" ToRole="Diagnosis_Visits_Source" />
+          <NavigationProperty Name="Drugs" Relationship="Self.Visit_Drugs" FromRole="Visit_Drugs_Source" ToRole="Visit_Drugs_Target" />
+          <NavigationProperty Name="Veterinary" Relationship="Self.Veterinary_Visits" FromRole="Veterinary_Visits_Target" ToRole="Veterinary_Visits_Source" />
+        </EntityType>
+        <EntityType Name="Diagnosis" customannotation:ClrType="ZooER.Models.Diagnosis, ZooER, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Visits" Relationship="Self.Diagnosis_Visits" FromRole="Diagnosis_Visits_Source" ToRole="Diagnosis_Visits_Target" />
+        </EntityType>
+        <EntityType Name="Drug" customannotation:ClrType="ZooER.Models.Drug, ZooER, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Visits" Relationship="Self.Visit_Drugs" FromRole="Visit_Drugs_Target" ToRole="Visit_Drugs_Source" />
+        </EntityType>
+        <EntityType Name="Veterinary" customannotation:ClrType="ZooER.Models.Veterinary, ZooER, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Visits" Relationship="Self.Veterinary_Visits" FromRole="Veterinary_Visits_Source" ToRole="Veterinary_Visits_Target" />
+        </EntityType>
+        <EntityType Name="ChildParent" customannotation:ClrType="ZooER.Models.ChildParent, ZooER, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChildID" Type="Int32" />
+          <Property Name="ParentID" Type="Int32" />
+          <NavigationProperty Name="Child" Relationship="Self.ChildParent_Child" FromRole="ChildParent_Child_Source" ToRole="ChildParent_Child_Target" />
+          <NavigationProperty Name="Parent" Relationship="Self.ChildParent_Parent" FromRole="ChildParent_Parent_Source" ToRole="ChildParent_Parent_Target" />
+        </EntityType>
+        <Association Name="Diet_Animals">
+          <End Role="Diet_Animals_Source" Type="Self.Diet" Multiplicity="0..1" />
+          <End Role="Diet_Animals_Target" Type="Self.Animal" Multiplicity="*" />
+        </Association>
+        <Association Name="Habitat_Animals">
+          <End Role="Habitat_Animals_Source" Type="Self.Habitat" Multiplicity="0..1" />
+          <End Role="Habitat_Animals_Target" Type="Self.Animal" Multiplicity="*" />
+        </Association>
+        <Association Name="Animal_IsChildOf">
+          <End Role="Animal_IsChildOf_Source" Type="Self.Animal" Multiplicity="*" />
+          <End Role="Animal_IsChildOf_Target" Type="Self.Animal" Multiplicity="*" />
+        </Association>
+        <Association Name="Origin_Animals">
+          <End Role="Origin_Animals_Source" Type="Self.Origin" Multiplicity="0..1" />
+          <End Role="Origin_Animals_Target" Type="Self.Animal" Multiplicity="*" />
+        </Association>
+        <Association Name="Species_Animals">
+          <End Role="Species_Animals_Source" Type="Self.Species" Multiplicity="0..1" />
+          <End Role="Species_Animals_Target" Type="Self.Animal" Multiplicity="*" />
+        </Association>
+        <Association Name="Visit_Animal">
+          <End Role="Visit_Animal_Source" Type="Self.Visit" Multiplicity="*" />
+          <End Role="Visit_Animal_Target" Type="Self.Animal" Multiplicity="0..1" />
+        </Association>
+        <Association Name="Diagnosis_Visits">
+          <End Role="Diagnosis_Visits_Source" Type="Self.Diagnosis" Multiplicity="0..1" />
+          <End Role="Diagnosis_Visits_Target" Type="Self.Visit" Multiplicity="*" />
+        </Association>
+        <Association Name="Visit_Drugs">
+          <End Role="Visit_Drugs_Source" Type="Self.Visit" Multiplicity="*" />
+          <End Role="Visit_Drugs_Target" Type="Self.Drug" Multiplicity="*" />
+        </Association>
+        <Association Name="Veterinary_Visits">
+          <End Role="Veterinary_Visits_Source" Type="Self.Veterinary" Multiplicity="0..1" />
+          <End Role="Veterinary_Visits_Target" Type="Self.Visit" Multiplicity="*" />
+        </Association>
+        <Association Name="ChildParent_Child">
+          <End Role="ChildParent_Child_Source" Type="Self.ChildParent" Multiplicity="*" />
+          <End Role="ChildParent_Child_Target" Type="Self.Animal" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ChildParent_Child_Target">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ChildParent_Child_Source">
+              <PropertyRef Name="ChildID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ChildParent_Parent">
+          <End Role="ChildParent_Parent_Source" Type="Self.ChildParent" Multiplicity="*" />
+          <End Role="ChildParent_Parent_Target" Type="Self.Animal" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ChildParent_Parent_Target">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ChildParent_Parent_Source">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ZooContext" customannotation:UseClrTypes="true">
+          <EntitySet Name="Animals" EntityType="Self.Animal" />
+          <EntitySet Name="Diets" EntityType="Self.Diet" />
+          <EntitySet Name="Habitats" EntityType="Self.Habitat" />
+          <EntitySet Name="Origins" EntityType="Self.Origin" />
+          <EntitySet Name="Species" EntityType="Self.Species" />
+          <EntitySet Name="Visits" EntityType="Self.Visit" />
+          <EntitySet Name="Diagnosises" EntityType="Self.Diagnosis" />
+          <EntitySet Name="Drugs" EntityType="Self.Drug" />
+          <EntitySet Name="Veterinaries" EntityType="Self.Veterinary" />
+          <EntitySet Name="ChildrenParents" EntityType="Self.ChildParent" />
+          <AssociationSet Name="Diet_Animals" Association="Self.Diet_Animals">
+            <End Role="Diet_Animals_Source" EntitySet="Diets" />
+            <End Role="Diet_Animals_Target" EntitySet="Animals" />
+          </AssociationSet>
+          <AssociationSet Name="Habitat_Animals" Association="Self.Habitat_Animals">
+            <End Role="Habitat_Animals_Source" EntitySet="Habitats" />
+            <End Role="Habitat_Animals_Target" EntitySet="Animals" />
+          </AssociationSet>
+          <AssociationSet Name="Animal_IsChildOf" Association="Self.Animal_IsChildOf">
+            <End Role="Animal_IsChildOf_Source" EntitySet="Animals" />
+            <End Role="Animal_IsChildOf_Target" EntitySet="Animals" />
+          </AssociationSet>
+          <AssociationSet Name="Origin_Animals" Association="Self.Origin_Animals">
+            <End Role="Origin_Animals_Source" EntitySet="Origins" />
+            <End Role="Origin_Animals_Target" EntitySet="Animals" />
+          </AssociationSet>
+          <AssociationSet Name="Species_Animals" Association="Self.Species_Animals">
+            <End Role="Species_Animals_Source" EntitySet="Species" />
+            <End Role="Species_Animals_Target" EntitySet="Animals" />
+          </AssociationSet>
+          <AssociationSet Name="Visit_Animal" Association="Self.Visit_Animal">
+            <End Role="Visit_Animal_Source" EntitySet="Visits" />
+            <End Role="Visit_Animal_Target" EntitySet="Animals" />
+          </AssociationSet>
+          <AssociationSet Name="Diagnosis_Visits" Association="Self.Diagnosis_Visits">
+            <End Role="Diagnosis_Visits_Source" EntitySet="Diagnosises" />
+            <End Role="Diagnosis_Visits_Target" EntitySet="Visits" />
+          </AssociationSet>
+          <AssociationSet Name="Visit_Drugs" Association="Self.Visit_Drugs">
+            <End Role="Visit_Drugs_Source" EntitySet="Visits" />
+            <End Role="Visit_Drugs_Target" EntitySet="Drugs" />
+          </AssociationSet>
+          <AssociationSet Name="Veterinary_Visits" Association="Self.Veterinary_Visits">
+            <End Role="Veterinary_Visits_Source" EntitySet="Veterinaries" />
+            <End Role="Veterinary_Visits_Target" EntitySet="Visits" />
+          </AssociationSet>
+          <AssociationSet Name="ChildParent_Child" Association="Self.ChildParent_Child">
+            <End Role="ChildParent_Child_Source" EntitySet="ChildrenParents" />
+            <End Role="ChildParent_Child_Target" EntitySet="Animals" />
+          </AssociationSet>
+          <AssociationSet Name="ChildParent_Parent" Association="Self.ChildParent_Parent">
+            <End Role="ChildParent_Parent_Source" EntitySet="ChildrenParents" />
+            <End Role="ChildParent_Parent_Target" EntitySet="Animals" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </ConceptualModels>
+    <Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CodeFirstDatabase" CdmEntityContainer="ZooContext">
+          <EntitySetMapping Name="Animals">
+            <EntityTypeMapping TypeName="ZooER.DAL.Animal">
+              <MappingFragment StoreEntitySet="Animal">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Diets">
+            <EntityTypeMapping TypeName="ZooER.DAL.Diet">
+              <MappingFragment StoreEntitySet="Diet">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Habitats">
+            <EntityTypeMapping TypeName="ZooER.DAL.Habitat">
+              <MappingFragment StoreEntitySet="Habitat">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Origins">
+            <EntityTypeMapping TypeName="ZooER.DAL.Origin">
+              <MappingFragment StoreEntitySet="Origin">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Species">
+            <EntityTypeMapping TypeName="ZooER.DAL.Species">
+              <MappingFragment StoreEntitySet="Species">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Visits">
+            <EntityTypeMapping TypeName="ZooER.DAL.Visit">
+              <MappingFragment StoreEntitySet="Visit">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Start" ColumnName="Start" />
+                <ScalarProperty Name="End" ColumnName="End" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Diagnosises">
+            <EntityTypeMapping TypeName="ZooER.DAL.Diagnosis">
+              <MappingFragment StoreEntitySet="Diagnosis">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Drugs">
+            <EntityTypeMapping TypeName="ZooER.DAL.Drug">
+              <MappingFragment StoreEntitySet="Drug">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Veterinaries">
+            <EntityTypeMapping TypeName="ZooER.DAL.Veterinary">
+              <MappingFragment StoreEntitySet="Veterinary">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChildrenParents">
+            <EntityTypeMapping TypeName="ZooER.DAL.ChildParent">
+              <MappingFragment StoreEntitySet="ChildParent">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ChildID" ColumnName="ChildID" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Diet_Animals" TypeName="ZooER.DAL.Diet_Animals" StoreEntitySet="Animal">
+            <EndProperty Name="Diet_Animals_Source">
+              <ScalarProperty Name="ID" ColumnName="Diet_ID" />
+            </EndProperty>
+            <EndProperty Name="Diet_Animals_Target">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="Diet_ID" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Habitat_Animals" TypeName="ZooER.DAL.Habitat_Animals" StoreEntitySet="Animal">
+            <EndProperty Name="Habitat_Animals_Source">
+              <ScalarProperty Name="ID" ColumnName="Habitat_ID" />
+            </EndProperty>
+            <EndProperty Name="Habitat_Animals_Target">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="Habitat_ID" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Animal_IsChildOf" TypeName="ZooER.DAL.Animal_IsChildOf" StoreEntitySet="AnimalAnimal">
+            <EndProperty Name="Animal_IsChildOf_Source">
+              <ScalarProperty Name="ID" ColumnName="Animal_ID" />
+            </EndProperty>
+            <EndProperty Name="Animal_IsChildOf_Target">
+              <ScalarProperty Name="ID" ColumnName="Animal_ID1" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Origin_Animals" TypeName="ZooER.DAL.Origin_Animals" StoreEntitySet="Animal">
+            <EndProperty Name="Origin_Animals_Source">
+              <ScalarProperty Name="ID" ColumnName="Origin_ID" />
+            </EndProperty>
+            <EndProperty Name="Origin_Animals_Target">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="Origin_ID" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Species_Animals" TypeName="ZooER.DAL.Species_Animals" StoreEntitySet="Animal">
+            <EndProperty Name="Species_Animals_Source">
+              <ScalarProperty Name="ID" ColumnName="Species_ID" />
+            </EndProperty>
+            <EndProperty Name="Species_Animals_Target">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="Species_ID" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Visit_Animal" TypeName="ZooER.DAL.Visit_Animal" StoreEntitySet="Visit">
+            <EndProperty Name="Visit_Animal_Target">
+              <ScalarProperty Name="ID" ColumnName="Animal_ID" />
+            </EndProperty>
+            <EndProperty Name="Visit_Animal_Source">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="Animal_ID" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Diagnosis_Visits" TypeName="ZooER.DAL.Diagnosis_Visits" StoreEntitySet="Visit">
+            <EndProperty Name="Diagnosis_Visits_Source">
+              <ScalarProperty Name="ID" ColumnName="Diagnosis_ID" />
+            </EndProperty>
+            <EndProperty Name="Diagnosis_Visits_Target">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="Diagnosis_ID" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Visit_Drugs" TypeName="ZooER.DAL.Visit_Drugs" StoreEntitySet="VisitDrug">
+            <EndProperty Name="Visit_Drugs_Source">
+              <ScalarProperty Name="ID" ColumnName="VisitID" />
+            </EndProperty>
+            <EndProperty Name="Visit_Drugs_Target">
+              <ScalarProperty Name="ID" ColumnName="DrugID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Veterinary_Visits" TypeName="ZooER.DAL.Veterinary_Visits" StoreEntitySet="Visit">
+            <EndProperty Name="Veterinary_Visits_Source">
+              <ScalarProperty Name="ID" ColumnName="Veterinary_ID" />
+            </EndProperty>
+            <EndProperty Name="Veterinary_Visits_Target">
+              <ScalarProperty Name="ID" ColumnName="ID" />
+            </EndProperty>
+            <Condition IsNull="false" ColumnName="Veterinary_ID" />
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </Mappings>
+    <StorageModels>
+      <Schema Namespace="CodeFirstDatabaseSchema" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Animal">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Weight" Type="float" Nullable="false" />
+          <Property Name="Diet_ID" Type="int" customannotation:Index="{ Name: IX_Diet_ID, Order: 0 }" Nullable="true" />
+          <Property Name="Habitat_ID" Type="int" customannotation:Index="{ Name: IX_Habitat_ID, Order: 0 }" Nullable="true" />
+          <Property Name="Origin_ID" Type="int" customannotation:Index="{ Name: IX_Origin_ID, Order: 0 }" Nullable="true" />
+          <Property Name="Species_ID" Type="int" customannotation:Index="{ Name: IX_Species_ID, Order: 0 }" Nullable="true" />
+        </EntityType>
+        <EntityType Name="Diet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" customannotation:Index="{ IsUnique: True }" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Habitat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" customannotation:Index="{ IsUnique: True }" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Origin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" customannotation:Index="{ IsUnique: True }" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Species">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" customannotation:Index="{ IsUnique: True }" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Visit">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Start" Type="datetime" Nullable="false" />
+          <Property Name="End" Type="datetime" Nullable="true" />
+          <Property Name="Animal_ID" Type="int" customannotation:Index="{ Name: IX_Animal_ID, Order: 0 }" Nullable="true" />
+          <Property Name="Diagnosis_ID" Type="int" customannotation:Index="{ Name: IX_Diagnosis_ID, Order: 0 }" Nullable="true" />
+          <Property Name="Veterinary_ID" Type="int" customannotation:Index="{ Name: IX_Veterinary_ID, Order: 0 }" Nullable="true" />
+        </EntityType>
+        <EntityType Name="Diagnosis">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Drug">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Veterinary">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ChildParent">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChildID" Type="int" customannotation:Index="{ Name: IX_ChildID, Order: 0 }" Nullable="true" />
+          <Property Name="ParentID" Type="int" customannotation:Index="{ Name: IX_ParentID, Order: 0 }" Nullable="true" />
+        </EntityType>
+        <EntityType Name="AnimalAnimal">
+          <Key>
+            <PropertyRef Name="Animal_ID" />
+            <PropertyRef Name="Animal_ID1" />
+          </Key>
+          <Property Name="Animal_ID" Type="int" customannotation:Index="{ Name: IX_Animal_ID, Order: 0 }" Nullable="false" />
+          <Property Name="Animal_ID1" Type="int" customannotation:Index="{ Name: IX_Animal_ID1, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VisitDrug">
+          <Key>
+            <PropertyRef Name="VisitID" />
+            <PropertyRef Name="DrugID" />
+          </Key>
+          <Property Name="VisitID" Type="int" customannotation:Index="{ Name: IX_VisitID, Order: 0 }" Nullable="false" />
+          <Property Name="DrugID" Type="int" customannotation:Index="{ Name: IX_DrugID, Order: 0 }" Nullable="false" />
+        </EntityType>
+        <Association Name="Diet_Animals">
+          <End Role="Diet" Type="Self.Diet" Multiplicity="0..1" />
+          <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diet">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Animal">
+              <PropertyRef Name="Diet_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Habitat_Animals">
+          <End Role="Habitat" Type="Self.Habitat" Multiplicity="0..1" />
+          <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Habitat">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Animal">
+              <PropertyRef Name="Habitat_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Animal_IsChildOf_Source">
+          <End Role="Animal" Type="Self.Animal" Multiplicity="1" />
+          <End Role="AnimalAnimal" Type="Self.AnimalAnimal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Animal">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AnimalAnimal">
+              <PropertyRef Name="Animal_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Animal_IsChildOf_Target">
+          <End Role="Animal" Type="Self.Animal" Multiplicity="1" />
+          <End Role="AnimalAnimal" Type="Self.AnimalAnimal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Animal">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AnimalAnimal">
+              <PropertyRef Name="Animal_ID1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Origin_Animals">
+          <End Role="Origin" Type="Self.Origin" Multiplicity="0..1" />
+          <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Origin">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Animal">
+              <PropertyRef Name="Origin_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Species_Animals">
+          <End Role="Species" Type="Self.Species" Multiplicity="0..1" />
+          <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Species">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Animal">
+              <PropertyRef Name="Species_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Visit_Animal">
+          <End Role="Animal" Type="Self.Animal" Multiplicity="0..1" />
+          <End Role="Visit" Type="Self.Visit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Animal">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Visit">
+              <PropertyRef Name="Animal_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Diagnosis_Visits">
+          <End Role="Diagnosis" Type="Self.Diagnosis" Multiplicity="0..1" />
+          <End Role="Visit" Type="Self.Visit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diagnosis">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Visit">
+              <PropertyRef Name="Diagnosis_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Visit_Drugs_Source">
+          <End Role="Visit" Type="Self.Visit" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="VisitDrug" Type="Self.VisitDrug" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Visit">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="VisitDrug">
+              <PropertyRef Name="VisitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Visit_Drugs_Target">
+          <End Role="Drug" Type="Self.Drug" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="VisitDrug" Type="Self.VisitDrug" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Drug">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="VisitDrug">
+              <PropertyRef Name="DrugID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Veterinary_Visits">
+          <End Role="Veterinary" Type="Self.Veterinary" Multiplicity="0..1" />
+          <End Role="Visit" Type="Self.Visit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Veterinary">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Visit">
+              <PropertyRef Name="Veterinary_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ChildParent_Child">
+          <End Role="Animal" Type="Self.Animal" Multiplicity="0..1" />
+          <End Role="ChildParent" Type="Self.ChildParent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Animal">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ChildParent">
+              <PropertyRef Name="ChildID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ChildParent_Parent">
+          <End Role="Animal" Type="Self.Animal" Multiplicity="0..1" />
+          <End Role="ChildParent" Type="Self.ChildParent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Animal">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ChildParent">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CodeFirstDatabase">
+          <EntitySet Name="Animal" EntityType="Self.Animal" Schema="dbo" Table="Animals" />
+          <EntitySet Name="Diet" EntityType="Self.Diet" Schema="dbo" Table="Diets" />
+          <EntitySet Name="Habitat" EntityType="Self.Habitat" Schema="dbo" Table="Habitats" />
+          <EntitySet Name="Origin" EntityType="Self.Origin" Schema="dbo" Table="Origins" />
+          <EntitySet Name="Species" EntityType="Self.Species" Schema="dbo" Table="Species" />
+          <EntitySet Name="Visit" EntityType="Self.Visit" Schema="dbo" Table="Visits" />
+          <EntitySet Name="Diagnosis" EntityType="Self.Diagnosis" Schema="dbo" Table="Diagnosis" />
+          <EntitySet Name="Drug" EntityType="Self.Drug" Schema="dbo" Table="Drugs" />
+          <EntitySet Name="Veterinary" EntityType="Self.Veterinary" Schema="dbo" Table="Veterinaries" />
+          <EntitySet Name="ChildParent" EntityType="Self.ChildParent" Schema="dbo" Table="ChildParents" />
+          <EntitySet Name="AnimalAnimal" EntityType="Self.AnimalAnimal" Schema="dbo" Table="AnimalAnimals" />
+          <EntitySet Name="VisitDrug" EntityType="Self.VisitDrug" Schema="dbo" Table="VisitsDrugs" />
+          <AssociationSet Name="Diet_Animals" Association="Self.Diet_Animals">
+            <End Role="Diet" EntitySet="Diet" />
+            <End Role="Animal" EntitySet="Animal" />
+          </AssociationSet>
+          <AssociationSet Name="Habitat_Animals" Association="Self.Habitat_Animals">
+            <End Role="Habitat" EntitySet="Habitat" />
+            <End Role="Animal" EntitySet="Animal" />
+          </AssociationSet>
+          <AssociationSet Name="Animal_IsChildOf_Source" Association="Self.Animal_IsChildOf_Source">
+            <End Role="Animal" EntitySet="Animal" />
+            <End Role="AnimalAnimal" EntitySet="AnimalAnimal" />
+          </AssociationSet>
+          <AssociationSet Name="Animal_IsChildOf_Target" Association="Self.Animal_IsChildOf_Target">
+            <End Role="Animal" EntitySet="Animal" />
+            <End Role="AnimalAnimal" EntitySet="AnimalAnimal" />
+          </AssociationSet>
+          <AssociationSet Name="Origin_Animals" Association="Self.Origin_Animals">
+            <End Role="Origin" EntitySet="Origin" />
+            <End Role="Animal" EntitySet="Animal" />
+          </AssociationSet>
+          <AssociationSet Name="Species_Animals" Association="Self.Species_Animals">
+            <End Role="Species" EntitySet="Species" />
+            <End Role="Animal" EntitySet="Animal" />
+          </AssociationSet>
+          <AssociationSet Name="Visit_Animal" Association="Self.Visit_Animal">
+            <End Role="Animal" EntitySet="Animal" />
+            <End Role="Visit" EntitySet="Visit" />
+          </AssociationSet>
+          <AssociationSet Name="Diagnosis_Visits" Association="Self.Diagnosis_Visits">
+            <End Role="Diagnosis" EntitySet="Diagnosis" />
+            <End Role="Visit" EntitySet="Visit" />
+          </AssociationSet>
+          <AssociationSet Name="Visit_Drugs_Source" Association="Self.Visit_Drugs_Source">
+            <End Role="Visit" EntitySet="Visit" />
+            <End Role="VisitDrug" EntitySet="VisitDrug" />
+          </AssociationSet>
+          <AssociationSet Name="Visit_Drugs_Target" Association="Self.Visit_Drugs_Target">
+            <End Role="Drug" EntitySet="Drug" />
+            <End Role="VisitDrug" EntitySet="VisitDrug" />
+          </AssociationSet>
+          <AssociationSet Name="Veterinary_Visits" Association="Self.Veterinary_Visits">
+            <End Role="Veterinary" EntitySet="Veterinary" />
+            <End Role="Visit" EntitySet="Visit" />
+          </AssociationSet>
+          <AssociationSet Name="ChildParent_Child" Association="Self.ChildParent_Child">
+            <End Role="Animal" EntitySet="Animal" />
+            <End Role="ChildParent" EntitySet="ChildParent" />
+          </AssociationSet>
+          <AssociationSet Name="ChildParent_Parent" Association="Self.ChildParent_Parent">
+            <End Role="Animal" EntitySet="Animal" />
+            <End Role="ChildParent" EntitySet="ChildParent" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </StorageModels>
+  </Runtime>
+  <Designer>
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="ProcessDependentTemplatesOnSave" Value="False" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <Diagrams >
+      <Diagram DiagramId="25bffcddc3164f7a83a7a5ae5c805444" Name="Diagram1">
+        <EntityTypeShape EntityType="ZooER.DAL.Animal" Width="1.5" PointX="5.875" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZooER.DAL.Diet" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZooER.DAL.Habitat" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZooER.DAL.Origin" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZooER.DAL.Species" Width="1.5" PointX="0.75" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZooER.DAL.Visit" Width="1.5" PointX="0.75" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZooER.DAL.Diagnosis" Width="1.5" PointX="1.5" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZooER.DAL.Drug" Width="1.5" PointX="3" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZooER.DAL.Veterinary" Width="1.5" PointX="1.5" PointY="20.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZooER.DAL.ChildParent" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <AssociationConnector Association="ZooER.DAL.Diet_Animals" ManuallyRouted="false" />
+        <AssociationConnector Association="ZooER.DAL.Habitat_Animals" ManuallyRouted="false" />
+        <AssociationConnector Association="ZooER.DAL.Animal_IsChildOf" ManuallyRouted="false" />
+        <AssociationConnector Association="ZooER.DAL.Origin_Animals" ManuallyRouted="false" />
+        <AssociationConnector Association="ZooER.DAL.Species_Animals" ManuallyRouted="false" />
+        <AssociationConnector Association="ZooER.DAL.Visit_Animal" ManuallyRouted="false" />
+        <AssociationConnector Association="ZooER.DAL.Diagnosis_Visits" ManuallyRouted="false" />
+        <AssociationConnector Association="ZooER.DAL.Visit_Drugs" ManuallyRouted="false" />
+        <AssociationConnector Association="ZooER.DAL.Veterinary_Visits" ManuallyRouted="false" />
+        <AssociationConnector Association="ZooER.DAL.ChildParent_Child" ManuallyRouted="false" />
+        <AssociationConnector Association="ZooER.DAL.ChildParent_Parent" ManuallyRouted="false" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</Edmx>

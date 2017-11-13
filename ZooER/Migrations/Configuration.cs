@@ -26,6 +26,9 @@ namespace ZooER.Migrations
             //  to avoid creating duplicate seed data.
 
             // Add first the Entities on the "one" side
+
+            this.context = context;
+
             context.Species.AddOrUpdate(
                 x => x.Name,
                     new Species { Name = "Mammals" },
@@ -57,11 +60,11 @@ namespace ZooER.Migrations
                     new Origin { Name = "Australia" }
             );
 
-            AddAnimals();
-            //AddDiagnosis();
-            //AddVets();
-            //AddDrugs();
-            //AddVisits();
+          // AddAnimals();
+           // AddDiagnosis();
+           // AddVets();
+         //   AddDrugs();
+            AddVisits();
 
         }
 
@@ -69,11 +72,20 @@ namespace ZooER.Migrations
         private void AddAnimals()
         {
             context.Animals.AddOrUpdate(
-                x => x.ID,
+                x => x.Name,
                     new Animal
                     {
                         Name = "Eagle",
                         Weight = 15.1,
+                        Habitat = new Habitat(),
+                        Species = new Species(),
+                        Diet = new Diet(),
+                        Origin = new Origin(),
+                        Visits = new List<Visit>(),
+
+                        IsChildOf = new List<Animal>(),
+                        IsParentOf = new List<ChildParent>()
+
                         //  Habitat = context.Habitats.Where(c => c.Name == "Tree").FirstOrDefault(),
                         //  Species = context.Species.Where(c => c.Name == "Birds").FirstOrDefault(),
                         //   Diet = context.Diets.Where(c => c.Name == "Carnivors").FirstOrDefault(),
@@ -171,7 +183,7 @@ namespace ZooER.Migrations
                    {
                        Start = new DateTime(2017, 10, 02),
                        End = new DateTime(2017, 10, 03),
-                       Animal = context.Animals.Where(c => c.Name == "Eagle").FirstOrDefault(),
+                      // Animal = context.Animals.Where(c => c.Name == "Eagle").FirstOrDefault(),
                        Diagnosis = context.Diagnosises.Where(c => c.Description == "Flu").FirstOrDefault(),
                        Veterinary = context.Veterinaries.Where(c => c.Name == "Francisco Manzano").FirstOrDefault(),
                        Drugs = context.Drugs.Where(c => c.Name == "Drug 1" && c.Name == "Drug 2").ToList()
@@ -181,7 +193,7 @@ namespace ZooER.Migrations
                    {
                        Start = new DateTime(2017, 06, 10),
                        End = new DateTime(2017, 06, 11),
-                       Animal = context.Animals.Where(c => c.Name == "Horse").FirstOrDefault(),
+                      // Animal = context.Animals.Where(c => c.Name == "Horse").FirstOrDefault(),
                        Diagnosis = context.Diagnosises.Where(c => c.Description == "Hart failure").FirstOrDefault(),
                        Veterinary = context.Veterinaries.Where(c => c.Name == "Anders Fredriksson").FirstOrDefault(),
                        Drugs = context.Drugs.Where(c => c.Name == "Drug 2" && c.Name == "Drug 3").ToList()
@@ -191,7 +203,7 @@ namespace ZooER.Migrations
                    {
                        Start = new DateTime(2017, 11, 3),
                        End = new DateTime(2017, 11, 5),
-                       Animal = context.Animals.Where(c => c.Name == "Dog").FirstOrDefault(),
+                      // Animal = context.Animals.Where(c => c.Name == "Dog").FirstOrDefault(),
                        Diagnosis = context.Diagnosises.Where(c => c.Description == "Low blod pressure").FirstOrDefault(),
                        Veterinary = context.Veterinaries.Where(c => c.Name == "Anders Fredriksson").FirstOrDefault(),
                        Drugs = context.Drugs.Where(c => c.Name == "Drug 4").ToList()
@@ -201,7 +213,7 @@ namespace ZooER.Migrations
                    {
                        Start = new DateTime(2017, 03, 16),
                        End = new DateTime(2017, 03, 18),
-                       Animal = context.Animals.Where(c => c.Name == "Cat").FirstOrDefault(),
+                     //  Animal = context.Animals.Where(c => c.Name == "Cat").FirstOrDefault(),
                        Diagnosis = context.Diagnosises.Where(c => c.Description == "Trauma").FirstOrDefault(),
                        Veterinary = context.Veterinaries.Where(c => c.Name == "Helena Lindeberg").FirstOrDefault(),
                        Drugs = context.Drugs.Where(c => c.Name == "Drug 1").ToList()

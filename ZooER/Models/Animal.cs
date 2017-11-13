@@ -29,6 +29,7 @@ namespace ZooER.Models
 
         // Nav to other entities
         public virtual Habitat Habitat { get; set; }
+        [Required]
         public virtual Species Species { get; set; }
         public virtual Diet Diet { get; set; }
         public virtual Origin Origin { get; set; }

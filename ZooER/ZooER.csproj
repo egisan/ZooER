@@ -69,8 +69,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\Animal.cs" />
-    <Compile Include="Models\ChildrenParents.cs" />
     <Compile Include="Models\Diagnosis.cs" />
     <Compile Include="Models\Diet.cs" />
     <Compile Include="Models\Drug.cs" />
@@ -99,7 +103,7 @@
     </Compile>
     <EntityDeploy Include="Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model.Designer.cs</LastGenOutput>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

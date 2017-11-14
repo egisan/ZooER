@@ -10,7 +10,7 @@ namespace ZooER.Models
 {
     public class Species
     {
-        public int ID { get; set; }
+        public int SpeciesId { get; set; }
 
         [StringLength(30, ErrorMessage = "Max 30 and at least 3 characters allowed", MinimumLength = 3)]
         [Required]

@@ -13,6 +13,7 @@ namespace ZooER.DAL
     {
         public ZooContext() : base("ZooER")
         {
+            Database.SetInitializer<ZooContext>(new UniDBInitializer<ZooContext>());
         }
 
         public DbSet<Animal> Animals { get; set; }
@@ -59,26 +60,96 @@ namespace ZooER.DAL
         }
 
 
-        public override int SaveChanges()
+        private class UniDBInitializer<T> : DropCreateDatabaseAlways<ZooContext>
         {
-            try
+            protected override void Seed(ZooContext context)
             {
-                return base.SaveChanges();
+                // Habitats table
+                List<Habitat> habitats = new List<Habitat>() {
+
+                        new Habitat { Name = "Ground" },
+                        new Habitat { Name = "Tree" },
+                        new Habitat { Name = "Sea" }
+                };
+                // For each 'habitat' in the list 'habitats' above, 
+                // add it to the ICollection Habitats in the context (in other words in the DB)
+                habitats.ForEach(s => context.Habitats.Add(s));
+                
+                // Save all changes made in the current context 'ZooContext' to the DB!
+                context.SaveChanges();
+
+
+                // Species Table
+                List<Species> species = new List<Species>() {
+                            new Species { Name = "Mammals" },
+                            new Species { Name = "Reptiles"},
+                            new Species { Name = "Birds" }
+                };
+
+                species.ForEach(s => context.Species.Add(s));
+                context.SaveChanges();
+
+                // Diets table
+                List<Diet> diets = new List<Diet>() {
+                            new Diet { Name = "Vegetarian" },
+                            new Diet { Name = "Carnivor" },
+                };
+                diets.ForEach(s => context.Diets.Add(s));
+                context.SaveChanges();
+
+                // Origins Table
+                List<Origin> origins = new List<Origin>() {
+                            new Origin { Name = "Africa" },
+                            new Origin { Name = "Asia" },
+                            new Origin { Name = "North America" },
+                            new Origin { Name = "Sounth America" },
+                            new Origin { Name = "Central America" },
+                            new Origin { Name = "Europe" },
+                            new Origin { Name = "Australia" }
+                };
+                origins.ForEach(s => context.Origins.Add(s));
+                context.SaveChanges();
+
+
+
+
             }
-            catch (DbEntityValidationException ex)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // I override the SaveChanges() for Troubleshooting purposes when I get Validation Errors in 
+            // Seeding!!
+            public override int SaveChanges()
             {
-                var errorMessages = ex.EntityValidationErrors
-                        .SelectMany(x => x.ValidationErrors)
-                        .Select(x => x.ErrorMessage);
+                try
+                {
+                    return base.SaveChanges();
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    var errorMessages = ex.EntityValidationErrors
+                            .SelectMany(x => x.ValidationErrors)
+                            .Select(x => x.ErrorMessage);
 
-                var fullErrorMessage = string.Join("; ", errorMessages);
+                    var fullErrorMessage = string.Join("; ", errorMessages);
 
-                var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
+                    var exceptionMessage = string.Concat(ex.Message, " The validation errors are: ", fullErrorMessage);
 
-                throw new DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
+                    throw new DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
+                }
             }
         }
+
+
     }
-
-
-}

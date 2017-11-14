@@ -57,11 +57,13 @@ namespace ZooER
                 Animal wale = new Animal { Name = "Wale", Weight = 440.9, IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>() };
 
                 eagle.IsChildOf.Add(horse);
-                horse.IsChildOf.Add(dog);
-                horse.IsParentOf.Add(wale);
-                dog.IsParentOf.Add(cat);
+                //horse.IsChildOf.Add(dog);
+                //horse.IsParentOf.Add(wale);
+                //dog.IsParentOf.Add(cat);
 
-
+                db.Animals.Add(eagle);
+                db.Animals.Add(horse);
+               
                 var visit1 = new Visit { Start = DateTime.Now, Drugs = new List<Drug>() };
 
                 var visit2 = new Visit { Start = DateTime.Now };
@@ -104,7 +106,7 @@ namespace ZooER
                 //db.ChildrenParents.Add(rel4);
 
                 //// Removing Dog as parent of horse ==> removing the relation 'IsChildOf'
-                //db.SaveChanges();
+                db.SaveChanges();
 
                 //// Display all Blogs from the database 
                 var query = db.Animals.Select(c => c);

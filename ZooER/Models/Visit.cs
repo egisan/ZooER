@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace ZooER.Models
 {
     public class Visit
     {
-        public int ID { get; set; }
+        public int VisitId { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -19,11 +20,16 @@ namespace ZooER.Models
         public DateTime? End { get; set; }
 
         // Nav
-        [Required]
+        [ForeignKey("Animal")]
+        public int AnimalId { get; set; }
         public virtual Animal Animal { get; set; }
-        [Required]
+
+        [ForeignKey("Diagnosis")]
+        public int DiagnosisId { get; set; }
         public virtual Diagnosis Diagnosis { get; set; }
-        [Required]
+
+        [ForeignKey("Veterinary")]
+        public int VeterinaryId { get; set; }
         public virtual Veterinary Veterinary { get; set; }
 
         public virtual ICollection<Drug> Drugs { get; set; }

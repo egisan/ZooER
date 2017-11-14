@@ -26,9 +26,9 @@ namespace ZooER.Models
         public int HabitatId { get; set; } // Not Null by default!! 1-to many relation NOT 0-to-Many
         public virtual Habitat Habitat { get; set; }
 
-        //[ForeignKey("Species")]
-        //public int SpeciesID { get; set; }
-        //public virtual Species Species { get; set; }
+        [ForeignKey("Species")]
+        public int SpeciesId { get; set; }
+        public virtual Species Species { get; set; }
 
         [ForeignKey("Diet")]
         public int DietId { get; set; }

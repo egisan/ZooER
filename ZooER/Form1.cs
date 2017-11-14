@@ -50,20 +50,56 @@ namespace ZooER
                 // Create and save a new Blog 
 
 
-                Animal dog = new Animal { Name = "Dog", Weight = 12.5 , IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>()};
-                Animal cat = new Animal { Name = "Cat", Weight = 1.0, IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>() };
-                Animal horse = new Animal { Name = "Horse", Weight = 122.5, IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>() };
-                Animal eagle = new Animal { Name = "Eagle", Weight = 2.5, IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>() };
-                Animal wale = new Animal { Name = "Wale", Weight = 440.9, IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>() };
+                //Animal dog = new Animal { Name = "Dog", Weight = 12.5 , IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>()};
+                //Animal cat = new Animal { Name = "Cat", Weight = 1.0, IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>() };
+                //Animal horse = new Animal { Name = "Horse", Weight = 122.5, IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>() };
+                //Animal eagle = new Animal { Name = "Eagle", Weight = 2.5, IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>() };
+                //Animal wale = new Animal { Name = "Wale", Weight = 440.9, IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>() };
 
-                eagle.IsChildOf.Add(horse);
+                // HabitatId = 1, SpeciesId = 2, DietId = 0, OriginId = 3,
+                // HabitatId = 0, SpeciesId = 1, DietId = 1, OriginId = 4,
+
+                Animal eagle1 = new Animal { Name = "Eagle1", Weight = 2.5, IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>() };
+                Animal wale1 = new Animal { Name = "Wale1", Weight = 440.9,  IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>() };
+
+                // Devo prima linkare Diet, Haabitats, ecc. all' animal e poi salvare nel DB
+                // 
+                eagle1.IsChildOf.Add(wale1);
+
                 //horse.IsChildOf.Add(dog);
                 //horse.IsParentOf.Add(wale);
                 //dog.IsParentOf.Add(cat);
 
-                db.Animals.Add(eagle);
-                db.Animals.Add(horse);
-               
+                db.Animals.Add(eagle1);
+                db.Animals.Add(wale1);
+
+                // Linking FROM the Parent side !!! 
+                var dietEagle1 = db.Diets.Where(c => c.Name == "Carnivor").SingleOrDefault();
+                dietEagle1.Animals.Add(eagle1);
+
+                var origEagle1 = db.Origins.Where(c => c.Name == "Europe").SingleOrDefault();
+                origEagle1.Animals.Add(eagle1);
+
+                var habEagle1 = db.Habitats.Where(c => c.Name == "Ground").SingleOrDefault();
+                habEagle1.Animals.Add(eagle1);
+
+                var specEagle1 = db.Species.Where(c => c.Name == "Birds").SingleOrDefault();
+                specEagle1.Animals.Add(eagle1);
+
+
+                // For wale1
+                var dietWale1 = db.Diets.Where(c => c.Name == "Carnivor").SingleOrDefault();
+                dietWale1.Animals.Add(wale1);
+
+                var origWale1 = db.Origins.Where(c => c.Name == "South America").SingleOrDefault();
+                origWale1.Animals.Add(wale1);
+
+                var habWale1 = db.Habitats.Where(c => c.Name == "Sea").SingleOrDefault();
+                habWale1.Animals.Add(wale1);
+
+                var specWale1 = db.Species.Where(c => c.Name == "Mammals").SingleOrDefault();
+                specWale1.Animals.Add(wale1);
+
                 var visit1 = new Visit { Start = DateTime.Now, Drugs = new List<Drug>() };
 
                 var visit2 = new Visit { Start = DateTime.Now };

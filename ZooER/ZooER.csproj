@@ -59,18 +59,6 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201711141626527_init.cs" />
-    <Compile Include="Migrations\201711141626527_init.Designer.cs">
-      <DependentUpon>201711141626527_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711141634202_init2.cs" />
-    <Compile Include="Migrations\201711141634202_init2.Designer.cs">
-      <DependentUpon>201711141634202_init2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711141650167_init3.cs" />
-    <Compile Include="Migrations\201711141650167_init3.Designer.cs">
-      <DependentUpon>201711141650167_init3.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -96,15 +84,6 @@
     <Compile Include="ViewModels\AnimalDetails.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711141626527_init.resx">
-      <DependentUpon>201711141626527_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711141634202_init2.resx">
-      <DependentUpon>201711141634202_init2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711141650167_init3.resx">
-      <DependentUpon>201711141650167_init3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -133,5 +112,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -81,107 +81,224 @@ namespace ZooER.Migrations
         private void AddAnimalEntities()
         {
             // Habitats table
-            context.Habitats.AddOrUpdate(
-                    x => new { x.Name },
+            var habitats = new Habitat[]
+            {
                         new Habitat { Name = "Ground" },
                         new Habitat { Name = "Tree" },
                         new Habitat { Name = "Sea" }
-            );
+            };
+            // For each 'habitat' in the list 'habitats' above, 
+            // add it to the ICollection Habitats in the context (in other words in the DB)
+
+            // habitats.ForEach(s => context.Habitats.Add(s));
+
+            context.Habitats.AddOrUpdate(x => x.Name, habitats);
+
+            // Save all changes made in the current context 'ZooContext' to the DB!
+            context.SaveChanges();
+
 
             // Species Table
-            context.Species.AddOrUpdate(
-                    x => new { x.Name },
-                        new Species { Name = "Mammals" },
-                        new Species { Name = "Reptiles" },
-                        new Species { Name = "Birds" }
-            );
+            var species = new Species[]
+            {
+                            new Species { Name = "Mammals" },
+                            new Species { Name = "Reptiles"},
+                            new Species { Name = "Birds" }
+            };
+
+            // species.ForEach(s => context.Species.Add(s));
+
+            context.Species.AddOrUpdate(x => x.Name, species);
+            context.SaveChanges();
+
 
             // Diets table
-            context.Diets.AddOrUpdate(
-                    x => new { x.Name },
-                        new Diet { Name = "Vegetarian" },
-                        new Diet { Name = "Carnivor" }
-            );
+            var diets = new Diet[]
+            {
+                            new Diet { Name = "Vegetarian" },
+                            new Diet { Name = "Carnivor" },
+            };
+
+            // diets.ForEach(s => context.Diets.Add(s));
+
+            context.Diets.AddOrUpdate(x => x.Name, diets);
+            context.SaveChanges();
 
             // Origins Table
-            context.Origins.AddOrUpdate(
-                    x => new { x.Name },
-                        new Origin { Name = "Africa" },
-                        new Origin { Name = "Asia" },
-                        new Origin { Name = "North America" },
-                        new Origin { Name = "Sounth America" },
-                        new Origin { Name = "Central America" },
-                        new Origin { Name = "Europe" },
-                        new Origin { Name = "Australia" }
-            );
-        }
+            var origins = new Origin[]
+            {
+                            new Origin { Name = "Africa" },
+                            new Origin { Name = "Asia" },
+                            new Origin { Name = "North America" },
+                            new Origin { Name = "South America" },
+                            new Origin { Name = "Central America" },
+                            new Origin { Name = "Europe" },
+                            new Origin { Name = "Australia" }
+            };
+
+            // origins.ForEach(s => context.Origins.Add(s));
+            context.Origins.AddOrUpdate(x => x.Name, origins);
+            context.SaveChanges();
 
 
-        // Seed for the main Entity Animal
-        //
-        private void AddAnimals()
+            // --------------------------------------------
+            // Animals
+            // --------------------------------------------
+            var animals = new Animal[]
+            {
+                 new Animal() { Name = "Eagle", Weight = 15.1 },
+                 new Animal() { Name = "Horse", Weight = 300.3 },
+                 new Animal() { Name = "Dog", Weight = 15.4 },
+                 new Animal() { Name = "Cat", Weight = 9.0 },
+                 new Animal() { Name = "Wale", Weight = 1200.2 }
+            };
+            // -----------------------------------------------------------------------------------------
+            // Need to create the relations from the "1" side and add the animals BEFORE savingChanges()
+            // -----------------------------------------------------------------------------------------
+            // Eagle links to Diet, Habitat, Origin & Species
+
+            var dietEagle = context.Diets.Where(c => c.Name == "Carnivor").SingleOrDefault();
+            dietEagle.Animals.Add(animals[0]);
+
+            var origEagle = context.Origins.Where(c => c.Name == "Europe").SingleOrDefault();
+            origEagle.Animals.Add(animals[0]);
+
+            var habEagle = context.Habitats.Where(c => c.Name == "Ground").SingleOrDefault();
+            habEagle.Animals.Add(animals[0]);
+
+            var specEagle = context.Species.Where(c => c.Name == "Birds").SingleOrDefault();
+            specEagle.Animals.Add(animals[0]);
+
+
+            // Horse links
+            var dietHorse = context.Diets.Where(c => c.Name == "Carnivor").SingleOrDefault();
+            dietHorse.Animals.Add(animals[1]);
+
+            var origHorse = context.Origins.Where(c => c.Name == "North America").SingleOrDefault();
+            origHorse.Animals.Add(animals[1]);
+
+            var habHorse = context.Habitats.Where(c => c.Name == "Ground").SingleOrDefault();
+            habHorse.Animals.Add(animals[1]);
+
+            var specHorse = context.Species.Where(c => c.Name == "Mammals").SingleOrDefault();
+            specHorse.Animals.Add(animals[1]);
+
+
+            // Horse links
+            var dietDog = context.Diets.Where(c => c.Name == "Carnivor").SingleOrDefault();
+            dietDog.Animals.Add(animals[2]);
+
+            var origDog = context.Origins.Where(c => c.Name == "Europe").SingleOrDefault();
+            origDog.Animals.Add(animals[2]);
+
+            var habDog = context.Habitats.Where(c => c.Name == "Ground").SingleOrDefault();
+            habDog.Animals.Add(animals[2]);
+
+            var specDog = context.Species.Where(c => c.Name == "Mammals").SingleOrDefault();
+            specDog.Animals.Add(animals[2]);
+
+
+            // Cat links
+            var dietCat = context.Diets.Where(c => c.Name == "Carnivor").SingleOrDefault();
+            dietCat.Animals.Add(animals[3]);
+
+            var origCat = context.Origins.Where(c => c.Name == "Europe").SingleOrDefault();
+            origCat.Animals.Add(animals[3]);
+
+            var habCat = context.Habitats.Where(c => c.Name == "Ground").SingleOrDefault();
+            habCat.Animals.Add(animals[3]);
+
+            var specCat = context.Species.Where(c => c.Name == "Mammals").SingleOrDefault();
+            specCat.Animals.Add(animals[3]);
+
+
+            // For wale1
+            var dietWale = context.Diets.Where(c => c.Name == "Carnivor").SingleOrDefault();
+            dietWale.Animals.Add(animals[4]);
+
+            var origWale = context.Origins.Where(c => c.Name == "South America").SingleOrDefault();
+            origWale.Animals.Add(animals[4]);
+
+            var habWale = context.Habitats.Where(c => c.Name == "Sea").SingleOrDefault();
+            habWale.Animals.Add(animals[4]);
+
+            var specWale = context.Species.Where(c => c.Name == "Mammals").SingleOrDefault();
+            specWale.Animals.Add(animals[4]);
+
+
+
+
+
+
+
+            // Seed for the main Entity Animal
+            //
+            private void AddAnimals()
         {
+
+
+
             context.Animals.AddOrUpdate(
                 x => x.Name,
                         new Animal
                         {
                             Name = "Eagle",
                             Weight = 15.1,
-                            HabitatId = context.Habitats.Where(c => c.Name == "Tree").SingleOrDefault().HabitatId,
-                            // SpeciesID = context.Species.Where(c => c.Name == "Birds").SingleOrDefault().SpeciesID,
-                            DietId = context.Diets.Where(c => c.Name == "Carnivors").SingleOrDefault().DietId,
-                            OriginId = context.Origins.Where(c => c.Name == "North America").SingleOrDefault().OriginId,
+                            //HabitatId = context.Habitats.Where(c => c.Name == "Tree").SingleOrDefault().HabitatId,
+                            //// SpeciesID = context.Species.Where(c => c.Name == "Birds").SingleOrDefault().SpeciesID,
+                            //DietId = context.Diets.Where(c => c.Name == "Carnivors").SingleOrDefault().DietId,
+                            //OriginId = context.Origins.Where(c => c.Name == "North America").SingleOrDefault().OriginId,
 
                             //Visits = new List<Visit>(),
                             //IsChildOf = new List<Animal>(),
                             //IsParentOf = new List<Animal>(),
 
                             // Visits = new List<Visit> { new Visit { Start = new DateTime(2017, 10, 02), End = new DateTime(2017, 10, 03) } }
+                        },
+                        new Animal
+                        {
+                            Name = "Horse",
+                            Weight = 300.3,
+                            //HabitatId = context.Habitats.Where(c => c.Name == "Ground").SingleOrDefault().HabitatId,
+                            //// SpeciesID = context.Species.Where(c => c.Name == "Mammals").SingleOrDefault().SpeciesID,
+                            //DietId = context.Diets.Where(c => c.Name == "Vegetarian").SingleOrDefault().DietId,
+                            //OriginId = context.Origins.Where(c => c.Name == "North America").SingleOrDefault().OriginId,
+
+                            // Visits = new List<Visit> { new Visit { Start = new DateTime(2017, 06, 10), End = new DateTime(2017, 06, 11) } }
+                        },
+                        new Animal
+                        {
+                            Name = "Dog",
+                            Weight = 15.4,
+                            //HabitatId = context.Habitats.Where(c => c.Name == "Ground").SingleOrDefault().HabitatId,
+                            ////  SpeciesID = context.Species.Where(c => c.Name == "Mammals").SingleOrDefault().SpeciesID,
+                            //DietId = context.Diets.Where(c => c.Name == "Carnivor").SingleOrDefault().DietId,
+                            //OriginId = context.Origins.Where(c => c.Name == "Europe").SingleOrDefault().OriginId,
+
+                            //  Visits = new List<Visit> { new Visit { Start = new DateTime(2017, 11, 3), End = new DateTime(2017, 11, 5) } }
+                        },
+                        new Animal
+                        {
+                            Name = "Cat",
+                            Weight = 9.0,
+                            //HabitatId = context.Habitats.Where(c => c.Name == "Ground").SingleOrDefault().HabitatId,
+                            //// SpeciesID = context.Species.Where(c => c.Name == "Mammals").SingleOrDefault().SpeciesID,
+                            //DietId = context.Diets.Where(c => c.Name == "Carnivor").SingleOrDefault().DietId,
+                            //OriginId = context.Origins.Where(c => c.Name == "Europe").SingleOrDefault().OriginId,
+
+                            // Visits = new List<Visit> { new Visit { Start = new DateTime(2017, 03, 16), End = new DateTime(2017, 03, 18) } }
+                        },
+                        new Animal
+                        {
+                            Name = "Wale",
+                            Weight = 1200.2,
+                            //HabitatId = context.Habitats.Where(c => c.Name == "Sea").SingleOrDefault().HabitatId,
+                            ////  SpeciesID = context.Species.Where(c => c.Name == "Mammals").SingleOrDefault().SpeciesID,
+                            //DietId = context.Diets.Where(c => c.Name == "Carnivor").SingleOrDefault().DietId,
+                            //OriginId = context.Origins.Where(c => c.Name == "North America").SingleOrDefault().OriginId,
+
+                            // Visits = new List<Visit> { new Visit { Start = new DateTime(2017, 03, 16), End = new DateTime(2017, 03, 18) } }
                         }
-                        //new Animal
-                        //{
-                        //    Name = "Horse",
-                        //    Weight = 300.3,
-                        //    HabitatId = context.Habitats.Where(c => c.Name == "Ground").SingleOrDefault().HabitatId,
-                        //    // SpeciesID = context.Species.Where(c => c.Name == "Mammals").SingleOrDefault().SpeciesID,
-                        //    DietId = context.Diets.Where(c => c.Name == "Vegetarian").SingleOrDefault().DietId,
-                        //    OriginId = context.Origins.Where(c => c.Name == "North America").SingleOrDefault().OriginId,
-
-                        //    // Visits = new List<Visit> { new Visit { Start = new DateTime(2017, 06, 10), End = new DateTime(2017, 06, 11) } }
-                        //},
-                        //new Animal
-                        //{
-                        //    Name = "Dog",
-                        //    Weight = 15.4,
-                        //    HabitatId = context.Habitats.Where(c => c.Name == "Ground").SingleOrDefault().HabitatId,
-                        //    //  SpeciesID = context.Species.Where(c => c.Name == "Mammals").SingleOrDefault().SpeciesID,
-                        //    DietId = context.Diets.Where(c => c.Name == "Carnivor").SingleOrDefault().DietId,
-                        //    OriginId = context.Origins.Where(c => c.Name == "Europe").SingleOrDefault().OriginId,
-
-                        //    //  Visits = new List<Visit> { new Visit { Start = new DateTime(2017, 11, 3), End = new DateTime(2017, 11, 5) } }
-                        //},
-                        //new Animal
-                        //{
-                        //    Name = "Cat",
-                        //    Weight = 9.0,
-                        //    HabitatId = context.Habitats.Where(c => c.Name == "Ground").SingleOrDefault().HabitatId,
-                        //    // SpeciesID = context.Species.Where(c => c.Name == "Mammals").SingleOrDefault().SpeciesID,
-                        //    DietId = context.Diets.Where(c => c.Name == "Carnivor").SingleOrDefault().DietId,
-                        //    OriginId = context.Origins.Where(c => c.Name == "Europe").SingleOrDefault().OriginId,
-
-                        //    // Visits = new List<Visit> { new Visit { Start = new DateTime(2017, 03, 16), End = new DateTime(2017, 03, 18) } }
-                        //},
-                        //new Animal
-                        //{
-                        //    Name = "Wale",
-                        //    Weight = 1200.2,
-                        //    HabitatId = context.Habitats.Where(c => c.Name == "Sea").SingleOrDefault().HabitatId,
-                        //    //  SpeciesID = context.Species.Where(c => c.Name == "Mammals").SingleOrDefault().SpeciesID,
-                        //    DietId = context.Diets.Where(c => c.Name == "Carnivor").SingleOrDefault().DietId,
-                        //    OriginId = context.Origins.Where(c => c.Name == "North America").SingleOrDefault().OriginId,
-
-                        //    // Visits = new List<Visit> { new Visit { Start = new DateTime(2017, 03, 16), End = new DateTime(2017, 03, 18) } }
-                        //}
 
             );
 

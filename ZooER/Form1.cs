@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ZooER.DAL;
 using ZooER.Models;
-using System.Data.Entity;
 using System.Xml;
 using System.Data.Entity.Infrastructure;
 

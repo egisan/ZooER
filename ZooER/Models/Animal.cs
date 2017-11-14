@@ -11,8 +11,8 @@ namespace ZooER.Models
     public class Animal
     {
 
-        public int ID { get; set; }
-   
+        public  int ID { get; set; }
+
         [Required]
         [StringLength(30, ErrorMessage = "Max 30 and at least 3 characters allowed", MinimumLength = 3)]
         public string Name { get; set; }
@@ -22,6 +22,7 @@ namespace ZooER.Models
         // Navigation to Link table Children-Parents
      
         [InverseProperty("IsParentOf")]
+        
         public virtual ICollection<Animal> IsChildOf { get; set; }
 
         [InverseProperty("IsChildOf")]
@@ -36,6 +37,7 @@ namespace ZooER.Models
         public virtual Diet Diet { get; set; }
         [Required]
         public virtual Origin Origin { get; set; }
+
         public virtual ICollection<Visit> Visits { get; set; }
 
     }

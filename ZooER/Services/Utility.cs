@@ -14,7 +14,7 @@ namespace ZooER.Services
         // Retrieve all info for all animals in Zoo
         // return a BindingList ready for View!
 
-        public BindingList<AnimalDetails> GetAnimalDetails()
+        public BindingList<AnimalDetails> GetAnimalDetails( )
         {
             var animals = new BindingList<AnimalDetails>();
 

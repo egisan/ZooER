@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using ZooER.DAL;
 using ZooER.ViewModels;
 using ZooER.Services;
+using ZooER.Models;
 
 namespace ZooER
 {
@@ -77,7 +78,6 @@ namespace ZooER
             FillOrigin();
             //FillParent1();
             //FillParent2();
-
         }
 
         private void FillOrigin()
@@ -90,7 +90,6 @@ namespace ZooER
 
                 // Default value
                 cmbOrigin.SelectedIndex = -1;
-                cmbOrigin.Text = "Select an item";
             }
         }
 
@@ -100,15 +99,12 @@ namespace ZooER
             {
                 // db.Diets.Add(0, new Diet() { DietId = 0, Name = "Select a sector." });
 
-
                 cmbDiet.DataSource = db.Diets.ToList();
                 cmbDiet.ValueMember = "DietId";
                 cmbDiet.DisplayMember = "Name";
 
                 // Default value
-
-                //cmbDiet.SelectedIndex = -1;
-                //cmbDiet.Text = "Select an item";
+                cmbDiet.SelectedIndex = -1;
             }
         }
 
@@ -121,9 +117,7 @@ namespace ZooER
                 cmbHabitat.DisplayMember = "Name";
 
                 // Default value
-                //cmbHabitat.SelectedIndex = -1;
-                //cmbHabitat.Text = "Select an item";
-
+                cmbHabitat.SelectedIndex = -1;
 
             }
         }
@@ -138,7 +132,6 @@ namespace ZooER
 
                 // Default value
                 cmbSpecies.SelectedIndex = -1;
-                cmbSpecies.Text = "Select an item";
             }
         }
 
@@ -148,25 +141,13 @@ namespace ZooER
             animalNameChgd = habitatChgd = speciesChgd = dietChgd = weightChgd = originChgd = parent1Chgd = parent2Chgd = false;
 
             mskTxtAnimal.Text = "";
-
-            //  cmbSpieces.SelectedIndex = cmbSpieces.Items.IndexOf("All");
-            cmbSpecies.SelectedText = "";
-
-            //  cmbHabitat.SelectedIndex = cmbHabitat.Items.IndexOf("All");
-            cmbHabitat.SelectedText = "";
-
-            //  cmbDiet.SelectedIndex = cmbDiet.Items.IndexOf("All");
-            cmbDiet.SelectedText = "";
-
             mskTxtWeight.Text = "";
 
-            //  cmbOrigin.SelectedIndex = cmbOrigin.Items.IndexOf("All");
+            cmbSpecies.SelectedText = "";
+            cmbHabitat.SelectedText = "";
+            cmbDiet.SelectedText = "";
             cmbOrigin.SelectedText = "";
-
-            // cmbParent1.SelectedIndex = cmbParent1.Items.IndexOf("All");
             cmbParent1.SelectedText = "";
-
-            // cmbParent2.SelectedIndex = cmbParent2.Items.IndexOf("All");
             cmbParent2.SelectedText = "";
         }
 
@@ -185,8 +166,6 @@ namespace ZooER
             Form frm = new Menu();
             frm.Show();
         }
-
-
 
 
         private void UpdateCombosWithDataGridSelection(int selectedAnimalID, int rowIndex)
@@ -316,6 +295,154 @@ namespace ZooER
         private void cmbParent2_TextChanged(object sender, EventArgs e)
         {
             parent2Chgd = true;
+        }
+
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+
+            bool nameIn = false;
+            bool speciesIn = false;
+            bool habitatIn = false;
+            bool dietIn = false;
+            bool weightIn = false;
+            bool originIn = false;
+            bool par1In = false;
+            bool par2In = false;
+
+            string conditionStr = "";
+            string insertAND = " ";
+
+
+            if (mskTxtAnimal.Text != "")
+            {
+                nameIn = true;
+                conditionStr = "c.Name LIKE '%' + @Name + '%'";
+            }
+
+            if (cmbSpecies.SelectedItem.ToString() != "")
+            {
+                speciesIn = true;
+                if (nameIn == true)
+                {
+                    insertAND = " AND ";
+                }
+                conditionStr = conditionStr + insertAND + "ct.TypeName LIKE '%' + @TypeName + '%'";
+            }
+
+            if (cmbHabitat.Text != "")
+            {
+                habitatIn = true;
+                if (speciesIn == true || nameIn == true)
+                {
+                    insertAND = " AND ";
+                }
+                conditionStr = conditionStr + insertAND + "ct.City LIKE '%' + @City + '%'";
+            }
+
+            if (cmbDiet.Text != "")
+            {
+                dietIn = true;
+                if (habitatIn == true || speciesIn == true || nameIn == true)
+                {
+                    insertAND = " AND ";
+                }
+                conditionStr = conditionStr + insertAND + "ct.Address LIKE '%' + @Address + '%'";
+            }
+
+            if (mskTxtWeight.Text != "")
+            {
+                weightIn = true;
+                if (dietIn == true || habitatIn == true || speciesIn == true || nameIn == true)
+                {
+                    insertAND = " AND ";
+                }
+                conditionStr = conditionStr + insertAND + "ct.PostalCode LIKE '%' + @PostalCode + '%'";
+            }
+
+            if (cmbOrigin.Text != "")
+            {
+                originIn = true;
+                if (weightIn == true || dietIn == true || habitatIn == true || speciesIn == true || nameIn == true)
+                {
+                    insertAND = " AND ";
+                }
+                conditionStr = conditionStr + insertAND + "ct.PhoneNo LIKE '%' + @PhoneNo + '%'";
+            }
+
+            if (cmbParent1.Text != "")
+            {
+                par1In = true;
+                if (originIn == true || weightIn == true || dietIn == true || habitatIn == true || speciesIn == true || nameIn == true)
+                {
+                    insertAND = " AND ";
+                }
+                conditionStr = conditionStr + insertAND + "ct.Email LIKE '%' + @Email + '%'";
+            }
+
+            if (cmbParent2.Text != "")
+            {
+                par2In = true;
+                if (par1In == true || originIn == true || weightIn == true || dietIn == true || habitatIn == true || speciesIn == true || nameIn == true)
+                {
+                    insertAND = " AND ";
+                }
+                conditionStr = conditionStr + insertAND + "ct.Email LIKE '%' + @Email + '%'";
+            }
+
+
+            if (nameIn || speciesIn || habitatIn || dietIn || weightIn || originIn || par1In || par2In)
+            {
+                using (var db = new ZooContext())
+                {
+                    var animals = new List<Animal>();
+
+                    if (nameIn && speciesIn && habitatIn && dietIn)
+                    {
+                        animals = db.Animals.Where(c => c.Name.Contains(mskTxtAnimal.Text) &&
+                                                        c.Species.Name == cmbSpecies.SelectedItem.ToString() &&
+                                                        c.Habitat.Name == cmbHabitat.SelectedItem.ToString() &&
+                                                        c.Diet.Name == cmbDiet.SelectedItem.ToString()).ToList();
+                    }
+                    else if (nameIn && speciesIn && habitatIn)
+                    {
+                        animals = db.Animals.Where(c => c.Name.Contains(mskTxtAnimal.Text) &&
+                                                        c.Species.Name == cmbSpecies.SelectedItem.ToString() &&
+                                                        c.Habitat.Name == cmbHabitat.SelectedItem.ToString()).ToList();
+                    }
+                    else if (nameIn && speciesIn)
+                    {
+                        animals = db.Animals.Where(c => c.Name.Contains(mskTxtAnimal.Text) &&
+                                                        c.Species.Name == cmbSpecies.SelectedItem.ToString()).ToList();
+                    }
+                    else if (nameIn)
+                    {
+                        animals = db.Animals.Where(c => c != null && c.Name.Contains(mskTxtAnimal.Text)).ToList();
+                    }
+                    
+                    if (animals.
+
+                }
+
+                var commandText = "SELECT c.Name, ct.TypeName, ct.Address, ct.PostalCode, ct.City, ct.PhoneNo, ct.Email " +
+                              "FROM Contacts c INNER JOIN ContactsTypes bridge " +
+                              "ON c.ContactId = bridge.ContactId " +
+                              "INNER JOIN CTypes ct " +
+                              "ON ct.TypeId = bridge.TypeId " +
+                              "WHERE (" + conditionStr + ")";
+
+            }
+            BindingList<Contact> addresses = reader.GetContacts(commandText, CommandType.Text, searchParams);
+
+            // Show the number of records found after applying Search()
+            maskedTxtAddNo.Text = addresses.Count().ToString();
+
+            // Fill the GridView with addresses
+            gridViewRUD.DataSource = addresses;
+
+
+
+
         }
 
 

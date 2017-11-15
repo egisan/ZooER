@@ -40,6 +40,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.btnBook = new System.Windows.Forms.Button();
+            this.btnPrevMenu = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -136,9 +137,9 @@
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(85, 43);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(167, 26);
+            this.label6.Size = new System.Drawing.Size(110, 26);
             this.label6.TabIndex = 12;
-            this.label6.Text = "Book Veterinary";
+            this.label6.Text = "Book Visit";
             // 
             // btnBook
             // 
@@ -149,11 +150,21 @@
             this.btnBook.Text = "BOOK";
             this.btnBook.UseVisualStyleBackColor = true;
             // 
+            // btnPrevMenu
+            // 
+            this.btnPrevMenu.Location = new System.Drawing.Point(91, 310);
+            this.btnPrevMenu.Name = "btnPrevMenu";
+            this.btnPrevMenu.Size = new System.Drawing.Size(104, 28);
+            this.btnPrevMenu.TabIndex = 14;
+            this.btnPrevMenu.Text = "Previous menu";
+            this.btnPrevMenu.UseVisualStyleBackColor = true;
+            // 
             // BookingPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(578, 382);
+            this.Controls.Add(this.btnPrevMenu);
             this.Controls.Add(this.btnBook);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label3);
@@ -187,5 +198,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnBook;
+        private System.Windows.Forms.Button btnPrevMenu;
     }
 }

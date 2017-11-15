@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel; // Used for DisplayName (annotation) which is Different from Display ("Origin")
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,25 +17,25 @@ namespace ZooER.ViewModels
 
         public double Weight { get; set; }
 
-        [Display(Name = "Habitat")]
+        [DisplayName("Habitat")]
         public string HabitatType { get; set; }
 
-        [Display(Name = "Diet")]
+        [DisplayName("Diet")]
         public string DietType { get; set; }
 
-        [Display(Name = "Origin")]
+        [DisplayName("Origin")]
         public string OriginCountry { get; set; }
 
-        [Display(Name = "Species")]
+        [DisplayName("Species")]
         public string SpeciesType { get; set; }
 
-        [Display(Name = "Parent 1")]
+        [DisplayName("Parent 1")]
         public string Parent1 { get;  set; }
 
-        [Display(Name = "Parent 2")]
+        [DisplayName("Parent 2")]
         public string Parent2 { get; set; }
 
-        [Display(Name = "Booked visits")]
+        [DisplayName("Booked visits")]
         public List<Visit> OwnVisits { get; set; }
     }
 }

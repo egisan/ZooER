@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Services\ObservableListSource.cs" />
+    <Compile Include="Services\Utility.cs" />
     <Compile Include="UI\BookingPanel.cs">
       <SubType>Form</SubType>
     </Compile>

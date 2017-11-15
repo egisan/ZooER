@@ -47,12 +47,6 @@ namespace ZooER
             frm.Show();
         }
 
-
-        private void btnQuit_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
         private void btnBook_Click(object sender, EventArgs e)
         {
             Form frm = new BookingPanel();
@@ -63,6 +57,11 @@ namespace ZooER
         {
             Form frm = new CancelBookingPanel();
             frm.Show();
+        }
+
+        private void btnQuit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

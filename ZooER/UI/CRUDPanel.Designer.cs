@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridVedit = new System.Windows.Forms.DataGridView();
             this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.weightDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -37,13 +37,13 @@
             this.dietTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.originCountryDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.speciesTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.motherDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fatherDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.parent1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.parent2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.animalDetailsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.cmbHabitat = new System.Windows.Forms.ComboBox();
             this.habitatBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.habitatBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.cmbSpieces = new System.Windows.Forms.ComboBox();
+            this.cmbSpecies = new System.Windows.Forms.ComboBox();
             this.speciesBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.cmbDiet = new System.Windows.Forms.ComboBox();
             this.dietBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -63,9 +63,11 @@
             this.label9 = new System.Windows.Forms.Label();
             this.mskTxtWeight = new System.Windows.Forms.MaskedTextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.mskTxtMother = new System.Windows.Forms.MaskedTextBox();
-            this.mskTxtFather = new System.Windows.Forms.MaskedTextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.btnPrevMenu = new System.Windows.Forms.Button();
+            this.cmbParent2 = new System.Windows.Forms.ComboBox();
+            this.cmbParent1 = new System.Windows.Forms.ComboBox();
+            this.btnClear = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridVedit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.animalDetailsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.habitatBindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.habitatBindingSource)).BeginInit();
@@ -73,11 +75,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.dietBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dataGridVedit
             // 
-            this.dataGridView1.AutoGenerateColumns = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridVedit.AutoGenerateColumns = false;
+            this.dataGridVedit.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridVedit.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.idDataGridViewTextBoxColumn,
             this.nameDataGridViewTextBoxColumn,
             this.weightDataGridViewTextBoxColumn,
@@ -85,13 +87,15 @@
             this.dietTypeDataGridViewTextBoxColumn,
             this.originCountryDataGridViewTextBoxColumn,
             this.speciesTypeDataGridViewTextBoxColumn,
-            this.motherDataGridViewTextBoxColumn,
-            this.fatherDataGridViewTextBoxColumn});
-            this.dataGridView1.DataSource = this.animalDetailsBindingSource;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 237);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(944, 223);
-            this.dataGridView1.TabIndex = 0;
+            this.parent1DataGridViewTextBoxColumn,
+            this.parent2DataGridViewTextBoxColumn});
+            this.dataGridVedit.DataSource = this.animalDetailsBindingSource;
+            this.dataGridVedit.Location = new System.Drawing.Point(29, 266);
+            this.dataGridVedit.Name = "dataGridVedit";
+            this.dataGridVedit.Size = new System.Drawing.Size(944, 223);
+            this.dataGridVedit.TabIndex = 0;
+            this.dataGridVedit.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridVedit_CellContentClick);
+            this.dataGridVedit.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridVedit_RowHeaderMouseClick);
             // 
             // idDataGridViewTextBoxColumn
             // 
@@ -114,38 +118,38 @@
             // habitatTypeDataGridViewTextBoxColumn
             // 
             this.habitatTypeDataGridViewTextBoxColumn.DataPropertyName = "HabitatType";
-            this.habitatTypeDataGridViewTextBoxColumn.HeaderText = "HabitatType";
+            this.habitatTypeDataGridViewTextBoxColumn.HeaderText = "Habitat";
             this.habitatTypeDataGridViewTextBoxColumn.Name = "habitatTypeDataGridViewTextBoxColumn";
             // 
             // dietTypeDataGridViewTextBoxColumn
             // 
             this.dietTypeDataGridViewTextBoxColumn.DataPropertyName = "DietType";
-            this.dietTypeDataGridViewTextBoxColumn.HeaderText = "DietType";
+            this.dietTypeDataGridViewTextBoxColumn.HeaderText = "Diet";
             this.dietTypeDataGridViewTextBoxColumn.Name = "dietTypeDataGridViewTextBoxColumn";
             // 
             // originCountryDataGridViewTextBoxColumn
             // 
             this.originCountryDataGridViewTextBoxColumn.DataPropertyName = "OriginCountry";
-            this.originCountryDataGridViewTextBoxColumn.HeaderText = "OriginCountry";
+            this.originCountryDataGridViewTextBoxColumn.HeaderText = "Origin";
             this.originCountryDataGridViewTextBoxColumn.Name = "originCountryDataGridViewTextBoxColumn";
             // 
             // speciesTypeDataGridViewTextBoxColumn
             // 
             this.speciesTypeDataGridViewTextBoxColumn.DataPropertyName = "SpeciesType";
-            this.speciesTypeDataGridViewTextBoxColumn.HeaderText = "SpeciesType";
+            this.speciesTypeDataGridViewTextBoxColumn.HeaderText = "Species";
             this.speciesTypeDataGridViewTextBoxColumn.Name = "speciesTypeDataGridViewTextBoxColumn";
             // 
-            // motherDataGridViewTextBoxColumn
+            // parent1DataGridViewTextBoxColumn
             // 
-            this.motherDataGridViewTextBoxColumn.DataPropertyName = "Mother";
-            this.motherDataGridViewTextBoxColumn.HeaderText = "Mother";
-            this.motherDataGridViewTextBoxColumn.Name = "motherDataGridViewTextBoxColumn";
+            this.parent1DataGridViewTextBoxColumn.DataPropertyName = "Parent1";
+            this.parent1DataGridViewTextBoxColumn.HeaderText = "Parent 1";
+            this.parent1DataGridViewTextBoxColumn.Name = "parent1DataGridViewTextBoxColumn";
             // 
-            // fatherDataGridViewTextBoxColumn
+            // parent2DataGridViewTextBoxColumn
             // 
-            this.fatherDataGridViewTextBoxColumn.DataPropertyName = "Father";
-            this.fatherDataGridViewTextBoxColumn.HeaderText = "Father";
-            this.fatherDataGridViewTextBoxColumn.Name = "fatherDataGridViewTextBoxColumn";
+            this.parent2DataGridViewTextBoxColumn.DataPropertyName = "Parent2";
+            this.parent2DataGridViewTextBoxColumn.HeaderText = "Parent 2";
+            this.parent2DataGridViewTextBoxColumn.Name = "parent2DataGridViewTextBoxColumn";
             // 
             // animalDetailsBindingSource
             // 
@@ -171,17 +175,17 @@
             // 
             this.habitatBindingSource.DataSource = typeof(ZooER.Models.Habitat);
             // 
-            // cmbSpieces
+            // cmbSpecies
             // 
-            this.cmbSpieces.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.speciesBindingSource, "Name", true));
-            this.cmbSpieces.DataSource = this.speciesBindingSource;
-            this.cmbSpieces.DisplayMember = "Name";
-            this.cmbSpieces.FormattingEnabled = true;
-            this.cmbSpieces.Location = new System.Drawing.Point(140, 130);
-            this.cmbSpieces.Name = "cmbSpieces";
-            this.cmbSpieces.Size = new System.Drawing.Size(121, 21);
-            this.cmbSpieces.TabIndex = 2;
-            this.cmbSpieces.ValueMember = "Name";
+            this.cmbSpecies.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.speciesBindingSource, "Name", true));
+            this.cmbSpecies.DataSource = this.speciesBindingSource;
+            this.cmbSpecies.DisplayMember = "Name";
+            this.cmbSpecies.FormattingEnabled = true;
+            this.cmbSpecies.Location = new System.Drawing.Point(140, 130);
+            this.cmbSpecies.Name = "cmbSpecies";
+            this.cmbSpecies.Size = new System.Drawing.Size(121, 21);
+            this.cmbSpecies.TabIndex = 2;
+            this.cmbSpecies.ValueMember = "Name";
             // 
             // speciesBindingSource
             // 
@@ -212,27 +216,27 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(825, 96);
+            this.btnSave.Location = new System.Drawing.Point(852, 155);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(110, 41);
+            this.btnSave.Size = new System.Drawing.Size(89, 29);
             this.btnSave.TabIndex = 5;
             this.btnSave.Text = "SAVE";
             this.btnSave.UseVisualStyleBackColor = true;
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(825, 167);
+            this.btnDelete.Location = new System.Drawing.Point(852, 120);
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(110, 41);
+            this.btnDelete.Size = new System.Drawing.Size(89, 29);
             this.btnDelete.TabIndex = 6;
             this.btnDelete.Text = "DELETE";
             this.btnDelete.UseVisualStyleBackColor = true;
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(696, 167);
+            this.btnSearch.Location = new System.Drawing.Point(852, 83);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(110, 41);
+            this.btnSearch.Size = new System.Drawing.Size(89, 31);
             this.btnSearch.TabIndex = 7;
             this.btnSearch.Text = "SEARCH";
             this.btnSearch.UseVisualStyleBackColor = true;
@@ -241,7 +245,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(397, 201);
+            this.label1.Location = new System.Drawing.Point(397, 220);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(123, 24);
             this.label1.TabIndex = 8;
@@ -285,7 +289,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(62, 17);
             this.label5.TabIndex = 12;
-            this.label5.Text = "Spieces:";
+            this.label5.Text = "Species:";
             // 
             // label6
             // 
@@ -303,9 +307,9 @@
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(570, 96);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(56, 17);
+            this.label7.Size = new System.Drawing.Size(66, 17);
             this.label7.TabIndex = 15;
-            this.label7.Text = "Mother:";
+            this.label7.Text = "Parent 1:";
             // 
             // label8
             // 
@@ -352,31 +356,63 @@
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(570, 134);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(53, 17);
+            this.label10.Size = new System.Drawing.Size(66, 17);
             this.label10.TabIndex = 21;
-            this.label10.Text = "Father:";
+            this.label10.Text = "Parent 2:";
             // 
-            // mskTxtMother
+            // btnPrevMenu
             // 
-            this.mskTxtMother.Location = new System.Drawing.Point(632, 93);
-            this.mskTxtMother.Name = "mskTxtMother";
-            this.mskTxtMother.Size = new System.Drawing.Size(121, 20);
-            this.mskTxtMother.TabIndex = 22;
+            this.btnPrevMenu.Location = new System.Drawing.Point(884, 220);
+            this.btnPrevMenu.Name = "btnPrevMenu";
+            this.btnPrevMenu.Size = new System.Drawing.Size(89, 31);
+            this.btnPrevMenu.TabIndex = 24;
+            this.btnPrevMenu.Text = "Previous Menu";
+            this.btnPrevMenu.UseVisualStyleBackColor = true;
+            this.btnPrevMenu.Click += new System.EventHandler(this.btnPrevMenu_Click);
             // 
-            // mskTxtFather
+            // cmbParent2
             // 
-            this.mskTxtFather.Location = new System.Drawing.Point(632, 131);
-            this.mskTxtFather.Name = "mskTxtFather";
-            this.mskTxtFather.Size = new System.Drawing.Size(121, 20);
-            this.mskTxtFather.TabIndex = 23;
+            this.cmbParent2.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.dietBindingSource, "Name", true));
+            this.cmbParent2.DataSource = this.dietBindingSource;
+            this.cmbParent2.DisplayMember = "Name";
+            this.cmbParent2.FormattingEnabled = true;
+            this.cmbParent2.Location = new System.Drawing.Point(642, 134);
+            this.cmbParent2.Name = "cmbParent2";
+            this.cmbParent2.Size = new System.Drawing.Size(121, 21);
+            this.cmbParent2.TabIndex = 25;
+            this.cmbParent2.ValueMember = "Name";
             // 
-            // SearchPanel
+            // cmbParent1
+            // 
+            this.cmbParent1.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.dietBindingSource, "Name", true));
+            this.cmbParent1.DataSource = this.dietBindingSource;
+            this.cmbParent1.DisplayMember = "Name";
+            this.cmbParent1.FormattingEnabled = true;
+            this.cmbParent1.Location = new System.Drawing.Point(642, 95);
+            this.cmbParent1.Name = "cmbParent1";
+            this.cmbParent1.Size = new System.Drawing.Size(121, 21);
+            this.cmbParent1.TabIndex = 26;
+            this.cmbParent1.ValueMember = "Name";
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(776, 222);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(89, 29);
+            this.btnClear.TabIndex = 27;
+            this.btnClear.Text = "CLEAR Data";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
+            // EditPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1026, 472);
-            this.Controls.Add(this.mskTxtFather);
-            this.Controls.Add(this.mskTxtMother);
+            this.ClientSize = new System.Drawing.Size(1026, 519);
+            this.Controls.Add(this.btnClear);
+            this.Controls.Add(this.cmbParent1);
+            this.Controls.Add(this.cmbParent2);
+            this.Controls.Add(this.btnPrevMenu);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.mskTxtWeight);
             this.Controls.Add(this.label9);
@@ -394,12 +430,12 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.mskTxtAnimal);
             this.Controls.Add(this.cmbDiet);
-            this.Controls.Add(this.cmbSpieces);
+            this.Controls.Add(this.cmbSpecies);
             this.Controls.Add(this.cmbHabitat);
-            this.Controls.Add(this.dataGridView1);
-            this.Name = "SearchPanel";
+            this.Controls.Add(this.dataGridVedit);
+            this.Name = "EditPanel";
             this.Text = "Animals Management";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridVedit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.animalDetailsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.habitatBindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.habitatBindingSource)).EndInit();
@@ -412,9 +448,9 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridVedit;
         private System.Windows.Forms.ComboBox cmbHabitat;
-        private System.Windows.Forms.ComboBox cmbSpieces;
+        private System.Windows.Forms.ComboBox cmbSpecies;
         private System.Windows.Forms.ComboBox cmbDiet;
         private System.Windows.Forms.MaskedTextBox mskTxtAnimal;
         private System.Windows.Forms.Button btnSave;
@@ -426,13 +462,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn weightDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn habitatTypeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dietTypeDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn originCountryDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn speciesTypeDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn motherDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn fatherDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource animalDetailsBindingSource;
@@ -446,7 +475,18 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.MaskedTextBox mskTxtWeight;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.MaskedTextBox mskTxtMother;
-        private System.Windows.Forms.MaskedTextBox mskTxtFather;
+        private System.Windows.Forms.Button btnPrevMenu;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn weightDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn habitatTypeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dietTypeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn originCountryDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn speciesTypeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn parent1DataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn parent2DataGridViewTextBoxColumn;
+        private System.Windows.Forms.ComboBox cmbParent2;
+        private System.Windows.Forms.ComboBox cmbParent1;
+        private System.Windows.Forms.Button btnClear;
     }
 }

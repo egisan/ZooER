@@ -41,8 +41,8 @@
             this.parent2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.animalDetailsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.cmbHabitat = new System.Windows.Forms.ComboBox();
-            this.habitatBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.habitatBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.habitatBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.cmbSpecies = new System.Windows.Forms.ComboBox();
             this.speciesBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.cmbDiet = new System.Windows.Forms.ComboBox();
@@ -69,8 +69,8 @@
             this.btnClear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridVedit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.animalDetailsBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.habitatBindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.habitatBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.habitatBindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.speciesBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dietBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -94,7 +94,7 @@
             this.dataGridVedit.Name = "dataGridVedit";
             this.dataGridVedit.Size = new System.Drawing.Size(944, 223);
             this.dataGridVedit.TabIndex = 0;
-            this.dataGridVedit.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridVedit_CellContentClick);
+            this.dataGridVedit.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridVedit_CellClick);
             this.dataGridVedit.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridVedit_RowHeaderMouseClick);
             // 
             // idDataGridViewTextBoxColumn
@@ -157,7 +157,7 @@
             // 
             // cmbHabitat
             // 
-            this.cmbHabitat.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.habitatBindingSource1, "Name", true));
+            this.cmbHabitat.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.habitatBindingSource, "Name", true));
             this.cmbHabitat.DataSource = this.habitatBindingSource;
             this.cmbHabitat.DisplayMember = "Name";
             this.cmbHabitat.FormattingEnabled = true;
@@ -167,13 +167,13 @@
             this.cmbHabitat.TabIndex = 1;
             this.cmbHabitat.ValueMember = "Name";
             // 
-            // habitatBindingSource1
-            // 
-            this.habitatBindingSource1.DataSource = typeof(ZooER.Models.Habitat);
-            // 
             // habitatBindingSource
             // 
             this.habitatBindingSource.DataSource = typeof(ZooER.Models.Habitat);
+            // 
+            // habitatBindingSource1
+            // 
+            this.habitatBindingSource1.DataSource = typeof(ZooER.Models.Habitat);
             // 
             // cmbSpecies
             // 
@@ -186,6 +186,7 @@
             this.cmbSpecies.Size = new System.Drawing.Size(121, 21);
             this.cmbSpecies.TabIndex = 2;
             this.cmbSpecies.ValueMember = "Name";
+            this.cmbSpecies.TextChanged += new System.EventHandler(this.cmbSpecies_TextChanged);
             // 
             // speciesBindingSource
             // 
@@ -213,6 +214,7 @@
             this.mskTxtAnimal.Name = "mskTxtAnimal";
             this.mskTxtAnimal.Size = new System.Drawing.Size(100, 20);
             this.mskTxtAnimal.TabIndex = 4;
+            this.mskTxtAnimal.TextChanged += new System.EventHandler(this.mskTxtAnimal_TextChanged);
             // 
             // btnSave
             // 
@@ -332,6 +334,7 @@
             this.cmbOrigin.Size = new System.Drawing.Size(121, 21);
             this.cmbOrigin.TabIndex = 16;
             this.cmbOrigin.ValueMember = "Name";
+            this.cmbOrigin.TextChanged += new System.EventHandler(this.cmbOrigin_TextChanged);
             // 
             // label9
             // 
@@ -349,6 +352,7 @@
             this.mskTxtWeight.Name = "mskTxtWeight";
             this.mskTxtWeight.Size = new System.Drawing.Size(121, 20);
             this.mskTxtWeight.TabIndex = 20;
+            this.mskTxtWeight.TextChanged += new System.EventHandler(this.mskTxtWeight_TextChanged);
             // 
             // label10
             // 
@@ -381,6 +385,7 @@
             this.cmbParent2.Size = new System.Drawing.Size(121, 21);
             this.cmbParent2.TabIndex = 25;
             this.cmbParent2.ValueMember = "Name";
+            this.cmbParent2.TextChanged += new System.EventHandler(this.cmbParent2_TextChanged);
             // 
             // cmbParent1
             // 
@@ -393,6 +398,7 @@
             this.cmbParent1.Size = new System.Drawing.Size(121, 21);
             this.cmbParent1.TabIndex = 26;
             this.cmbParent1.ValueMember = "Name";
+            this.cmbParent1.TextChanged += new System.EventHandler(this.cmbParent1_TextChanged);
             // 
             // btnClear
             // 
@@ -437,8 +443,8 @@
             this.Text = "Animals Management";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridVedit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.animalDetailsBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.habitatBindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.habitatBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.habitatBindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.speciesBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dietBindingSource)).EndInit();
             this.ResumeLayout(false);

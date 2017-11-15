@@ -20,7 +20,20 @@ namespace ZooER
 
         // variable used in Updating and Deleting Record  
         int lastSelectedRow = 0;
+
+
         int SelectedAnimalID = -1; // Initialize the ID (out of range!)
+
+        // Used to detect changed in the textboxes/combos
+        bool animalNameChgd;
+        bool habitatChgd;
+        bool speciesChgd;
+        bool dietChgd;
+        bool weightChgd;
+        bool originChgd;
+        bool parent1Chgd;
+        bool parent2Chgd;
+
 
 
         public EditPanel()
@@ -32,15 +45,107 @@ namespace ZooER
             //dataGridVedit.DataSource = showAll;
         }
 
+        private void SetComboBoxProperties()
+        {
+            // Habitat and Diets are not changeable by user
+            cmbHabitat.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbDiet.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            // Perhaps this should be editable !!
+            cmbSpecies.DropDownStyle = ComboBoxStyle.DropDownList;
+            //cmbSpecies.Properties.TextEditStyle = DisableTextEditor;
+
+
+        }
+
+
         public void LoadCurrentZoo()
         {
             service = new Utility();
             dataGridVedit.DataSource = service.GetAnimalDetails();
+
+            SetComboBoxProperties();
+            FillComboBoxes();
         }
+
+
+        private void FillComboBoxes()
+        {
+            FillSpeciesCombo();
+            FillHabitatCombo();
+            FillDietCombo();
+            FillOrigin();
+            //FillParent1();
+            //FillParent2();
+
+        }
+
+        private void FillOrigin()
+        {
+            using (var db = new ZooContext())
+            {
+                cmbOrigin.DataSource = db.Origins.ToList();
+                cmbOrigin.ValueMember = "OriginId";
+                cmbOrigin.DisplayMember = "Name";
+
+                // Default value
+                cmbOrigin.SelectedIndex = -1;
+                cmbOrigin.Text = "Select an item";
+            }
+        }
+
+        private void FillDietCombo()
+        {
+            using (var db = new ZooContext())
+            {
+                // db.Diets.Add(0, new Diet() { DietId = 0, Name = "Select a sector." });
+
+
+                cmbDiet.DataSource = db.Diets.ToList();
+                cmbDiet.ValueMember = "DietId";
+                cmbDiet.DisplayMember = "Name";
+
+                // Default value
+
+                //cmbDiet.SelectedIndex = -1;
+                //cmbDiet.Text = "Select an item";
+            }
+        }
+
+        private void FillHabitatCombo()
+        {
+            using (var db = new ZooContext())
+            {
+                cmbHabitat.DataSource = db.Habitats.ToList();
+                cmbHabitat.ValueMember = "HabitatId";
+                cmbHabitat.DisplayMember = "Name";
+
+                // Default value
+                //cmbHabitat.SelectedIndex = -1;
+                //cmbHabitat.Text = "Select an item";
+
+
+            }
+        }
+
+        private void FillSpeciesCombo()
+        {
+            using (var db = new ZooContext())
+            {
+                cmbSpecies.DataSource = db.Species.ToList();
+                cmbSpecies.ValueMember = "SpeciesId";
+                cmbSpecies.DisplayMember = "Name";
+
+                // Default value
+                cmbSpecies.SelectedIndex = -1;
+                cmbSpecies.Text = "Select an item";
+            }
+        }
+
 
         private void ClearData()
         {
-            //nameChgd = addrChgd = typChgd = postcChgd = cityChgd = phoneChgd = emailChgd = false;
+            animalNameChgd = habitatChgd = speciesChgd = dietChgd = weightChgd = originChgd = parent1Chgd = parent2Chgd = false;
 
             mskTxtAnimal.Text = "";
 
@@ -82,99 +187,135 @@ namespace ZooER
         }
 
 
-        // Click on one Cell in the DattaGrid
-        private void dataGridVedit_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
 
+
+        private void UpdateCombosWithDataGridSelection(int selectedAnimalID, int rowIndex)
+        {
+            // Animal Name
+            mskTxtAnimal.Text = dataGridVedit.Rows[rowIndex].Cells[1].Value.ToString();
+
+            // Weight
+            mskTxtWeight.Text = dataGridVedit.Rows[rowIndex].Cells[2].Value.ToString();
+
+            // Species
+            using (var db = new ZooContext())
+            {
+                // retrieve animalId from the datagrid and find attached Habitat value!
+                var species = db.Animals.Where(c => c.AnimalId == selectedAnimalID).SingleOrDefault();
+                cmbSpecies.SelectedValue = species.SpeciesId;
+            }
+
+            // Habitat
+            using (var db = new ZooContext())
+            {
+                // retrieve animalId from the datagrid and find attached Habitat value!
+                var habitat = db.Animals.Where(c => c.AnimalId == selectedAnimalID).SingleOrDefault();
+                cmbHabitat.SelectedValue = habitat.HabitatId;
+            }
+
+            // Diet
+            using (var db = new ZooContext())
+            {
+                // retrieve animalId from the datagrid and find attached Habitat value!
+                var diet = db.Animals.Where(c => c.AnimalId == selectedAnimalID).SingleOrDefault();
+                cmbDiet.SelectedValue = diet.DietId;
+            }
+
+            // Origin
+            using (var db = new ZooContext())
+            {
+                // retrieve animalId from the datagrid and find attached Habitat value!
+                var origin = db.Animals.Where(c => c.AnimalId == selectedAnimalID).SingleOrDefault();
+                cmbOrigin.SelectedValue = origin.OriginId;
+            }
+
+            // Parent 1
+            using (var db = new ZooContext())
+            {
+                // retrieve animalId from the datagrid and find attached Habitat value!
+                var par1 = db.Animals.Where(c => c.AnimalId == selectedAnimalID).SingleOrDefault();
+                cmbParent1.SelectedValue = par1.OriginId;
+            }
+
+            // Parent 2
+            using (var db = new ZooContext())
+            {
+                // retrieve animalId from the datagrid and find attached Habitat value!
+                var par2 = db.Animals.Where(c => c.AnimalId == selectedAnimalID).SingleOrDefault();
+                cmbParent2.SelectedValue = par2.OriginId;
+            }
+
+            // Alternative way:
+            // cmbParent2.SelectedIndex = cmbParent2.Items.IndexOf(gridViewRUD.Rows[e.RowIndex].Cells[8].Value.ToString().Trim());
+        }
+
+
+        // Click on one Cell in the DattaGrid
+        private void dataGridVedit_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
             // I need to save here the current "Animal information" before an "update/Delete"
             // is performed
 
             if (e.RowIndex >= 0)
             {
-                // TO BE REMOVED ??
+                // I need to retrieve here the ID in 'Animals' table that need to be updated/deleted in the DB
+                //SelectedAnimalID = RetrieveSelectedAnimalID();
+                SelectedAnimalID = (int)dataGridVedit.Rows[e.RowIndex].Cells[0].Value;
 
                 lastSelectedRow = e.RowIndex;
                 // lastSelectedColumn = e.ColumnIndex;
 
-                // Animal Name
-                mskTxtAnimal.Text = dataGridVedit.Rows[e.RowIndex].Cells[1].Value.ToString();
-
-                // Species
-                cmbSpecies.SelectedItem = dataGridVedit.Rows[e.RowIndex].Cells[6].Value.ToString();
-
-                // Habitat
-                cmbHabitat.SelectedItem = dataGridVedit.Rows[e.RowIndex].Cells[3].Value.ToString();
-
-                // Diet
-                cmbDiet.SelectedItem = dataGridVedit.Rows[e.RowIndex].Cells[4].Value.ToString();
-
-                // Weight
-                mskTxtWeight.Text = dataGridVedit.Rows[e.RowIndex].Cells[2].Value.ToString();
-
-                // Origin
-                cmbOrigin.SelectedItem = dataGridVedit.Rows[e.RowIndex].Cells[5].Value.ToString();
-
-                // Parent 1
-                cmbParent1.SelectedItem = dataGridVedit.Rows[e.RowIndex].Cells[7].Value.ToString();
-
-                // Parent 2
-                cmbParent2.SelectedItem = dataGridVedit.Rows[e.RowIndex].Cells[8].Value.ToString();
-
-                // Alternative way:
-                // cmbParent2.SelectedIndex = cmbParent2.Items.IndexOf(gridViewRUD.Rows[e.RowIndex].Cells[8].Value.ToString().Trim());
-
-
-                // I need to retrieve here the ID in 'Animals' table that need to be updated/deleted in the DB
-                //SelectedAnimalID = RetrieveSelectedAnimalID();
-                SelectedAnimalID = (int)dataGridVedit.Rows[e.RowIndex].Cells[0].Value;
+                UpdateCombosWithDataGridSelection(SelectedAnimalID, e.RowIndex);
             }
-
         }
 
 
         // Select a row in the DataGrid
         private void dataGridVedit_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-
             if (e.RowIndex >= 0)
             {
-                // TO BE REMOVED ??
+                // I need to retrieve here the ID in 'Animals' table that need to be updated/deleted in the DB
+                //SelectedAnimalID = RetrieveSelectedAnimalID();
+                SelectedAnimalID = (int)dataGridVedit.Rows[e.RowIndex].Cells[0].Value;
 
                 lastSelectedRow = e.RowIndex;
                 // lastSelectedColumn = e.ColumnIndex;
 
-                // Animal Name
-                mskTxtAnimal.Text = dataGridVedit.Rows[e.RowIndex].Cells[1].Value.ToString();
-
-                // Species
-                cmbSpecies.SelectedItem = dataGridVedit.Rows[e.RowIndex].Cells[6].Value.ToString();
-
-                // Habitat
-                cmbHabitat.SelectedItem = dataGridVedit.Rows[e.RowIndex].Cells[3].Value.ToString();
-
-                // Diet
-                cmbDiet.SelectedItem = dataGridVedit.Rows[e.RowIndex].Cells[4].Value.ToString();
-
-                // Weight
-                mskTxtWeight.Text = dataGridVedit.Rows[e.RowIndex].Cells[2].Value.ToString();
-
-                // Origin
-                cmbOrigin.SelectedItem = dataGridVedit.Rows[e.RowIndex].Cells[5].Value.ToString();
-
-                // Parent 1
-                cmbParent1.SelectedItem = dataGridVedit.Rows[e.RowIndex].Cells[7].Value.ToString();
-
-                // Parent 2
-                cmbParent2.SelectedItem = dataGridVedit.Rows[e.RowIndex].Cells[8].Value.ToString();
-
-                // Alternative way:
-                // cmbParent2.SelectedIndex = cmbParent2.Items.IndexOf(gridViewRUD.Rows[e.RowIndex].Cells[8].Value.ToString().Trim());
-
-
-                // I need to retrieve here the ID in 'Animals' table that need to be updated/deleted in the DB
-                //SelectedAnimalID = RetrieveSelectedAnimalID();
-                SelectedAnimalID = (int)dataGridVedit.Rows[e.RowIndex].Cells[0].Value;
+                UpdateCombosWithDataGridSelection(SelectedAnimalID, e.RowIndex);
             }
+        }
+
+
+
+        private void mskTxtAnimal_TextChanged(object sender, EventArgs e)
+        {
+            animalNameChgd = true;
+        }
+
+        private void cmbSpecies_TextChanged(object sender, EventArgs e)
+        {
+            speciesChgd = true;
+        }
+
+        private void mskTxtWeight_TextChanged(object sender, EventArgs e)
+        {
+            weightChgd = true;
+        }
+
+        private void cmbOrigin_TextChanged(object sender, EventArgs e)
+        {
+            originChgd = true;
+        }
+
+        private void cmbParent1_TextChanged(object sender, EventArgs e)
+        {
+            parent1Chgd = true;
+        }
+
+        private void cmbParent2_TextChanged(object sender, EventArgs e)
+        {
+            parent2Chgd = true;
         }
 
 
@@ -182,5 +323,6 @@ namespace ZooER
 
 
 
+        // END OF EditPanel()
     }
 }

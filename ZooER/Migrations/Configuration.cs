@@ -15,14 +15,16 @@ namespace ZooER.Migrations
             AutomaticMigrationsEnabled = false;
             ContextKey = "ZooER.DAL.ZooContext";
 
-            if (System.Diagnostics.Debugger.IsAttached == false)
-            {
-                System.Diagnostics.Debugger.Launch();
-            }
+            // THIS CODE IS FOR DEBUGGING
+
+            //if (System.Diagnostics.Debugger.IsAttached == false)
+            //{
+            //    System.Diagnostics.Debugger.Launch();
+            //}
         }
 
 
-        public ZooContext context { get; set; }
+        // public ZooContext context { get; set; }
 
 
         protected override void Seed(ZooContext context)
@@ -34,28 +36,6 @@ namespace ZooER.Migrations
 
             // Add first the Entities on the "one" side
 
-
-            this.context = context;
-
-            AddAnimalEntities();
-
-            // Update the DB and Assign the IDs to each entity!
-            // context.SaveChanges();
-
-            // AddAnimals();
-            // context.SaveChanges();
-
-            // AddDiagnosis();
-            // AddVets();
-            //   AddDrugs();
-            // AddVisits();
-
-        }
-
-        // Method that Adds all the sorrounding Entities to Animal
-        //
-        private void AddAnimalEntities()
-        {
 
             // -------------------------------------------
             // All Entities around Animal
@@ -88,7 +68,7 @@ namespace ZooER.Migrations
             };
             // species.ForEach(s => context.Species.Add(s));
             context.Species.AddOrUpdate(x => x.Name, species);
-            context.SaveChanges();
+          //  context.SaveChanges();
 
 
             // Diets table
@@ -99,7 +79,7 @@ namespace ZooER.Migrations
             };
             // diets.ForEach(s => context.Diets.Add(s));
             context.Diets.AddOrUpdate(x => x.Name, diets);
-            context.SaveChanges();
+          //  context.SaveChanges();
 
             // Origins Table
             var origins = new Origin[]
@@ -114,7 +94,7 @@ namespace ZooER.Migrations
             };
             // origins.ForEach(s => context.Origins.Add(s));
             context.Origins.AddOrUpdate(x => x.Name, origins);
-            context.SaveChanges();
+           // context.SaveChanges();
 
 
             // -------------------------------------------
@@ -131,7 +111,7 @@ namespace ZooER.Migrations
             };
             // Add the collection in the Context and then save in the DB
             context.Diagnoses.AddOrUpdate(x => x.Description, diagnoses);
-            context.SaveChanges();
+          //  context.SaveChanges();
 
             // Vets Table
             var veterinaries = new Veterinary[]
@@ -142,7 +122,7 @@ namespace ZooER.Migrations
                             new Veterinary { Name = "Helena Lindeberg" }
             };
             context.Veterinaries.AddOrUpdate(x => x.Name, veterinaries);
-            context.SaveChanges();
+          //  context.SaveChanges();
 
             // Drugs Table
             var drugs = new Drug[]
@@ -153,6 +133,7 @@ namespace ZooER.Migrations
                             new Drug { Name = "Drug 4" }
             };
             context.Drugs.AddOrUpdate(x => x.Name, drugs);
+
             context.SaveChanges();
 
 
@@ -245,28 +226,10 @@ namespace ZooER.Migrations
             animals[2].IsParentOf.Add(animals[1]);
             animals[2].IsParentOf.Add(animals[3]);
 
-            // Link Animals to visits!
-
-            // Finally I link Visits to Animals!! and SAVE in DB
-            //var visit1 = context.Visits.Where(c => c.VisitId == 1).SingleOrDefault();
-            //visit1.Animal = animals[0];
-
-            //var visit2 = context.Visits.Where(c => c.VisitId == 2).SingleOrDefault();
-            //visit1.Animal = animals[1];
-
-            //var visit3 = context.Visits.Where(c => c.VisitId == 3).SingleOrDefault();
-            //visit1.Animal = animals[2];
-
+            // Add the Animals & Visits to the Context & Save to DB
             context.Animals.AddOrUpdate(x => x.Name, animals);
             context.Visits.AddOrUpdate(x => x.Start, visits);
             context.SaveChanges();
-
-
-
-            context.SaveChanges();
-
-
-
         }
     }
 }

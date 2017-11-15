@@ -22,11 +22,7 @@ namespace ZooER.Migrations
             //    System.Diagnostics.Debugger.Launch();
             //}
         }
-
-
-        // public ZooContext context { get; set; }
-
-
+        
         protected override void Seed(ZooContext context)
         {
             //  This method will be called after migrating to the latest version.

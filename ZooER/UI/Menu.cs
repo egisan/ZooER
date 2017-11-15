@@ -20,6 +20,7 @@ namespace ZooER
         public Menu()
         {
             InitializeComponent();
+            CreateDesignModel();
         }
 
         // Derive the model from the context!
@@ -39,122 +40,29 @@ namespace ZooER
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnEdit_Click(object sender, EventArgs e)
         {
-            CreateDesignModel();
 
-            using (var db = new ZooContext())
-            {
-
-
-                // Create and save a new Blog 
-
-
-                //Animal dog = new Animal { Name = "Dog", Weight = 12.5 , IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>()};
-                //Animal cat = new Animal { Name = "Cat", Weight = 1.0, IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>() };
-                //Animal horse = new Animal { Name = "Horse", Weight = 122.5, IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>() };
-                //Animal eagle = new Animal { Name = "Eagle", Weight = 2.5, IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>() };
-                //Animal wale = new Animal { Name = "Wale", Weight = 440.9, IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>() };
-
-                // HabitatId = 1, SpeciesId = 2, DietId = 0, OriginId = 3,
-                // HabitatId = 0, SpeciesId = 1, DietId = 1, OriginId = 4,
-
-                Animal eagle1 = new Animal { Name = "Eagle1", Weight = 2.5, IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>() };
-                Animal wale1 = new Animal { Name = "Wale1", Weight = 440.9,  IsParentOf = new List<Animal>(), IsChildOf = new List<Animal>() };
-
-                // Devo prima linkare Diet, Haabitats, ecc. all' animal e poi salvare nel DB
-                // 
-                eagle1.IsChildOf.Add(wale1);
-
-                //horse.IsChildOf.Add(dog);
-                //horse.IsParentOf.Add(wale);
-                //dog.IsParentOf.Add(cat);
-
-                db.Animals.Add(eagle1);
-                db.Animals.Add(wale1);
-
-                // Linking FROM the Parent side !!! 
-                var dietEagle1 = db.Diets.Where(c => c.Name == "Carnivor").SingleOrDefault();
-                dietEagle1.Animals.Add(eagle1);
-
-                var origEagle1 = db.Origins.Where(c => c.Name == "Europe").SingleOrDefault();
-                origEagle1.Animals.Add(eagle1);
-
-                var habEagle1 = db.Habitats.Where(c => c.Name == "Ground").SingleOrDefault();
-                habEagle1.Animals.Add(eagle1);
-
-                var specEagle1 = db.Species.Where(c => c.Name == "Birds").SingleOrDefault();
-                specEagle1.Animals.Add(eagle1);
-
-
-                // For wale1
-                var dietWale1 = db.Diets.Where(c => c.Name == "Carnivor").SingleOrDefault();
-                dietWale1.Animals.Add(wale1);
-
-                var origWale1 = db.Origins.Where(c => c.Name == "South America").SingleOrDefault();
-                origWale1.Animals.Add(wale1);
-
-                var habWale1 = db.Habitats.Where(c => c.Name == "Sea").SingleOrDefault();
-                habWale1.Animals.Add(wale1);
-
-                var specWale1 = db.Species.Where(c => c.Name == "Mammals").SingleOrDefault();
-                specWale1.Animals.Add(wale1);
-
-                var visit1 = new Visit { Start = DateTime.Now, Drugs = new List<Drug>() };
-
-                var visit2 = new Visit { Start = DateTime.Now };
-
-                var drug1 = new Drug { Name = "drug1", Visits = new List<Visit>() };
-                var drug2 = new Drug { Name = "drug2", Visits = new List<Visit>() };
-                var drug3 = new Drug { Name = "drug3", Visits = new List<Visit>() };
-
-                drug3.Visits.Add(visit2);
-
-                visit1.Drugs.Add(drug1);
-                visit1.Drugs.Add(drug2);
-                visit1.Drugs.Add(drug3);
-
-                Animal dogPappa = new Animal { Name = "DogPappa", Weight = 20.0 };
-
-
-
-                // define the RELATIONS Parent - Child
-                //var rel1 = new ChildParent();
-                //rel1.Parent = db.Animals.Where(c => c.Name == "Horse").FirstOrDefault();
-                //rel1.Child = db.Animals.Where(c => c.Name == "Eagle").FirstOrDefault(); ;
-
-                //var rel2 = new ChildParent();
-                //rel2.Parent = db.Animals.Where(c => c.Name == "Horse").FirstOrDefault();
-                //rel2.Child = db.Animals.Where(c => c.Name == "Wale").FirstOrDefault(); 
-
-                //var rel3 = new ChildParent();
-                //rel3.Parent = db.Animals.Where(c => c.Name == "Dog").FirstOrDefault();
-                //rel3.Child = db.Animals.Where(c => c.Name == "Horse").FirstOrDefault();
-
-                //var rel4 = new ChildParent();
-                //rel4.Parent = db.Animals.Where(c => c.Name == "Dog").FirstOrDefault();
-                //rel4.Child = db.Animals.Where(c => c.Name == "Cat").FirstOrDefault();
-                //// Add the relations to the LINK table and...
-                //// Also the Animals table will be updated automatically
-                //db.ChildrenParents.Add(rel1);
-                //db.ChildrenParents.Add(rel2);
-                //db.ChildrenParents.Add(rel3);
-                //db.ChildrenParents.Add(rel4);
-
-                //// Removing Dog as parent of horse ==> removing the relation 'IsChildOf'
-                db.SaveChanges();
-
-                //// Display all Blogs from the database 
-                var query = db.Animals.Select(c => c);
-
-
-                var animalList = new BindingList<Animal>(query.ToList());
-                dataGridView1.DataSource = animalList;
-            }
+            Form frm = new EditPanel();
+            frm.Show();
         }
 
 
+        private void btnQuit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
 
+        private void btnBook_Click(object sender, EventArgs e)
+        {
+            Form frm = new BookingPanel();
+            frm.Show();
+        }
 
+        private void btnCancelBook_Click(object sender, EventArgs e)
+        {
+            Form frm = new CancelBookingPanel();
+            frm.Show();
+        }
     }
 }

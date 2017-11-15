@@ -13,10 +13,10 @@ namespace ZooER.Models
         public int VisitId { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime Start { get; set; }
 
-        [DisplayFormat(NullDisplayText = "END Date not set")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm:ss}", NullDisplayText = "END Date not set", ApplyFormatInEditMode = true)]
         public DateTime? End { get; set; }
 
         // Nav

@@ -59,6 +59,10 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711150128380_newSeed.cs" />
+    <Compile Include="Migrations\201711150128380_newSeed.Designer.cs">
+      <DependentUpon>201711150128380_newSeed.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -84,6 +88,9 @@
     <Compile Include="ViewModels\AnimalDetails.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711150128380_newSeed.resx">
+      <DependentUpon>201711150128380_newSeed.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

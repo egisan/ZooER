@@ -636,14 +636,14 @@
     <Diagrams >
       <Diagram DiagramId="e1f1da8ef0be4932b3f77c4fa1405089" Name="Diagram1">
         <EntityTypeShape EntityType="ZooER.DAL.Animal" Width="1.5" PointX="6.875" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ZooER.DAL.Diet" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ZooER.DAL.Habitat" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ZooER.DAL.Origin" Width="1.5" PointX="3" PointY="11.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ZooER.DAL.Species" Width="1.5" PointX="9.75" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ZooER.DAL.Visit" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ZooER.DAL.Diagnosis" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ZooER.DAL.Drug" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ZooER.DAL.Veterinary" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZooER.DAL.Diet" Width="1.5" PointX="10.5" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZooER.DAL.Habitat" Width="1.5" PointX="6.875" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZooER.DAL.Origin" Width="1.5" PointX="3.625" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZooER.DAL.Species" Width="1.5" PointX="10.625" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZooER.DAL.Visit" Width="1.5" PointX="3.75" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZooER.DAL.Diagnosis" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZooER.DAL.Drug" Width="1.5" PointX="3.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZooER.DAL.Veterinary" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
         <AssociationConnector Association="ZooER.DAL.Diet_Animals" ManuallyRouted="false" />
         <AssociationConnector Association="ZooER.DAL.Habitat_Animals" ManuallyRouted="false" />
         <AssociationConnector Association="ZooER.DAL.Animal_IsChildOf" ManuallyRouted="false" />

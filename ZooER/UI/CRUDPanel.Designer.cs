@@ -30,22 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dataGridVedit = new System.Windows.Forms.DataGridView();
-            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.weightDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.habitatTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dietTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.originCountryDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.speciesTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.parent1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.parent2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.animalDetailsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.cmbHabitat = new System.Windows.Forms.ComboBox();
-            this.habitatBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.cmbSpecies = new System.Windows.Forms.ComboBox();
-            this.speciesBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.cmbDiet = new System.Windows.Forms.ComboBox();
-            this.dietBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.mskTxtAnimal = new System.Windows.Forms.MaskedTextBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
@@ -68,18 +55,34 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.mskTxtNoRec = new System.Windows.Forms.MaskedTextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.habitatBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.btnUpd = new System.Windows.Forms.Button();
+            this.dietBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.speciesBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.habitatBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.weightDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.habitatTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dietTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.originCountryDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.speciesTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.parent1DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.parent2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.animalDetailsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.habitatBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridVedit)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.animalDetailsBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.habitatBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.speciesBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dietBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.speciesBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.habitatBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.animalDetailsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.habitatBindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridVedit
             // 
+            this.dataGridVedit.AllowUserToAddRows = false;
+            this.dataGridVedit.AllowUserToDeleteRows = false;
+            this.dataGridVedit.AllowUserToOrderColumns = true;
             this.dataGridVedit.AutoGenerateColumns = false;
             this.dataGridVedit.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridVedit.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -95,68 +98,11 @@
             this.dataGridVedit.DataSource = this.animalDetailsBindingSource;
             this.dataGridVedit.Location = new System.Drawing.Point(29, 266);
             this.dataGridVedit.Name = "dataGridVedit";
+            this.dataGridVedit.ReadOnly = true;
             this.dataGridVedit.Size = new System.Drawing.Size(944, 223);
             this.dataGridVedit.TabIndex = 0;
             this.dataGridVedit.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridVedit_CellClick);
             this.dataGridVedit.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridVedit_RowHeaderMouseClick);
-            // 
-            // idDataGridViewTextBoxColumn
-            // 
-            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
-            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            // 
-            // nameDataGridViewTextBoxColumn
-            // 
-            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            // 
-            // weightDataGridViewTextBoxColumn
-            // 
-            this.weightDataGridViewTextBoxColumn.DataPropertyName = "Weight";
-            this.weightDataGridViewTextBoxColumn.HeaderText = "Weight";
-            this.weightDataGridViewTextBoxColumn.Name = "weightDataGridViewTextBoxColumn";
-            // 
-            // habitatTypeDataGridViewTextBoxColumn
-            // 
-            this.habitatTypeDataGridViewTextBoxColumn.DataPropertyName = "HabitatType";
-            this.habitatTypeDataGridViewTextBoxColumn.HeaderText = "Habitat";
-            this.habitatTypeDataGridViewTextBoxColumn.Name = "habitatTypeDataGridViewTextBoxColumn";
-            // 
-            // dietTypeDataGridViewTextBoxColumn
-            // 
-            this.dietTypeDataGridViewTextBoxColumn.DataPropertyName = "DietType";
-            this.dietTypeDataGridViewTextBoxColumn.HeaderText = "Diet";
-            this.dietTypeDataGridViewTextBoxColumn.Name = "dietTypeDataGridViewTextBoxColumn";
-            // 
-            // originCountryDataGridViewTextBoxColumn
-            // 
-            this.originCountryDataGridViewTextBoxColumn.DataPropertyName = "OriginCountry";
-            this.originCountryDataGridViewTextBoxColumn.HeaderText = "Origin";
-            this.originCountryDataGridViewTextBoxColumn.Name = "originCountryDataGridViewTextBoxColumn";
-            // 
-            // speciesTypeDataGridViewTextBoxColumn
-            // 
-            this.speciesTypeDataGridViewTextBoxColumn.DataPropertyName = "SpeciesType";
-            this.speciesTypeDataGridViewTextBoxColumn.HeaderText = "Species";
-            this.speciesTypeDataGridViewTextBoxColumn.Name = "speciesTypeDataGridViewTextBoxColumn";
-            // 
-            // parent1DataGridViewTextBoxColumn
-            // 
-            this.parent1DataGridViewTextBoxColumn.DataPropertyName = "Parent1";
-            this.parent1DataGridViewTextBoxColumn.HeaderText = "Parent 1";
-            this.parent1DataGridViewTextBoxColumn.Name = "parent1DataGridViewTextBoxColumn";
-            // 
-            // parent2DataGridViewTextBoxColumn
-            // 
-            this.parent2DataGridViewTextBoxColumn.DataPropertyName = "Parent2";
-            this.parent2DataGridViewTextBoxColumn.HeaderText = "Parent 2";
-            this.parent2DataGridViewTextBoxColumn.Name = "parent2DataGridViewTextBoxColumn";
-            // 
-            // animalDetailsBindingSource
-            // 
-            this.animalDetailsBindingSource.DataSource = typeof(ZooER.ViewModels.AnimalDetails);
             // 
             // cmbHabitat
             // 
@@ -169,10 +115,6 @@
             this.cmbHabitat.TabIndex = 1;
             this.cmbHabitat.TextChanged += new System.EventHandler(this.cmbHabitat_TextChanged);
             // 
-            // habitatBindingSource
-            // 
-            this.habitatBindingSource.DataSource = typeof(ZooER.Models.Habitat);
-            // 
             // cmbSpecies
             // 
             this.cmbSpecies.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.speciesBindingSource, "Name", true));
@@ -184,10 +126,6 @@
             this.cmbSpecies.TabIndex = 2;
             this.cmbSpecies.TextChanged += new System.EventHandler(this.cmbSpecies_TextChanged);
             // 
-            // speciesBindingSource
-            // 
-            this.speciesBindingSource.DataSource = typeof(ZooER.Models.Species);
-            // 
             // cmbDiet
             // 
             this.cmbDiet.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.dietBindingSource, "Name", true));
@@ -198,10 +136,6 @@
             this.cmbDiet.Size = new System.Drawing.Size(121, 21);
             this.cmbDiet.TabIndex = 3;
             this.cmbDiet.TextChanged += new System.EventHandler(this.cmbDiet_TextChanged);
-            // 
-            // dietBindingSource
-            // 
-            this.dietBindingSource.DataSource = typeof(ZooER.Models.Diet);
             // 
             // mskTxtAnimal
             // 
@@ -422,10 +356,6 @@
             this.label11.TabIndex = 47;
             this.label11.Text = "Number of records:";
             // 
-            // habitatBindingSource1
-            // 
-            this.habitatBindingSource1.DataSource = typeof(ZooER.Models.Habitat);
-            // 
             // btnUpd
             // 
             this.btnUpd.Location = new System.Drawing.Point(884, 55);
@@ -435,6 +365,89 @@
             this.btnUpd.Text = "UPDATE";
             this.btnUpd.UseVisualStyleBackColor = true;
             this.btnUpd.Click += new System.EventHandler(this.update_Click);
+            // 
+            // dietBindingSource
+            // 
+            this.dietBindingSource.DataSource = typeof(ZooER.Models.Diet);
+            // 
+            // speciesBindingSource
+            // 
+            this.speciesBindingSource.DataSource = typeof(ZooER.Models.Species);
+            // 
+            // habitatBindingSource
+            // 
+            this.habitatBindingSource.DataSource = typeof(ZooER.Models.Habitat);
+            // 
+            // idDataGridViewTextBoxColumn
+            // 
+            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
+            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            this.idDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // weightDataGridViewTextBoxColumn
+            // 
+            this.weightDataGridViewTextBoxColumn.DataPropertyName = "Weight";
+            this.weightDataGridViewTextBoxColumn.HeaderText = "Weight";
+            this.weightDataGridViewTextBoxColumn.Name = "weightDataGridViewTextBoxColumn";
+            this.weightDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // habitatTypeDataGridViewTextBoxColumn
+            // 
+            this.habitatTypeDataGridViewTextBoxColumn.DataPropertyName = "HabitatType";
+            this.habitatTypeDataGridViewTextBoxColumn.HeaderText = "Habitat";
+            this.habitatTypeDataGridViewTextBoxColumn.Name = "habitatTypeDataGridViewTextBoxColumn";
+            this.habitatTypeDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // dietTypeDataGridViewTextBoxColumn
+            // 
+            this.dietTypeDataGridViewTextBoxColumn.DataPropertyName = "DietType";
+            this.dietTypeDataGridViewTextBoxColumn.HeaderText = "Diet";
+            this.dietTypeDataGridViewTextBoxColumn.Name = "dietTypeDataGridViewTextBoxColumn";
+            this.dietTypeDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // originCountryDataGridViewTextBoxColumn
+            // 
+            this.originCountryDataGridViewTextBoxColumn.DataPropertyName = "OriginCountry";
+            this.originCountryDataGridViewTextBoxColumn.HeaderText = "Origin";
+            this.originCountryDataGridViewTextBoxColumn.Name = "originCountryDataGridViewTextBoxColumn";
+            this.originCountryDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // speciesTypeDataGridViewTextBoxColumn
+            // 
+            this.speciesTypeDataGridViewTextBoxColumn.DataPropertyName = "SpeciesType";
+            this.speciesTypeDataGridViewTextBoxColumn.HeaderText = "Species";
+            this.speciesTypeDataGridViewTextBoxColumn.Name = "speciesTypeDataGridViewTextBoxColumn";
+            this.speciesTypeDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // parent1DataGridViewTextBoxColumn
+            // 
+            this.parent1DataGridViewTextBoxColumn.DataPropertyName = "Parent1";
+            this.parent1DataGridViewTextBoxColumn.HeaderText = "Parent 1";
+            this.parent1DataGridViewTextBoxColumn.Name = "parent1DataGridViewTextBoxColumn";
+            this.parent1DataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // parent2DataGridViewTextBoxColumn
+            // 
+            this.parent2DataGridViewTextBoxColumn.DataPropertyName = "Parent2";
+            this.parent2DataGridViewTextBoxColumn.HeaderText = "Parent 2";
+            this.parent2DataGridViewTextBoxColumn.Name = "parent2DataGridViewTextBoxColumn";
+            this.parent2DataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // animalDetailsBindingSource
+            // 
+            this.animalDetailsBindingSource.DataSource = typeof(ZooER.ViewModels.AnimalDetails);
+            // 
+            // habitatBindingSource1
+            // 
+            this.habitatBindingSource1.DataSource = typeof(ZooER.Models.Habitat);
             // 
             // EditPanel
             // 
@@ -471,10 +484,10 @@
             this.Name = "EditPanel";
             this.Text = "Animals Management";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridVedit)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.animalDetailsBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.habitatBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.speciesBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dietBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.speciesBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.habitatBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.animalDetailsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.habitatBindingSource1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

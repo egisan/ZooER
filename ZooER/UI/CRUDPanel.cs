@@ -398,7 +398,8 @@ namespace ZooER
         // *************************
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (animalNameChgd || speciesChgd || habitatChgd || dietChgd || weightChgd || originChgd || parent1Chgd || parent2Chgd)
+            if (mskTxtAnimal.Text != "" && cmbHabitat.SelectedIndex != 0 && cmbSpecies.SelectedIndex != 0 && cmbDiet.SelectedIndex != 0 &&
+                mskTxtWeight.Text != "")
             {
                 using (var db = new ZooContext())
                 {
@@ -553,31 +554,7 @@ namespace ZooER
                 MessageBox.Show("Nothing to Save");
             }
         }
-
-
-        // ********************************************************
-        // Edit/Update/insert METHOD
-        //
-        // *******************************************************
-        //private void EditAnimalData()
-        //{
-        //    // Check that all fields are inserted
-        //    if (maskedTxtName.Text == "" || cmbCType.SelectedItem.ToString() == "" ||
-        //        maskedTxtAddress.Text == "" || maskedTxtPostCode.Text == "" || maskedTxtCity.Text == "" ||
-        //        maskedTxtPhone.Text == "" || maskedTxtEmail.Text == "")
-        //    {
-        //        MessageBox.Show("Please fill all fields");
-        //    }
-
-
-
-
-
-        //    // End method EDIT
-        //}
-
-
-
+        
 
 
         // ********************************************************
@@ -809,7 +786,8 @@ namespace ZooER
         // *************************
         private void update_Click(object sender, EventArgs e)
         {
-            if (animalNameChgd || speciesChgd || habitatChgd || dietChgd || weightChgd || originChgd || parent1Chgd || parent2Chgd)
+            if ( mskTxtAnimal.Text != "" && cmbHabitat.SelectedIndex != 0 && cmbSpecies.SelectedIndex != 0 && cmbDiet.SelectedIndex != 0 &&
+                mskTxtWeight.Text != "")
             {
                 // at least one field has been changed before pressin SAVE
                 // Need to check:
@@ -823,11 +801,31 @@ namespace ZooER
 
                     //Check against DB
 
-                    var animalReadyExist = db.Animals.Any(c => c.Name == mskTxtAnimal.Text && c.Weight == Convert.ToDouble(mskTxtWeight.Text) &&
+                    var temp = Convert.ToDouble(mskTxtWeight.Text);
+
+                    var animalReadyExist = db.Animals.Where(c => c.Name == mskTxtAnimal.Text && c.Weight == temp &&
                                                   c.Habitat.Name == cmbHabitat.SelectedItem.ToString() &&
                                                   c.Species.Name == cmbSpecies.SelectedItem.ToString() &&
                                                   c.Origin.Name == cmbOrigin.SelectedItem.ToString() &&
-                                                  c.Diet.Name == cmbDiet.SelectedItem.ToString());
+                                                  c.Diet.Name == cmbDiet.SelectedItem.ToString()).Any();
+
+
+                    var currentAnimaltoUpdate = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).FirstOrDefault();
+                    // Current Child´s Parents if ANY
+                    var currentParents = currentAnimaltoUpdate.IsChildOf.ToList();
+
+                    if (currentParents.Count() != 0)
+                    {
+                        foreach (var parent in currentParents)
+                        {
+                            if (cmbParent1.SelectedItem?.ToString() != parent.Name && cmbParent2.SelectedItem?.ToString() != parent.Name)
+                            {
+                                animalReadyExist = false;
+
+                            }
+                        }
+                    }
+                    
 
                     if (!animalReadyExist)
                     {
@@ -838,13 +836,22 @@ namespace ZooER
                         // save all data in an new Animal() istance
 
                         newAnimal.Name = mskTxtAnimal.Text;
-                        newAnimal.Weight = Convert.ToDouble(mskTxtWeight.Text);
+                        if (mskTxtWeight.Text == "")
+                        {
+                            newAnimal.Weight = 0.0;
+                        }
+                        else
+                        {
+                            newAnimal.Weight = Convert.ToDouble(mskTxtWeight.Text);
+                        }
                         newAnimal.HabitatId = db.Habitats.Where(c => c.Name == cmbHabitat.SelectedItem.ToString()).Select(c => c.HabitatId).SingleOrDefault();
                         newAnimal.SpeciesId = db.Species.Where(c => c.Name == cmbSpecies.SelectedItem.ToString()).Select(c => c.SpeciesId).SingleOrDefault();
                         newAnimal.OriginId = db.Origins.Where(c => c.Name == cmbOrigin.SelectedItem.ToString()).Select(c => c.OriginId).SingleOrDefault();
                         newAnimal.DietId = db.Diets.Where(c => c.Name == cmbDiet.SelectedItem.ToString()).Select(c => c.DietId).SingleOrDefault();
 
-                        var currentAnimaltoUpdate = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).FirstOrDefault();
+
+
+                      //  var currentAnimaltoUpdate = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).FirstOrDefault();
 
                         // Updating...
                         currentAnimaltoUpdate.Name = newAnimal.Name;
@@ -854,39 +861,37 @@ namespace ZooER
                         currentAnimaltoUpdate.OriginId = newAnimal.OriginId;
                         currentAnimaltoUpdate.DietId = newAnimal.DietId;
 
+                        // Current Child´s Parents if ANY
+                       // var currentParents = currentAnimaltoUpdate.IsChildOf.ToList();
 
-                        if (cmbParent1.SelectedItem != null && cmbParent1.SelectedItem?.ToString() != "" && cmbParent1.SelectedItem?.ToString() != "All")
+                        if (cmbParent1.SelectedItem != null && cmbParent1.SelectedItem?.ToString() != "" && cmbParent1.SelectedItem?.ToString() != "All" ||
+                            cmbParent2.SelectedItem != null && cmbParent2.SelectedItem?.ToString() != "" && cmbParent2.SelectedItem?.ToString() != "All")
                         {
                             // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
                             // as Child 
-                            var parent = db.Animals.Where(c => c.Name == cmbParent1.SelectedItem.ToString()).SingleOrDefault();
-                            if (parent != null)
+                            var parentNew1 = db.Animals.Where(c => c.Name == cmbParent1.SelectedItem.ToString()).SingleOrDefault();
+                            var parentNew2 = db.Animals.Where(c => c.Name == cmbParent2.SelectedItem.ToString()).SingleOrDefault();
+
+                            if (currentParents.Count() != 0)
                             {
-                                // Add istance to Navigation Parent1
-                                parent.IsParentOf.Add(newAnimal); // Adding this new Animal as Child
+                                // current Child HAS PARENTS
+                                //
+                                foreach (var parent in currentParents)
+                                {
+                                    if (cmbParent1.SelectedItem?.ToString() != parent.Name && cmbParent2.SelectedItem?.ToString() != parent.Name)
+                                    {
+                                        // remove the relashionship between parent and current child
+                                        parent.IsParentOf.Remove(currentAnimaltoUpdate);
+                                    }
+                                    else
+                                    {
+                                        // need to keep the same parent / parents
+
+                                    }
+                                }
                             }
+
                         }
-
-                        // I add th 2nd parent if it exist
-                        if (cmbParent2.SelectedItem != null && cmbParent2.SelectedItem?.ToString() != "" && cmbParent2.SelectedItem?.ToString() != "All")
-                        {
-
-                            // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
-                            // as Child 
-                            var parent = db.Animals.Where(c => c.Name == cmbParent2.SelectedItem.ToString()).SingleOrDefault();
-                            if (parent != null)
-                            {
-                                // Add istance to Navigation Parent1
-                                parent.IsParentOf.Add(newAnimal); // Adding this new Animal as Child
-                            }
-                        }
-
-                        // I need to retrieve the current Animal to be Modified
-
-                        // Add Animal to Context
-                        var attachedDiet = db.Diets.Where(c => c.Name == cmbDiet.SelectedItem.ToString()).SingleOrDefault();
-                        attachedDiet.Animals.Add(newAnimal);
-
                         // Saving in the DB
                         db.SaveChanges();
                         LoadCurrentZoo();
@@ -894,27 +899,20 @@ namespace ZooER
 
                         MessageBox.Show("Updated record successfull");
                     }
-                    MessageBox.Show("Animal is already registered");
+                    else
+                    {
+                        MessageBox.Show("Animal is already registered");
+                    }
                 } // Using()
             }
             else
             {
                 // None of the fields has been changed before SAVE
                 MessageBox.Show("Nothing to Save");
-
-
             }
-
-
-
-
-
-
+            
         }
-
-
-
-
+        
         // END OF EditPanel()
     }
 }

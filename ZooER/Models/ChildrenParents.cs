@@ -12,7 +12,7 @@ namespace ZooER.Models
     {
         public int ID { get; set; }
 
-        [ForeignKey ("Child")]
+        [ForeignKey ("Child")] // Here the name of the Other Entity(Child) 
         public int? ChildID { get; set; }
 
         // I test 2 ways of defining FK in this entity
@@ -22,7 +22,7 @@ namespace ZooER.Models
 
         public virtual Animal Child { get; set; }
 
-        [ForeignKey("ParentID")]
+        [ForeignKey("ParentID")]  // Here the name of the other entity FK (Parent in this case)
         public virtual Animal Parent { get; set; }
 
     }

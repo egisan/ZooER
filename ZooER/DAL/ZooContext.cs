@@ -22,7 +22,7 @@ namespace ZooER.DAL
         }
 
         public DbSet<Animal> Animals { get; set; }
-        //public DbSet<ChildParent> ChildrenParents { get; set; }
+        // public DbSet<ChildParent> ChildrenParents { get; set; }
 
         public DbSet<Habitat> Habitats { get; set; }
         public DbSet<Species> Species { get; set; }

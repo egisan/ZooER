@@ -3,7 +3,7 @@ namespace ZooER.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class newSeed : DbMigration
+    public partial class CascadeOnDeleteOff : DbMigration
     {
         public override void Up()
         {
@@ -136,8 +136,8 @@ namespace ZooER.Migrations
                         DrugID = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => new { t.VisitID, t.DrugID })
-                .ForeignKey("dbo.Visits", t => t.VisitID, cascadeDelete: true)
-                .ForeignKey("dbo.Drugs", t => t.DrugID, cascadeDelete: true)
+                .ForeignKey("dbo.Visits", t => t.VisitID)
+                .ForeignKey("dbo.Drugs", t => t.DrugID)
                 .Index(t => t.VisitID)
                 .Index(t => t.DrugID);
             

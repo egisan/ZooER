@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ZooER.Models;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace ZooER.DAL
 {
@@ -49,6 +50,10 @@ namespace ZooER.DAL
                 });
 
             // Many to many relation Edit for Animal.Child <--> Animal.Parent
+
+            // I want to DISABLE CASCaDE ON DELETE FOR ANIMALS
+            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+
             modelBuilder.Entity<Animal>()
                .HasMany(c => c.IsChildOf)
                .WithMany(d => d.IsParentOf)
@@ -58,6 +63,7 @@ namespace ZooER.DAL
                    m.MapLeftKey("ChildID");
                    m.MapRightKey("ParentID");
                });
+
             // modelBuilder.Entity<Visit>()
             //         .HasOptional(p => p.Drugs).WithOptionalPrincipal();
 

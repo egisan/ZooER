@@ -162,14 +162,6 @@ namespace ZooER
                 }
                 cmbHabitat.DataSource = mappedHabitats;
 
-
-                //cmbHabitat.DataSource = db.Habitats.ToList();
-                //cmbHabitat.ValueMember = "HabitatId";
-                //cmbHabitat.DisplayMember = "Name";
-
-                //// Default value
-                //cmbHabitat.SelectedIndex = -1;
-
             }
         }
 
@@ -186,15 +178,6 @@ namespace ZooER
                     mappedSpecies[j] = db.Species.ToList()[i].Name;
                 }
                 cmbSpecies.DataSource = mappedSpecies;
-
-
-
-                //cmbSpecies.DataSource = db.Species.ToList();
-                //cmbSpecies.ValueMember = "SpeciesId";
-                //cmbSpecies.DisplayMember = "Name";
-
-                //// Default value
-                //cmbSpecies.SelectedIndex = -1;
             }
         }
 
@@ -228,7 +211,7 @@ namespace ZooER
                 {
                     mappedParent2[j] = db.Animals.ToList()[i].Name;
                 }
-                cmbParent1.DataSource = mappedParent2;
+                cmbParent2.DataSource = mappedParent2;
             }
         }
 
@@ -279,49 +262,49 @@ namespace ZooER
             // Species
             using (var db = new ZooContext())
             {
-                // retrieve animalId from the datagrid and find attached Habitat value!
-                var species = db.Animals.Where(c => c.AnimalId == selectedAnimalID).SingleOrDefault();
-                cmbSpecies.SelectedValue = species.SpeciesId;
+                // retrieve animalId from the datagrid and find attached species value!
+                var species = db.Animals.Where(c => c.AnimalId == selectedAnimalID).Select(c => c.Species).SingleOrDefault();
+                cmbSpecies.SelectedItem = species.Name;
             }
 
             // Habitat
             using (var db = new ZooContext())
             {
                 // retrieve animalId from the datagrid and find attached Habitat value!
-                var habitat = db.Animals.Where(c => c.AnimalId == selectedAnimalID).SingleOrDefault();
-                cmbHabitat.SelectedValue = habitat.HabitatId;
+                var habitat = db.Animals.Where(c => c.AnimalId == selectedAnimalID).Select(c => c.Habitat).SingleOrDefault();
+                cmbHabitat.Text = habitat.Name;
             }
 
             // Diet
             using (var db = new ZooContext())
             {
                 // retrieve animalId from the datagrid and find attached Habitat value!
-                var diet = db.Animals.Where(c => c.AnimalId == selectedAnimalID).SingleOrDefault();
-                cmbDiet.SelectedValue = diet.DietId;
+                var diet = db.Animals.Where(c => c.AnimalId == selectedAnimalID).Select(c => c.Diet).SingleOrDefault();
+                cmbDiet.Text = diet.Name;
             }
 
             // Origin
             using (var db = new ZooContext())
             {
                 // retrieve animalId from the datagrid and find attached Habitat value!
-                var origin = db.Animals.Where(c => c.AnimalId == selectedAnimalID).SingleOrDefault();
-                cmbOrigin.SelectedValue = origin.OriginId;
+                var origin = db.Animals.Where(c => c.AnimalId == selectedAnimalID).Select(c => c.Origin).SingleOrDefault();
+                cmbOrigin.Text = origin.Name;
             }
 
             // Parent 1
             using (var db = new ZooContext())
             {
                 // retrieve animalId from the datagrid and find attached Habitat value!
-                var par1 = db.Animals.Where(c => c.AnimalId == selectedAnimalID).SingleOrDefault();
-                cmbParent1.SelectedValue = par1.OriginId;
+
+                cmbParent1.Text = dataGridVedit.Rows[rowIndex].Cells[7].Value.ToString();
             }
 
             // Parent 2
             using (var db = new ZooContext())
             {
                 // retrieve animalId from the datagrid and find attached Habitat value!
-                var par2 = db.Animals.Where(c => c.AnimalId == selectedAnimalID).SingleOrDefault();
-                cmbParent2.SelectedValue = par2.OriginId;
+
+                cmbParent2.Text = dataGridVedit.Rows[rowIndex].Cells[8].Value.ToString();
             }
 
             // Alternative way:
@@ -410,6 +393,90 @@ namespace ZooER
         }
 
 
+        // ************************
+        // Pressing DELETE
+        // *************************
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (animalNameChgd || speciesChgd || habitatChgd || dietChgd || weightChgd || originChgd || parent1Chgd || parent2Chgd)
+            {
+                using (var db = new ZooContext())
+                {
+                    // I need to retrieve here the ID in 'Animals' table that need to be updated/deleted in the DB
+                    // SelectedAnimalID = RetrieveSelectedAnimalID();
+                    // SelectedAnimalID = (int)dataGridVedit.Rows[e.RowIndex].Cells[0].Value;
+
+                    // I need to remove animal from any of the "1" relations,before that I need to 
+                    // check that there are NO VISITS conection to Animal.
+                    // IF YES, remove MESSAGE TO USER, REMOVE VISITS, then ANIMAL
+                    if (SelectedAnimalID < 0)
+                    {
+                        SelectedAnimalID = 1;
+                    }
+                    var parents = new List<Animal>();
+                    var animalToRemove = db.Animals.FirstOrDefault(x => x.AnimalId == SelectedAnimalID);
+
+                    //var diet = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).Select(c => c.Diet).SingleOrDefault();
+                    //var origin = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).Select(c => c.Diet).SingleOrDefault();
+                    //var habitat = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).Select(c => c.Diet).SingleOrDefault();
+                    //var species = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).Select(c => c.Diet).SingleOrDefault();
+
+                    if (animalToRemove.Visits.Count() != 0)
+                    {
+                        // Animal cannot be removed!
+                        MessageBox.Show("Warning! The Animal has some pending visits at the veterinary. Cancel the visits first please.");
+                    }
+                    else
+                    {
+                        // call Remove method from navigation property for any instance
+
+                        // REMOVING the relations around ANIMAL
+
+                        parents = db.Animals.Where(c => c.Name == cmbParent1.SelectedItem.ToString() ||
+                                                        c.Name == cmbParent2.SelectedItem.ToString()).ToList();
+
+                        //    animalToRemove.
+                        if (parents.Count() != 0)
+                        {
+                            foreach (var parent in parents)
+                            {
+                                parent.IsParentOf.Remove(animalToRemove); // Removing this new Animal as Child     OK
+                            }
+                        }
+                        else
+                        {
+                            db.Animals.Remove(animalToRemove);     // REMOVE the animal from Animals!!
+
+                            //diet.Animals.Remove(animalToRemove);
+                            //origin.Animals.Remove(animalToRemove);
+                            //habitat.Animals.Remove(animalToRemove);
+                            //species.Animals.Remove(animalToRemove);
+
+                            // parent[0].IsParentOf.Remove(animalToRemove); // Removing this new Animal as Child
+                        }
+                        // call SaveChanges from context
+                        db.SaveChanges();
+
+                        LoadCurrentZoo();
+                        ClearData();
+                        MessageBox.Show("Animal removed!");
+
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nothing Selected! Delete operation is not performed.");
+            }
+            // End DELETE
+        }
+
+
+
+
+        // ***********************
+        // Pressing SAVE
+        // ************************
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (animalNameChgd || speciesChgd || habitatChgd || dietChgd || weightChgd || originChgd || parent1Chgd || parent2Chgd)
@@ -418,68 +485,73 @@ namespace ZooER
                 // Need to check:
                 // - if data is ALREADY in DB or NEW records
                 // 
+                var newAnimal = new Animal();
 
-                using (var db = new ZooContext())
+                if (cmbParent1.SelectedItem != null && cmbParent2.SelectedItem != null &&
+                    cmbParent2.SelectedItem.ToString() == cmbParent1.SelectedItem.ToString())
                 {
-                    // Case with NEW insert
-
-                    // save all data in an new Animal() istance
-
-                    var animal = new Animal();
-
-                    animal.Name = mskTxtAnimal.Text;
-                    animal.Weight = Convert.ToDouble(mskTxtWeight.Text);
-                    animal.HabitatId = db.Habitats.Where(c => c.Name == cmbHabitat.SelectedItem.ToString()).Select(c => c.HabitatId).SingleOrDefault();
-                    animal.SpeciesId = db.Diets.Where(c => c.Name == cmbDiet.SelectedItem.ToString()).Select(c => c.DietId).SingleOrDefault();
-                    animal.OriginId = db.Origins.Where(c => c.Name == cmbOrigin.SelectedItem.ToString()).Select(c => c.OriginId).SingleOrDefault();
-
-                    if (cmbParent1.SelectedItem != null && cmbParent1.SelectedItem?.ToString() != "" && cmbParent1.SelectedItem?.ToString() != "All")
-                    {
-                        // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
-                        // as Child 
-                        var parent = db.Animals.Where(c => c.Name == cmbParent1.SelectedItem.ToString()).SingleOrDefault();
-                        if (parent != null)
-                        {
-                            parent.IsParentOf.Add(animal); // Adding this new Animal as Child
-                        }
-                    }
-
-                    // I add th 2nd parent if it exist
-                    if (cmbParent2.SelectedItem != null && cmbParent2.SelectedItem?.ToString() != "" && cmbParent2.SelectedItem?.ToString() != "All")
-                    {
-                        // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
-                        // as Child 
-                        var parent = db.Animals.Where(c => c.Name == cmbParent2.SelectedItem.ToString()).SingleOrDefault();
-                        if (parent != null)
-                        {
-                            parent.IsParentOf.Add(animal); // Adding this new Animal as Child
-                        }
-                    }
-
-
-
+                    // Check that parent1 IS NOT EQUAL to parent 2
+                    MessageBox.Show("Animal MUST have different parents or none");
                 }
+                else
+                {
+                    using (var db = new ZooContext())
+                    {
+                        // Case with NEW insert
 
+                        // save all data in an new Animal() istance
+                        newAnimal.Name = mskTxtAnimal.Text;
+                        newAnimal.Weight = Convert.ToDouble(mskTxtWeight.Text);
+                        newAnimal.HabitatId = db.Habitats.Where(c => c.Name == cmbHabitat.SelectedItem.ToString()).Select(c => c.HabitatId).SingleOrDefault();
+                        newAnimal.SpeciesId = db.Species.Where(c => c.Name == cmbSpecies.SelectedItem.ToString()).Select(c => c.SpeciesId).SingleOrDefault();
+                        newAnimal.OriginId = db.Origins.Where(c => c.Name == cmbOrigin.SelectedItem.ToString()).Select(c => c.OriginId).SingleOrDefault();
+                        newAnimal.DietId = db.Diets.Where(c => c.Name == cmbDiet.SelectedItem.ToString()).Select(c => c.DietId).SingleOrDefault();
 
+                        if (cmbParent1.SelectedItem != null && cmbParent1.SelectedItem?.ToString() != "" && cmbParent1.SelectedItem?.ToString() != "All")
+                        {
+                            // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
+                            // as Child 
+                            var parent = db.Animals.Where(c => c.Name == cmbParent1.SelectedItem.ToString()).SingleOrDefault();
+                            if (parent != null)
+                            {
+                                // Add istance to Navigation Parent1
+                                parent.IsParentOf.Add(newAnimal); // Adding this new Animal as Child
+                            }
+                        }
 
+                        // I add th 2nd parent if it exist
+                        if (cmbParent2.SelectedItem != null && cmbParent2.SelectedItem?.ToString() != "" && cmbParent2.SelectedItem?.ToString() != "All")
+                        {
 
+                            // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
+                            // as Child 
+                            var parent = db.Animals.Where(c => c.Name == cmbParent2.SelectedItem.ToString()).SingleOrDefault();
+                            if (parent != null)
+                            {
+                                // Add istance to Navigation Parent1
+                                parent.IsParentOf.Add(newAnimal); // Adding this new Animal as Child
+                            }
+                        }
+                        //// Add Animal to Context
+                        //var attachedDiet = db.Diets.Where(c => c.Name == cmbDiet.SelectedItem.ToString()).SingleOrDefault();
+                        //attachedDiet.Animals.Add(newAnimal);
 
+                        db.Animals.Add(newAnimal);
 
+                        // Saving in the DB
+                        db.SaveChanges();
 
-
-
-
+                    } // Using()
+                    LoadCurrentZoo();
+                    ClearData();
+                    MessageBox.Show("New record has been recorded");
+                }
             }
             else
             {
                 // None of the fields has been changed before SAVE
                 MessageBox.Show("Nothing to Save");
-
-
             }
-
-
-
         }
 
 
@@ -487,22 +559,22 @@ namespace ZooER
         // Edit/Update/insert METHOD
         //
         // *******************************************************
-        private void EditAnimalData()
-        {
-            // Check that all fields are inserted
-            if (maskedTxtName.Text == "" || cmbCType.SelectedItem.ToString() == "" ||
-                maskedTxtAddress.Text == "" || maskedTxtPostCode.Text == "" || maskedTxtCity.Text == "" ||
-                maskedTxtPhone.Text == "" || maskedTxtEmail.Text == "")
-            {
-                MessageBox.Show("Please fill all fields");
-            }
+        //private void EditAnimalData()
+        //{
+        //    // Check that all fields are inserted
+        //    if (maskedTxtName.Text == "" || cmbCType.SelectedItem.ToString() == "" ||
+        //        maskedTxtAddress.Text == "" || maskedTxtPostCode.Text == "" || maskedTxtCity.Text == "" ||
+        //        maskedTxtPhone.Text == "" || maskedTxtEmail.Text == "")
+        //    {
+        //        MessageBox.Show("Please fill all fields");
+        //    }
 
 
 
 
 
-            // End method EDIT
-        }
+        //    // End method EDIT
+        //}
 
 
 
@@ -728,6 +800,118 @@ namespace ZooER
                 }
             }
         }
+
+
+
+
+        // *************************
+        // UPDATE
+        // *************************
+        private void update_Click(object sender, EventArgs e)
+        {
+            if (animalNameChgd || speciesChgd || habitatChgd || dietChgd || weightChgd || originChgd || parent1Chgd || parent2Chgd)
+            {
+                // at least one field has been changed before pressin SAVE
+                // Need to check:
+                // - if data is ALREADY in DB or NEW records
+                // data is assumed the same if all data the same as existing
+                var newAnimal = new Animal();
+
+                using (var db = new ZooContext())
+                {
+                    // Case with UPDATE Existing record
+
+                    //Check against DB
+
+                    var animalReadyExist = db.Animals.Any(c => c.Name == mskTxtAnimal.Text && c.Weight == Convert.ToDouble(mskTxtWeight.Text) &&
+                                                  c.Habitat.Name == cmbHabitat.SelectedItem.ToString() &&
+                                                  c.Species.Name == cmbSpecies.SelectedItem.ToString() &&
+                                                  c.Origin.Name == cmbOrigin.SelectedItem.ToString() &&
+                                                  c.Diet.Name == cmbDiet.SelectedItem.ToString());
+
+                    if (!animalReadyExist)
+                    {
+
+                        // Animal IS NOT in DB
+                        // OK Proceed with MODIFING One existing Animal detected by SelectedAnimalID Globl VAriable
+
+                        // save all data in an new Animal() istance
+
+                        newAnimal.Name = mskTxtAnimal.Text;
+                        newAnimal.Weight = Convert.ToDouble(mskTxtWeight.Text);
+                        newAnimal.HabitatId = db.Habitats.Where(c => c.Name == cmbHabitat.SelectedItem.ToString()).Select(c => c.HabitatId).SingleOrDefault();
+                        newAnimal.SpeciesId = db.Species.Where(c => c.Name == cmbSpecies.SelectedItem.ToString()).Select(c => c.SpeciesId).SingleOrDefault();
+                        newAnimal.OriginId = db.Origins.Where(c => c.Name == cmbOrigin.SelectedItem.ToString()).Select(c => c.OriginId).SingleOrDefault();
+                        newAnimal.DietId = db.Diets.Where(c => c.Name == cmbDiet.SelectedItem.ToString()).Select(c => c.DietId).SingleOrDefault();
+
+                        var currentAnimaltoUpdate = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).FirstOrDefault();
+
+                        // Updating...
+                        currentAnimaltoUpdate.Name = newAnimal.Name;
+                        currentAnimaltoUpdate.Weight = newAnimal.Weight;
+                        currentAnimaltoUpdate.HabitatId = newAnimal.HabitatId;
+                        currentAnimaltoUpdate.SpeciesId = newAnimal.SpeciesId;
+                        currentAnimaltoUpdate.OriginId = newAnimal.OriginId;
+                        currentAnimaltoUpdate.DietId = newAnimal.DietId;
+
+
+                        if (cmbParent1.SelectedItem != null && cmbParent1.SelectedItem?.ToString() != "" && cmbParent1.SelectedItem?.ToString() != "All")
+                        {
+                            // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
+                            // as Child 
+                            var parent = db.Animals.Where(c => c.Name == cmbParent1.SelectedItem.ToString()).SingleOrDefault();
+                            if (parent != null)
+                            {
+                                // Add istance to Navigation Parent1
+                                parent.IsParentOf.Add(newAnimal); // Adding this new Animal as Child
+                            }
+                        }
+
+                        // I add th 2nd parent if it exist
+                        if (cmbParent2.SelectedItem != null && cmbParent2.SelectedItem?.ToString() != "" && cmbParent2.SelectedItem?.ToString() != "All")
+                        {
+
+                            // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
+                            // as Child 
+                            var parent = db.Animals.Where(c => c.Name == cmbParent2.SelectedItem.ToString()).SingleOrDefault();
+                            if (parent != null)
+                            {
+                                // Add istance to Navigation Parent1
+                                parent.IsParentOf.Add(newAnimal); // Adding this new Animal as Child
+                            }
+                        }
+
+                        // I need to retrieve the current Animal to be Modified
+
+                        // Add Animal to Context
+                        var attachedDiet = db.Diets.Where(c => c.Name == cmbDiet.SelectedItem.ToString()).SingleOrDefault();
+                        attachedDiet.Animals.Add(newAnimal);
+
+                        // Saving in the DB
+                        db.SaveChanges();
+                        LoadCurrentZoo();
+                        ClearData();
+
+                        MessageBox.Show("Updated record successfull");
+                    }
+                    MessageBox.Show("Animal is already registered");
+                } // Using()
+            }
+            else
+            {
+                // None of the fields has been changed before SAVE
+                MessageBox.Show("Nothing to Save");
+
+
+            }
+
+
+
+
+
+
+        }
+
 
 
 

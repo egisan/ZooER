@@ -52,6 +52,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\201711161019166_CascadeOnDeleteOff.cs" />
+    <Compile Include="Migrations\201711161019166_CascadeOnDeleteOff.Designer.cs">
+      <DependentUpon>201711161019166_CascadeOnDeleteOff.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\ObservableListSource.cs" />
     <Compile Include="Services\Utility.cs" />
     <Compile Include="UI\BookingPanel.cs">
@@ -72,10 +76,6 @@
     </Compile>
     <Compile Include="UI\Menu.Designer.cs">
       <DependentUpon>Menu.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711150143152_newSeed.cs" />
-    <Compile Include="Migrations\201711150143152_newSeed.Designer.cs">
-      <DependentUpon>201711150143152_newSeed.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model.Designer.cs">
@@ -108,6 +108,9 @@
     <Compile Include="ViewModels\AnimalDetails.cs" />
     <Compile Include="ViewModels\BookingModel.cs" />
     <Compile Include="ViewModels\CancelBookingModel.cs" />
+    <EmbeddedResource Include="Migrations\201711161019166_CascadeOnDeleteOff.resx">
+      <DependentUpon>201711161019166_CascadeOnDeleteOff.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\BookingPanel.resx">
       <DependentUpon>BookingPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -119,9 +122,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\Menu.resx">
       <DependentUpon>Menu.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711150143152_newSeed.resx">
-      <DependentUpon>201711150143152_newSeed.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

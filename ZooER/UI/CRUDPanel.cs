@@ -63,8 +63,14 @@ namespace ZooER
         public void LoadCurrentZoo()
         {
             service = new Utility();
-            dataGridVedit.DataSource = service.GetAnimalDetails();
 
+
+            // Test
+            var lista = service.GetAnimalDetails();
+            if (lista.Count() != 0)
+            {
+                dataGridVedit.DataSource = lista;
+            }
             SetComboBoxProperties();
             FillComboBoxes();
         }
@@ -80,31 +86,63 @@ namespace ZooER
             //FillParent2();
         }
 
+
+        private BindingSource industryGroupFilter = new BindingSource();
+
         private void FillOrigin()
         {
+
+            // Test - disconnecting ComboBox ORigin from table Origins!
+
+            var service = new Utility();
+
             using (var db = new ZooContext())
             {
-                cmbOrigin.DataSource = db.Origins.ToList();
-                cmbOrigin.ValueMember = "OriginId";
-                cmbOrigin.DisplayMember = "Name";
+                // Need tp remeber that "combobox.SelectedIndex = 0" is reserved for "all" data
+
+                int count = db.Origins.ToList().Count();
+                string[] mappedOrigins = new string[count + 1];
+                mappedOrigins[0] = "All";
+
+                for (int i = 0, j = 1; i < count; i++, j++)
+                {
+                    mappedOrigins[j] = db.Origins.ToList()[i].Name;
+                }
+                cmbOrigin.DataSource = mappedOrigins;
+
+                //db.Origins.ToList();
+                // cmbOrigin.ValueMember = "OriginId";
+                // cmbOrigin.DisplayMember = "Name";
 
                 // Default value
-                cmbOrigin.SelectedIndex = -1;
+                // cmbOrigin.SelectedIndex = -1;
             }
         }
+
 
         private void FillDietCombo()
         {
             using (var db = new ZooContext())
             {
+                int count = db.Diets.ToList().Count();
+                string[] mappedDiets = new string[count + 1];
+                mappedDiets[0] = "All";
+
+                for (int i = 0, j = 1; i < count; i++, j++)
+                {
+                    mappedDiets[j] = db.Diets.ToList()[i].Name;
+                }
+                cmbDiet.DataSource = mappedDiets;
+
+
                 // db.Diets.Add(0, new Diet() { DietId = 0, Name = "Select a sector." });
 
-                cmbDiet.DataSource = db.Diets.ToList();
-                cmbDiet.ValueMember = "DietId";
-                cmbDiet.DisplayMember = "Name";
+                //cmbDiet.DataSource = db.Diets.ToList();
+                //cmbDiet.ValueMember = "DietId";
+                //cmbDiet.DisplayMember = "Name";
 
-                // Default value
-                cmbDiet.SelectedIndex = -1;
+                //// Default value
+                //cmbDiet.SelectedIndex = -1;
             }
         }
 
@@ -112,12 +150,23 @@ namespace ZooER
         {
             using (var db = new ZooContext())
             {
-                cmbHabitat.DataSource = db.Habitats.ToList();
-                cmbHabitat.ValueMember = "HabitatId";
-                cmbHabitat.DisplayMember = "Name";
+                int count = db.Habitats.ToList().Count();
+                string[] mappedHabitats = new string[count + 1];
+                mappedHabitats[0] = "All";
 
-                // Default value
-                cmbHabitat.SelectedIndex = -1;
+                for (int i = 0, j = 1; i < count; i++, j++)
+                {
+                    mappedHabitats[j] = db.Habitats.ToList()[i].Name;
+                }
+                cmbHabitat.DataSource = mappedHabitats;
+
+
+                //cmbHabitat.DataSource = db.Habitats.ToList();
+                //cmbHabitat.ValueMember = "HabitatId";
+                //cmbHabitat.DisplayMember = "Name";
+
+                //// Default value
+                //cmbHabitat.SelectedIndex = -1;
 
             }
         }
@@ -126,12 +175,24 @@ namespace ZooER
         {
             using (var db = new ZooContext())
             {
-                cmbSpecies.DataSource = db.Species.ToList();
-                cmbSpecies.ValueMember = "SpeciesId";
-                cmbSpecies.DisplayMember = "Name";
+                int count = db.Species.ToList().Count();
+                string[] mappedSpecies = new string[count + 1];
+                mappedSpecies[0] = "All";
 
-                // Default value
-                cmbSpecies.SelectedIndex = -1;
+                for (int i = 0, j = 1; i < count; i++, j++)
+                {
+                    mappedSpecies[j] = db.Species.ToList()[i].Name;
+                }
+                cmbSpecies.DataSource = mappedSpecies;
+
+
+
+                //cmbSpecies.DataSource = db.Species.ToList();
+                //cmbSpecies.ValueMember = "SpeciesId";
+                //cmbSpecies.DisplayMember = "Name";
+
+                //// Default value
+                //cmbSpecies.SelectedIndex = -1;
             }
         }
 
@@ -297,10 +358,13 @@ namespace ZooER
             parent2Chgd = true;
         }
 
+        // ********************************************************
+        // SEARCH METHOD
+        //
+        // *******************************************************
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-
             bool nameIn = false;
             bool speciesIn = false;
             bool habitatIn = false;
@@ -320,7 +384,12 @@ namespace ZooER
                 conditionStr = "c.Name LIKE '%' + @Name + '%'";
             }
 
-            if (cmbSpecies.SelectedItem.ToString() != "")
+
+            // QUI HO ENTITIES NO STRINGE!!
+            // String.IsNullOrEmpty(str)
+
+
+            if (cmbSpecies.SelectedItem != null && cmbSpecies.SelectedItem?.ToString() != "" && cmbSpecies.SelectedItem?.ToString() != "All")
             {
                 speciesIn = true;
                 if (nameIn == true)
@@ -330,7 +399,7 @@ namespace ZooER
                 conditionStr = conditionStr + insertAND + "ct.TypeName LIKE '%' + @TypeName + '%'";
             }
 
-            if (cmbHabitat.Text != "")
+            if (cmbHabitat.SelectedItem != null && cmbHabitat.SelectedItem?.ToString() != "" && cmbHabitat.SelectedItem?.ToString() != "All")
             {
                 habitatIn = true;
                 if (speciesIn == true || nameIn == true)
@@ -340,7 +409,7 @@ namespace ZooER
                 conditionStr = conditionStr + insertAND + "ct.City LIKE '%' + @City + '%'";
             }
 
-            if (cmbDiet.Text != "")
+            if (cmbDiet.SelectedItem != null && cmbDiet.SelectedItem?.ToString() != "" && cmbDiet.SelectedItem?.ToString() != "All")
             {
                 dietIn = true;
                 if (habitatIn == true || speciesIn == true || nameIn == true)
@@ -360,7 +429,7 @@ namespace ZooER
                 conditionStr = conditionStr + insertAND + "ct.PostalCode LIKE '%' + @PostalCode + '%'";
             }
 
-            if (cmbOrigin.Text != "")
+            if (cmbOrigin.SelectedItem != null && cmbOrigin.SelectedItem?.ToString() != "" && cmbOrigin.SelectedItem?.ToString() != "All")
             {
                 originIn = true;
                 if (weightIn == true || dietIn == true || habitatIn == true || speciesIn == true || nameIn == true)
@@ -370,7 +439,7 @@ namespace ZooER
                 conditionStr = conditionStr + insertAND + "ct.PhoneNo LIKE '%' + @PhoneNo + '%'";
             }
 
-            if (cmbParent1.Text != "")
+            if (cmbParent1.SelectedItem != null && cmbParent1.SelectedItem?.ToString() != "" && cmbParent1.SelectedItem?.ToString() != "All")
             {
                 par1In = true;
                 if (originIn == true || weightIn == true || dietIn == true || habitatIn == true || speciesIn == true || nameIn == true)
@@ -380,7 +449,7 @@ namespace ZooER
                 conditionStr = conditionStr + insertAND + "ct.Email LIKE '%' + @Email + '%'";
             }
 
-            if (cmbParent2.Text != "")
+            if (cmbParent2.SelectedItem != null && cmbParent2.SelectedItem?.ToString() != "" && cmbParent2.SelectedItem?.ToString() != "All")
             {
                 par2In = true;
                 if (par1In == true || originIn == true || weightIn == true || dietIn == true || habitatIn == true || speciesIn == true || nameIn == true)
@@ -391,60 +460,185 @@ namespace ZooER
             }
 
 
-            if (nameIn || speciesIn || habitatIn || dietIn || weightIn || originIn || par1In || par2In)
+            if (nameIn || speciesIn || habitatIn || dietIn) // || weightIn || originIn || par1In || par2In)
             {
+                // It is enough that ONE among: Animal Name, Species, Habitat, Diet is inserted to trigger the Search!
                 using (var db = new ZooContext())
                 {
-                    var animals = new List<Animal>();
+                    var animals = new List<AnimalDetails>();
 
                     if (nameIn && speciesIn && habitatIn && dietIn)
                     {
-                        animals = db.Animals.Where(c => c.Name.Contains(mskTxtAnimal.Text) &&
+                        var tempAnimals = db.Animals.Where(c => c.Name.Contains(mskTxtAnimal.Text) &&
                                                         c.Species.Name == cmbSpecies.SelectedItem.ToString() &&
                                                         c.Habitat.Name == cmbHabitat.SelectedItem.ToString() &&
                                                         c.Diet.Name == cmbDiet.SelectedItem.ToString()).ToList();
+
+
+                        animals = service.GetAllAnimalsInSublist(tempAnimals, db);
+
+                        //.Select(x => new AnimalDetails()
+                        //{
+                        //    Id = x.AnimalId,
+                        //    Name = x.Name,
+                        //    Weight = x.Weight,
+                        //    HabitatType = x.Habitat.Name,
+                        //    DietType = x.Diet.Name,
+                        //    OriginCountry = x.Origin.Name,
+                        //    SpeciesType = x.Species.Name,
+                        //    Parent1 = (x.IsChildOf.ToList().Any()) ? x.IsChildOf.ToList()[0].Name : "Not available",
+                        //    Parent2 = (x.IsChildOf.ToList().Count() == 2) ? x.IsChildOf.ToList()[1].Name : "Not available"
+                        //}).ToList();
+
                     }
                     else if (nameIn && speciesIn && habitatIn)
                     {
-                        animals = db.Animals.Where(c => c.Name.Contains(mskTxtAnimal.Text) &&
+                        var tempAnimals = db.Animals.Where(c => c.Name.Contains(mskTxtAnimal.Text) &&
                                                         c.Species.Name == cmbSpecies.SelectedItem.ToString() &&
                                                         c.Habitat.Name == cmbHabitat.SelectedItem.ToString()).ToList();
+
+                        animals = service.GetAllAnimalsInSublist(tempAnimals, db);
+
+
+                        //.Select(x => new AnimalDetails()
+                        //{
+                        //    Id = x.AnimalId,
+                        //    Name = x.Name,
+                        //    Weight = x.Weight,
+                        //    HabitatType = x.Habitat.Name,
+                        //    DietType = x.Diet.Name,
+                        //    OriginCountry = x.Origin.Name,
+                        //    SpeciesType = x.Species.Name,
+                        //    Parent1 = (x.IsChildOf.ToList().Any()) ? x.IsChildOf.ToList()[0].Name : "Not available",
+                        //    Parent2 = (x.IsChildOf.ToList().Count() == 2) ? x.IsChildOf.ToList()[1].Name : "Not available"
+                        //}).ToList();
                     }
                     else if (nameIn && speciesIn)
                     {
-                        animals = db.Animals.Where(c => c.Name.Contains(mskTxtAnimal.Text) &&
+                        var tempAnimals = db.Animals.Where(c => c.Name.Contains(mskTxtAnimal.Text) &&
                                                         c.Species.Name == cmbSpecies.SelectedItem.ToString()).ToList();
+
+                        animals = service.GetAllAnimalsInSublist(tempAnimals, db);
+
+                        //.Select(x => new AnimalDetails()
+                        //{
+                        //    Id = x.AnimalId,
+                        //    Name = x.Name,
+                        //    Weight = x.Weight,
+                        //    HabitatType = x.Habitat.Name,
+                        //    DietType = x.Diet.Name,
+                        //    OriginCountry = x.Origin.Name,
+                        //    SpeciesType = x.Species.Name,
+                        //    Parent1 = (x.IsChildOf.ToList().Any()) ? x.IsChildOf.ToList()[0].Name : "Not available",
+                        //    Parent2 = (x.IsChildOf.ToList().Count() == 2) ? x.IsChildOf.ToList()[1].Name : "Not available"
+                        //}).ToList();
                     }
                     else if (nameIn)
                     {
-                        animals = db.Animals.Where(c => c != null && c.Name.Contains(mskTxtAnimal.Text)).ToList();
+                        var tempAnimals = db.Animals.Where(c => c != null && c.Name.Contains(mskTxtAnimal.Text)).ToList();
+
+                        animals = service.GetAllAnimalsInSublist(tempAnimals, db);
+
+                        //.Select(x => new AnimalDetails()
+                        //                {
+                        //                    Id = x.AnimalId,
+                        //                    Name = x.Name,
+                        //                    Weight = x.Weight,
+                        //                    HabitatType = x.Habitat.Name,
+                        //                    DietType = x.Diet.Name,
+                        //                    OriginCountry = x.Origin.Name,
+                        //                    SpeciesType = x.Species.Name,
+                        //                    Parent1 = (x.IsChildOf.ToList().Any()) ? x.IsChildOf.ToList()[0].Name : "Not available",
+                        //                    Parent2 = (x.IsChildOf.ToList().Count() == 2) ? x.IsChildOf.ToList()[1].Name : "Not available"
+                        //                }).ToList();
                     }
-                    
-                    if (animals.
+                    else if (speciesIn)
+                    {
+                        var tempAnimals = db.Animals.Where(c => c.Species.Name == cmbSpecies.SelectedItem.ToString()).ToList();
 
+                        animals = service.GetAllAnimalsInSublist(tempAnimals, db);
+                        //.Select(x => new AnimalDetails()
+                        //{
+                        //    Id = x.AnimalId,
+                        //    Name = x.Name,
+                        //    Weight = x.Weight,
+                        //    HabitatType = x.Habitat.Name,
+                        //    DietType = x.Diet.Name,
+                        //    OriginCountry = x.Origin.Name,
+                        //    SpeciesType = x.Species.Name,
+                        //    Parent1 = (x.IsChildOf.ToList().Any()) ? x.IsChildOf.ToList()[0].Name : "Not available",
+                        //    Parent2 = (x.IsChildOf.ToList().Count() == 2) ? x.IsChildOf.ToList()[1].Name : "Not available"
+                        //}).ToList();
+                    }
+                    else if (habitatIn)
+                    {
+                        var tempAnimals = db.Animals.Where(c => c.Habitat.Name == cmbHabitat.SelectedItem.ToString()).ToList();
+
+                        animals = service.GetAllAnimalsInSublist(tempAnimals, db);
+
+                        //.Select(x => new AnimalDetails()
+                        //{
+                        //    Id = x.AnimalId,
+                        //    Name = x.Name,
+                        //    Weight = x.Weight,
+                        //    HabitatType = x.Habitat.Name,
+                        //    DietType = x.Diet.Name,
+                        //    OriginCountry = x.Origin.Name,
+                        //    SpeciesType = x.Species.Name,
+                        //    Parent1 = (x.IsChildOf.ToList().Any()) ? x.IsChildOf.ToList()[0].Name : "Not available",
+                        //    Parent2 = (x.IsChildOf.ToList().Count() == 2) ? x.IsChildOf.ToList()[1].Name : "Not available"
+                        //}).ToList();
+                    }
+                    else if (dietIn)
+                    {
+
+                        // I need to store the parents somehow otherwise problems
+                        var tempAnimals = db.Animals.Where(c => c.Diet.Name == cmbDiet.SelectedItem.ToString()).ToList();
+
+                        animals = service.GetAllAnimalsInSublist(tempAnimals, db);
+
+
+                        //.Select(x => new AnimalDetails()
+                        //{
+                        //    Id = x.AnimalId,
+                        //    Name = x.Name,
+                        //    Weight = x.Weight,
+                        //    HabitatType = x.Habitat.Name,
+                        //    DietType = x.Diet.Name,
+                        //    OriginCountry = x.Origin.Name,
+                        //    SpeciesType = x.Species.Name
+                        //    // Parent1 = (x.IsChildOf.ToList().Any()) ? x.IsChildOf.ToList()[0].Name : "Not available",
+                        //    // Parent2 = (x.IsChildOf.ToList().Count() == 2) ? x.IsChildOf.ToList()[1].Name : "Not available"
+                        //}).ToList();
+
+
+
+
+                    }
+
+
+                    if (animals.Any())
+                    {
+                        // Create the binding List
+                        BindingList<AnimalDetails> resultSearch = new BindingList<AnimalDetails>(animals);
+
+                        mskTxtNoRec.Text = animals.Count().ToString();
+
+                        // Fill the data grid
+                        dataGridVedit.DataSource = resultSearch;
+                    }
+                    else
+                    {
+                        MessageBox.Show("No data can be retrieved with the current search criteria.");
+                    }
                 }
-
-                var commandText = "SELECT c.Name, ct.TypeName, ct.Address, ct.PostalCode, ct.City, ct.PhoneNo, ct.Email " +
-                              "FROM Contacts c INNER JOIN ContactsTypes bridge " +
-                              "ON c.ContactId = bridge.ContactId " +
-                              "INNER JOIN CTypes ct " +
-                              "ON ct.TypeId = bridge.TypeId " +
-                              "WHERE (" + conditionStr + ")";
-
             }
-            BindingList<Contact> addresses = reader.GetContacts(commandText, CommandType.Text, searchParams);
-
-            // Show the number of records found after applying Search()
-            maskedTxtAddNo.Text = addresses.Count().ToString();
-
-            // Fill the GridView with addresses
-            gridViewRUD.DataSource = addresses;
-
-
-
-
+            else
+            {
+                // None among among: Animal Name, Species, Habitat, Diet has been FILLED. THe Search cannot start!
+                MessageBox.Show("Please choose at least one among: Animal name, Habitat, Diet and Species to Search Animals");
+            }
         }
-
 
 
 

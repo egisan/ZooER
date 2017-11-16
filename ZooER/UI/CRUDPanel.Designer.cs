@@ -67,6 +67,8 @@
             this.cmbParent2 = new System.Windows.Forms.ComboBox();
             this.cmbParent1 = new System.Windows.Forms.ComboBox();
             this.btnClear = new System.Windows.Forms.Button();
+            this.mskTxtNoRec = new System.Windows.Forms.MaskedTextBox();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridVedit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.animalDetailsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.habitatBindingSource)).BeginInit();
@@ -158,14 +160,12 @@
             // cmbHabitat
             // 
             this.cmbHabitat.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.habitatBindingSource, "Name", true));
-            this.cmbHabitat.DataSource = this.habitatBindingSource;
-            this.cmbHabitat.DisplayMember = "Name";
+            this.cmbHabitat.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cmbHabitat.FormattingEnabled = true;
             this.cmbHabitat.Location = new System.Drawing.Point(140, 166);
             this.cmbHabitat.Name = "cmbHabitat";
             this.cmbHabitat.Size = new System.Drawing.Size(121, 21);
             this.cmbHabitat.TabIndex = 1;
-            this.cmbHabitat.ValueMember = "Name";
             // 
             // habitatBindingSource
             // 
@@ -178,14 +178,12 @@
             // cmbSpecies
             // 
             this.cmbSpecies.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.speciesBindingSource, "Name", true));
-            this.cmbSpecies.DataSource = this.speciesBindingSource;
-            this.cmbSpecies.DisplayMember = "Name";
+            this.cmbSpecies.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cmbSpecies.FormattingEnabled = true;
             this.cmbSpecies.Location = new System.Drawing.Point(140, 130);
             this.cmbSpecies.Name = "cmbSpecies";
             this.cmbSpecies.Size = new System.Drawing.Size(121, 21);
             this.cmbSpecies.TabIndex = 2;
-            this.cmbSpecies.ValueMember = "Name";
             this.cmbSpecies.TextChanged += new System.EventHandler(this.cmbSpecies_TextChanged);
             // 
             // speciesBindingSource
@@ -195,14 +193,12 @@
             // cmbDiet
             // 
             this.cmbDiet.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.dietBindingSource, "Name", true));
-            this.cmbDiet.DataSource = this.dietBindingSource;
-            this.cmbDiet.DisplayMember = "Name";
+            this.cmbDiet.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cmbDiet.FormattingEnabled = true;
             this.cmbDiet.Location = new System.Drawing.Point(399, 95);
             this.cmbDiet.Name = "cmbDiet";
             this.cmbDiet.Size = new System.Drawing.Size(121, 21);
             this.cmbDiet.TabIndex = 3;
-            this.cmbDiet.ValueMember = "Name";
             // 
             // dietBindingSource
             // 
@@ -327,14 +323,12 @@
             // cmbOrigin
             // 
             this.cmbOrigin.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.dietBindingSource, "Name", true));
-            this.cmbOrigin.DataSource = this.dietBindingSource;
-            this.cmbOrigin.DisplayMember = "Name";
+            this.cmbOrigin.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cmbOrigin.FormattingEnabled = true;
             this.cmbOrigin.Location = new System.Drawing.Point(399, 166);
             this.cmbOrigin.Name = "cmbOrigin";
             this.cmbOrigin.Size = new System.Drawing.Size(121, 21);
             this.cmbOrigin.TabIndex = 16;
-            this.cmbOrigin.ValueMember = "Name";
             this.cmbOrigin.TextChanged += new System.EventHandler(this.cmbOrigin_TextChanged);
             // 
             // label9
@@ -378,27 +372,23 @@
             // cmbParent2
             // 
             this.cmbParent2.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.dietBindingSource, "Name", true));
-            this.cmbParent2.DataSource = this.dietBindingSource;
-            this.cmbParent2.DisplayMember = "Name";
+            this.cmbParent2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cmbParent2.FormattingEnabled = true;
             this.cmbParent2.Location = new System.Drawing.Point(642, 134);
             this.cmbParent2.Name = "cmbParent2";
             this.cmbParent2.Size = new System.Drawing.Size(121, 21);
             this.cmbParent2.TabIndex = 25;
-            this.cmbParent2.ValueMember = "Name";
             this.cmbParent2.TextChanged += new System.EventHandler(this.cmbParent2_TextChanged);
             // 
             // cmbParent1
             // 
             this.cmbParent1.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.dietBindingSource, "Name", true));
-            this.cmbParent1.DataSource = this.dietBindingSource;
-            this.cmbParent1.DisplayMember = "Name";
+            this.cmbParent1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cmbParent1.FormattingEnabled = true;
             this.cmbParent1.Location = new System.Drawing.Point(642, 95);
             this.cmbParent1.Name = "cmbParent1";
             this.cmbParent1.Size = new System.Drawing.Size(121, 21);
             this.cmbParent1.TabIndex = 26;
-            this.cmbParent1.ValueMember = "Name";
             this.cmbParent1.TextChanged += new System.EventHandler(this.cmbParent1_TextChanged);
             // 
             // btnClear
@@ -411,11 +401,33 @@
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
+            // mskTxtNoRec
+            // 
+            this.mskTxtNoRec.AllowPromptAsInput = false;
+            this.mskTxtNoRec.BackColor = System.Drawing.SystemColors.Menu;
+            this.mskTxtNoRec.Enabled = false;
+            this.mskTxtNoRec.Location = new System.Drawing.Point(161, 226);
+            this.mskTxtNoRec.Name = "mskTxtNoRec";
+            this.mskTxtNoRec.ReadOnly = true;
+            this.mskTxtNoRec.Size = new System.Drawing.Size(100, 20);
+            this.mskTxtNoRec.TabIndex = 48;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(37, 229);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(97, 13);
+            this.label11.TabIndex = 47;
+            this.label11.Text = "Number of records:";
+            // 
             // EditPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1026, 519);
+            this.Controls.Add(this.mskTxtNoRec);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.cmbParent1);
             this.Controls.Add(this.cmbParent2);
@@ -495,5 +507,7 @@
         private System.Windows.Forms.ComboBox cmbParent2;
         private System.Windows.Forms.ComboBox cmbParent1;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.MaskedTextBox mskTxtNoRec;
+        private System.Windows.Forms.Label label11;
     }
 }

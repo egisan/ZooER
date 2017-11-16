@@ -642,7 +642,7 @@
         <EntityTypeShape EntityType="ZooER.DAL.Species" Width="1.5" PointX="10.625" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ZooER.DAL.Visit" Width="1.5" PointX="3.75" PointY="2.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ZooER.DAL.Diagnosis" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ZooER.DAL.Drug" Width="1.5" PointX="3.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ZooER.DAL.Drug" Width="1.5" PointX="3.875" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ZooER.DAL.Veterinary" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
         <AssociationConnector Association="ZooER.DAL.Diet_Animals" ManuallyRouted="false" />
         <AssociationConnector Association="ZooER.DAL.Habitat_Animals" ManuallyRouted="false" />

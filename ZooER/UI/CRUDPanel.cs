@@ -432,29 +432,31 @@ namespace ZooER
                         // call Remove method from navigation property for any instance
 
                         // REMOVING the relations around ANIMAL
+                        
+                        // Need to check that ComboBoxes are NOT EMPTY otherwise Crash
 
-                        parents = db.Animals.Where(c => c.Name == cmbParent1.SelectedItem.ToString() ||
-                                                        c.Name == cmbParent2.SelectedItem.ToString()).ToList();
+                        // parents = db.Animals.Where(c => c.Name == cmbParent1.SelectedItem.ToString() ||
+                       //                                 c.Name == cmbParent2.SelectedItem.ToString()).ToList();
 
                         //    animalToRemove.
-                        if (parents.Count() != 0)
-                        {
-                            foreach (var parent in parents)
-                            {
-                                parent.IsParentOf.Remove(animalToRemove); // Removing this new Animal as Child     OK
-                            }
-                        }
-                        else
-                        {
+                        //if (parents.Count() != 0)
+                        //{
+                        //    foreach (var parent in parents)
+                        //    {
+                        //        parent.IsParentOf.Remove(animalToRemove); // Removing this new Animal as Child     OK
+                        //    }
+                        //}
+                        //else
+                        //{
                             db.Animals.Remove(animalToRemove);     // REMOVE the animal from Animals!!
 
-                            //diet.Animals.Remove(animalToRemove);
-                            //origin.Animals.Remove(animalToRemove);
-                            //habitat.Animals.Remove(animalToRemove);
-                            //species.Animals.Remove(animalToRemove);
+                        //diet.Animals.Remove(animalToRemove);
+                        //origin.Animals.Remove(animalToRemove);
+                        //habitat.Animals.Remove(animalToRemove);
+                        //species.Animals.Remove(animalToRemove);
 
-                            // parent[0].IsParentOf.Remove(animalToRemove); // Removing this new Animal as Child
-                        }
+                        // parent[0].IsParentOf.Remove(animalToRemove); // Removing this new Animal as Child
+                        //}
                         // call SaveChanges from context
                         db.SaveChanges();
 

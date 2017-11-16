@@ -7,13 +7,13 @@ namespace ZooER.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class CascadeOnDeleteOff : IMigrationMetadata
+    public sealed partial class INIT : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CascadeOnDeleteOff));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(INIT));
         
         string IMigrationMetadata.Id
         {
-            get { return "201711161317376_CascadeOnDeleteOff"; }
+            get { return "201711161432042_INIT"; }
         }
         
         string IMigrationMetadata.Source

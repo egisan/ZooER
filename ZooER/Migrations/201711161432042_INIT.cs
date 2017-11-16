@@ -3,7 +3,7 @@ namespace ZooER.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class CascadeOnDeleteOff : DbMigration
+    public partial class INIT : DbMigration
     {
         public override void Up()
         {

@@ -25,11 +25,11 @@ namespace ZooER.Models
         public virtual Animal Animal { get; set; }
 
         [ForeignKey("Diagnosis")]
-        public int DiagnosisId { get; set; }
+        public int? DiagnosisId { get; set; }
         public virtual Diagnosis Diagnosis { get; set; }
 
         [ForeignKey("Veterinary")]
-        public int VeterinaryId { get; set; }
+        public int? VeterinaryId { get; set; }
         public virtual Veterinary Veterinary { get; set; }
 
         public virtual ICollection<Drug> Drugs { get; set; }

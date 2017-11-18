@@ -52,18 +52,20 @@ namespace ZooER.DAL
             // Many to many relation Edit for Animal.Child <--> Animal.Parent
 
             // I want to DISABLE CASCaDE ON DELETE FOR ANIMALS
-            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+            // modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
 
             modelBuilder.Entity<Animal>()
-               .HasMany(c => c.IsChildOf)
-               .WithMany(d => d.IsParentOf)
-               .Map(m =>
-               {
-                   m.ToTable("ChildrenParents");
-                   m.MapLeftKey("ChildID");
-                   m.MapRightKey("ParentID");
-               });
+              .HasMany(c => c.IsChildOf)
+              .WithMany(d => d.IsParentOf)
+              .Map(m =>
+              {
+                  m.ToTable("ChildrenParents");
+                  m.MapLeftKey("ChildID");
+                  m.MapRightKey("ParentID");
+              });
 
+
+            //WillCascadeOndelete(false);
             // modelBuilder.Entity<Visit>()
             //         .HasOptional(p => p.Drugs).WithOptionalPrincipal();
 

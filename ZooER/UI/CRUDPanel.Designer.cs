@@ -510,8 +510,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn motherDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fatherDataGridViewTextBoxColumn;
         private System.Windows.Forms.BindingSource animalDetailsBindingSource;
         private System.Windows.Forms.BindingSource speciesBindingSource;
         private System.Windows.Forms.BindingSource dietBindingSource;

@@ -23,19 +23,19 @@ namespace ZooER.Models
         // Explicit declaring the FK to get Seed working
         //[Required]
         [ForeignKey("Habitat")]
-        public int HabitatId { get; set; } // Not Null by default!! 1-to many relation NOT 0-to-Many
+        public int? HabitatId { get; set; } 
         public virtual Habitat Habitat { get; set; }
 
         [ForeignKey("Species")]
-        public int SpeciesId { get; set; }
+        public int? SpeciesId { get; set; }
         public virtual Species Species { get; set; }
 
         [ForeignKey("Diet")]
-        public int DietId { get; set; }
+        public int? DietId { get; set; }
         public virtual Diet Diet { get; set; }
 
         [ForeignKey("Origin")]
-        public int OriginId { get; set; }
+        public int? OriginId { get; set; }
         public virtual Origin Origin { get; set; }
 
 

@@ -13,7 +13,6 @@ namespace ZooER.Models
         public int DietId { get; set; }
 
         [StringLength(30, ErrorMessage = "Max 30 and at least 3 characters allowed", MinimumLength = 3)]
-        [Required]
         [Index(IsUnique = true)]
         [Display(Name = "Diet type")]
         public string Name { get; set; }

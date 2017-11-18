@@ -52,10 +52,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201711161903367_INIT.cs" />
-    <Compile Include="Migrations\201711161903367_INIT.Designer.cs">
-      <DependentUpon>201711161903367_INIT.cs</DependentUpon>
-    </Compile>
     <Compile Include="Services\ObservableListSource.cs" />
     <Compile Include="Services\Utility.cs" />
     <Compile Include="UI\BookingPanel.cs">
@@ -108,9 +104,6 @@
     <Compile Include="ViewModels\AnimalDetails.cs" />
     <Compile Include="ViewModels\BookingModel.cs" />
     <Compile Include="ViewModels\CancelBookingModel.cs" />
-    <EmbeddedResource Include="Migrations\201711161903367_INIT.resx">
-      <DependentUpon>201711161903367_INIT.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\BookingPanel.resx">
       <DependentUpon>BookingPanel.cs</DependentUpon>
     </EmbeddedResource>

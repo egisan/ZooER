@@ -12,7 +12,7 @@ namespace ZooER.Models
         public int VeterinaryId { get; set; }
 
         [StringLength(30, ErrorMessage = "Max 30 and at least 3 characters allowed", MinimumLength = 3)]
-        [Required]
+       // [Required]
         public string Name { get; set; }
 
         // Nav

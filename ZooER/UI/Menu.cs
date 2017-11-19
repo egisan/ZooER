@@ -43,8 +43,8 @@ namespace ZooER
         private void btnEdit_Click(object sender, EventArgs e)
         {
 
-         //   Form frm = new EditPanel();
-          //  frm.Show();
+            Form frm = new EditPanel();
+            frm.Show();
         }
 
         private void btnBook_Click(object sender, EventArgs e)

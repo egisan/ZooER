@@ -35,23 +35,22 @@ namespace ZooER.Services
                     animalView = new AnimalDetails();
 
                     animalView.Id = animal.AnimalId;  // PK of Animals !
-
                     animalView.Name = animal.Name;
                     animalView.Weight = animal.Weight;
 
                     // Search for possible parents and store in a list
-                    if (animal.IsChildOf != null && animal.IsChildOf.Count() != 0)
+                    if (animal.IsChildOf.Any(c => c.ParentID != null))
+                    //  if (animal.IsChildOf != null && animal.IsChildOf.Count() != 0)
                     {
                         if (animal.IsChildOf.ToList().Count() == 1)
                         {
-                            animalView.Parent1 = animal.IsChildOf.ToList()[0].Name;
+                            animalView.Parent1 = animal.IsChildOf.ToList()[0].Parent.Name;
                             animalView.Parent2 = "Not available";  // Missing one parent
-                            animal.IsChildOf.ToList()[0].Parent
                         }
                         else
                         {
-                            animalView.Parent1 = animal.IsChildOf.ToList()[0].Name;
-                            animalView.Parent2 = animal.IsChildOf.ToList()[1].Name;
+                            animalView.Parent1 = animal.IsChildOf.ToList()[0].Parent.Name;
+                            animalView.Parent2 = animal.IsChildOf.ToList()[1].Parent.Name;
                         }
                     }
                     else
@@ -97,17 +96,19 @@ namespace ZooER.Services
                     animalView.Weight = animal.Weight;
 
                     // Search for possible parents and store in a list
-                    if (animal.IsChildOf != null && animal.IsChildOf.Count() != 0)
+                    if (animal.IsChildOf.Any(c => c.ParentID != null))
+
+                    //  if (animal.IsChildOf != null && animal.IsChildOf.Count() != 0)
                     {
-                        if (animal.IsChildOf.ToList().Count() == 1)
+                        if (animal.IsChildOf.Where(c => c.ParentID != null).Count() == 1)
                         {
-                            animalView.Parent1 = animal.IsChildOf.ToList()[0].Name;
+                            animalView.Parent1 = animal.IsChildOf.ToList()[0].Parent.Name;
                             animalView.Parent2 = "Not available";  // Missing one parent
                         }
                         else
                         {
-                            animalView.Parent1 = animal.IsChildOf.ToList()[0].Name;
-                            animalView.Parent2 = animal.IsChildOf.ToList()[1].Name;
+                            animalView.Parent1 = animal.IsChildOf.ToList()[0].Parent.Name;
+                            animalView.Parent2 = animal.IsChildOf.ToList()[1].Parent.Name;
                         }
                     }
                     else
@@ -115,8 +116,6 @@ namespace ZooER.Services
                         // there are no parents for the current animal
                         animalView.Parent1 = "Not available";  // Missing one parent
                         animalView.Parent2 = "Not available";  // Missing one parent
-
-
                     }
                     animalView.HabitatType = animal.Habitat.Name;
                     animalView.DietType = animal.Diet.Name;

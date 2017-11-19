@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,6 @@ namespace ZooER
         // variable used in Updating and Deleting Record  
         int lastSelectedRow = 0;
 
-
         int SelectedAnimalID = -1; // Initialize the ID (out of range!)
 
         // Used to detect changed in the textboxes/combos
@@ -34,8 +34,6 @@ namespace ZooER
         bool originChgd;
         bool parent1Chgd;
         bool parent2Chgd;
-
-
 
 
 
@@ -66,7 +64,6 @@ namespace ZooER
         {
             service = new Utility();
 
-
             // Test
             var lista = service.GetAnimalDetails();
             if (lista.Count() != 0)
@@ -96,7 +93,7 @@ namespace ZooER
 
             // Test - disconnecting ComboBox ORigin from table Origins!
 
-            var service = new Utility();
+            // var service = new Utility();
 
             using (var db = new ZooContext())
             {
@@ -161,9 +158,9 @@ namespace ZooER
                     mappedHabitats[j] = db.Habitats.ToList()[i].Name;
                 }
                 cmbHabitat.DataSource = mappedHabitats;
-
             }
         }
+
 
         private void FillSpeciesCombo()
         {
@@ -180,6 +177,7 @@ namespace ZooER
                 cmbSpecies.DataSource = mappedSpecies;
             }
         }
+
 
         private void FillParent1Combo()
         {
@@ -214,7 +212,6 @@ namespace ZooER
                 cmbParent2.DataSource = mappedParent2;
             }
         }
-
 
 
         private void ClearData()
@@ -432,11 +429,11 @@ namespace ZooER
                         // call Remove method from navigation property for any instance
 
                         // REMOVING the relations around ANIMAL
-                        
+
                         // Need to check that ComboBoxes are NOT EMPTY otherwise Crash
 
                         // parents = db.Animals.Where(c => c.Name == cmbParent1.SelectedItem.ToString() ||
-                       //                                 c.Name == cmbParent2.SelectedItem.ToString()).ToList();
+                        //                                 c.Name == cmbParent2.SelectedItem.ToString()).ToList();
 
                         //    animalToRemove.
                         //if (parents.Count() != 0)
@@ -448,7 +445,7 @@ namespace ZooER
                         //}
                         //else
                         //{
-                            db.Animals.Remove(animalToRemove);     // REMOVE the animal from Animals!!
+                        db.Animals.Remove(animalToRemove);     // REMOVE the animal from Animals!!
 
                         //diet.Animals.Remove(animalToRemove);
                         //origin.Animals.Remove(animalToRemove);
@@ -512,13 +509,22 @@ namespace ZooER
 
                         if (cmbParent1.SelectedItem != null && cmbParent1.SelectedItem?.ToString() != "" && cmbParent1.SelectedItem?.ToString() != "All")
                         {
-                            // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
-                            // as Child 
-                            var parent = db.Animals.Where(c => c.Name == cmbParent1.SelectedItem.ToString()).SingleOrDefault();
+                            // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal as Child 
+                            //var parent = db.Animals.Where(c => c.Name == cmbParent1.SelectedItem.ToString()).SingleOrDefault();
+                            var parent = db.Animals.Include(c => c.IsChildOf).SingleOrDefault(c => c.Name == cmbParent1.SelectedItem.ToString());
+
+                            // If there is an Animal with Name in comboBox1 I can add the new Child!
                             if (parent != null)
                             {
+                                parent.IsParentOf.Add(
+                                    new ChildParent
+                                    {
+                                        Child = newAnimal, // New Child
+                                        Parent = parent    // Existing Parent
+                                    });
+
                                 // Add istance to Navigation Parent1
-                                parent.IsParentOf.Add(newAnimal); // Adding this new Animal as Child
+                                //  parent.IsParentOf.Add(newAnimal); // Adding this new Animal as Child
                             }
                         }
 
@@ -528,17 +534,27 @@ namespace ZooER
 
                             // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
                             // as Child 
-                            var parent = db.Animals.Where(c => c.Name == cmbParent2.SelectedItem.ToString()).SingleOrDefault();
+                            // var parent = db.Animals.Where(c => c.Name == cmbParent2.SelectedItem.ToString()).SingleOrDefault();
+                            var parent = db.Animals.Include(c => c.IsChildOf).SingleOrDefault(c => c.Name == cmbParent2.SelectedItem.ToString());
+
                             if (parent != null)
                             {
+                                parent.IsParentOf.Add(
+                                   new ChildParent
+                                   {
+                                       Child = newAnimal, // New Child
+                                       Parent = parent    // Existing Parent
+                                   });
+
                                 // Add istance to Navigation Parent1
-                                parent.IsParentOf.Add(newAnimal); // Adding this new Animal as Child
+                                // parent.IsParentOf.Add(newAnimal); // Adding this new Animal as Child
                             }
                         }
                         //// Add Animal to Context
                         //var attachedDiet = db.Diets.Where(c => c.Name == cmbDiet.SelectedItem.ToString()).SingleOrDefault();
                         //attachedDiet.Animals.Add(newAnimal);
 
+                        // This might be unnecessary! CHECK **********************************
                         db.Animals.Add(newAnimal);
 
                         // Saving in the DB
@@ -556,7 +572,7 @@ namespace ZooER
                 MessageBox.Show("Nothing to Save");
             }
         }
-        
+
 
 
         // ********************************************************
@@ -783,12 +799,12 @@ namespace ZooER
 
 
 
-        // *************************
-        // UPDATE
-        // *************************
+        // **************
+        // UPDATE BUTTON
+        // **************
         private void update_Click(object sender, EventArgs e)
         {
-            if ( mskTxtAnimal.Text != "" && cmbHabitat.SelectedIndex != 0 && cmbSpecies.SelectedIndex != 0 && cmbDiet.SelectedIndex != 0 &&
+            if (mskTxtAnimal.Text != "" && cmbHabitat.SelectedIndex != 0 && cmbSpecies.SelectedIndex != 0 && cmbDiet.SelectedIndex != 0 &&
                 mskTxtWeight.Text != "")
             {
                 // at least one field has been changed before pressin SAVE
@@ -827,7 +843,7 @@ namespace ZooER
                             }
                         }
                     }
-                    
+
 
                     if (!animalReadyExist)
                     {
@@ -853,7 +869,7 @@ namespace ZooER
 
 
 
-                      //  var currentAnimaltoUpdate = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).FirstOrDefault();
+                        //  var currentAnimaltoUpdate = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).FirstOrDefault();
 
                         // Updating...
                         currentAnimaltoUpdate.Name = newAnimal.Name;
@@ -864,7 +880,7 @@ namespace ZooER
                         currentAnimaltoUpdate.DietId = newAnimal.DietId;
 
                         // Current Child´s Parents if ANY
-                       // var currentParents = currentAnimaltoUpdate.IsChildOf.ToList();
+                        // var currentParents = currentAnimaltoUpdate.IsChildOf.ToList();
 
                         if (cmbParent1.SelectedItem != null && cmbParent1.SelectedItem?.ToString() != "" && cmbParent1.SelectedItem?.ToString() != "All" ||
                             cmbParent2.SelectedItem != null && cmbParent2.SelectedItem?.ToString() != "" && cmbParent2.SelectedItem?.ToString() != "All")
@@ -912,9 +928,9 @@ namespace ZooER
                 // None of the fields has been changed before SAVE
                 MessageBox.Show("Nothing to Save");
             }
-            
+
         }
-        
+
         // END OF EditPanel()
     }
 }

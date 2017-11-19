@@ -22,15 +22,18 @@ namespace ZooER.DAL
         }
 
         public DbSet<Animal> Animals { get; set; }
-        // public DbSet<ChildParent> ChildrenParents { get; set; }
+        public DbSet<ChildParent> ChildParents { get; set; }
 
         public DbSet<Habitat> Habitats { get; set; }
         public DbSet<Species> Species { get; set; }
         public DbSet<Diet> Diets { get; set; }
         public DbSet<Origin> Origins { get; set; }
         public DbSet<Diagnosis> Diagnoses { get; set; }
+
         public DbSet<Visit> Visits { get; set; }
         public DbSet<Drug> Drugs { get; set; }
+        public DbSet<VisitDrug> VisitDrugs { get; set; }
+
         public DbSet<Veterinary> Veterinaries { get; set; }
 
         // Some adaptations
@@ -39,15 +42,15 @@ namespace ZooER.DAL
         {
 
             // Many to many relation Edit for Visits <--> Drugs
-            modelBuilder.Entity<Visit>()
-                .HasMany(c => c.Drugs)
-                .WithMany(c => c.Visits)
-                .Map(m =>
-                {
-                    m.ToTable("VisitsDrugs");
-                    m.MapLeftKey("VisitID");
-                    m.MapRightKey("DrugID");
-                });
+            //modelBuilder.Entity<Visit>()
+            //    .HasMany(c => c.Drugs)
+            //    .WithMany(c => c.Visits)
+            //    .Map(m =>
+            //    {
+            //        m.ToTable("VisitsDrugs");
+            //        m.MapLeftKey("VisitID");
+            //        m.MapRightKey("DrugID");
+            //    });
 
             // Many to many relation Edit for Animal.Child <--> Animal.Parent
 
@@ -56,13 +59,18 @@ namespace ZooER.DAL
 
             modelBuilder.Entity<Animal>()
               .HasMany(c => c.IsChildOf)
-              .WithMany(d => d.IsParentOf)
-              .Map(m =>
-              {
-                  m.ToTable("ChildrenParents");
-                  m.MapLeftKey("ChildID");
-                  m.MapRightKey("ParentID");
-              });
+              .WithOptional(d => d.Parent);
+
+            modelBuilder.Entity<Animal>()
+             .HasMany(c => c.IsParentOf)
+             .WithOptional(d => d.Child);
+
+            //.Map(m =>
+            //{
+            //    m.ToTable("ChildrenParents");
+            //    m.MapLeftKey("ChildID");
+            //    m.MapRightKey("ParentID");
+            //});
 
 
             //WillCascadeOndelete(false);

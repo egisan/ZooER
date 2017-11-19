@@ -16,6 +16,6 @@ namespace ZooER.Models
         public string Name { get; set; }
 
         // Nav M-2-M
-        public virtual ICollection<Visit> Visits { get; set; }
+        public virtual ICollection<VisitDrug> Visits { get; set; }
     }
 }

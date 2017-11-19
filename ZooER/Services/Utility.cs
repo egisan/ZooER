@@ -46,6 +46,7 @@ namespace ZooER.Services
                         {
                             animalView.Parent1 = animal.IsChildOf.ToList()[0].Name;
                             animalView.Parent2 = "Not available";  // Missing one parent
+                            animal.IsChildOf.ToList()[0].Parent
                         }
                         else
                         {

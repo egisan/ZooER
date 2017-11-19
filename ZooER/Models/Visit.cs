@@ -32,7 +32,7 @@ namespace ZooER.Models
         public int? VeterinaryId { get; set; }
         public virtual Veterinary Veterinary { get; set; }
 
-        public virtual ICollection<Drug> Drugs { get; set; }
+        public virtual ICollection<VisitDrug> Drugs { get; set; }
 
 
 

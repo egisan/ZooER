@@ -15,14 +15,14 @@ namespace ZooER.Migrations
             AutomaticMigrationsEnabled = false;
             ContextKey = "ZooER.DAL.ZooContext";
 
-            // THIS CODE IS FOR DEBUGGING
+            // THIS CODE IS FOR DEBUGGING Migrations
 
             //if (System.Diagnostics.Debugger.IsAttached == false)
             //{
             //    System.Diagnostics.Debugger.Launch();
             //}
         }
-        
+
         protected override void Seed(ZooContext context)
         {
             //  This method will be called after migrating to the latest version.
@@ -40,9 +40,9 @@ namespace ZooER.Migrations
             // Habitats table
             var habitats = new Habitat[]
             {
-                        new Habitat { Name = "Ground" },
-                        new Habitat { Name = "Tree" },
-                        new Habitat { Name = "Sea" }
+                        new Habitat { HabitatId = 1, Name = "Ground" },
+                        new Habitat { HabitatId = 2, Name = "Tree" },
+                        new Habitat { HabitatId = 3, Name = "Sea" }
             };
             // For each 'habitat' in the list 'habitats' above, 
             // add it to the ICollection Habitats in the context (in other words in the DB)
@@ -64,7 +64,7 @@ namespace ZooER.Migrations
             };
             // species.ForEach(s => context.Species.Add(s));
             context.Species.AddOrUpdate(x => x.Name, species);
-          //  context.SaveChanges();
+            //  context.SaveChanges();
 
 
             // Diets table
@@ -75,7 +75,7 @@ namespace ZooER.Migrations
             };
             // diets.ForEach(s => context.Diets.Add(s));
             context.Diets.AddOrUpdate(x => x.Name, diets);
-          //  context.SaveChanges();
+            //  context.SaveChanges();
 
             // Origins Table
             var origins = new Origin[]
@@ -90,7 +90,7 @@ namespace ZooER.Migrations
             };
             // origins.ForEach(s => context.Origins.Add(s));
             context.Origins.AddOrUpdate(x => x.Name, origins);
-           // context.SaveChanges();
+            // context.SaveChanges();
 
 
             // -------------------------------------------
@@ -107,7 +107,7 @@ namespace ZooER.Migrations
             };
             // Add the collection in the Context and then save in the DB
             context.Diagnoses.AddOrUpdate(x => x.Description, diagnoses);
-          //  context.SaveChanges();
+            //  context.SaveChanges();
 
             // Vets Table
             var veterinaries = new Veterinary[]
@@ -118,7 +118,7 @@ namespace ZooER.Migrations
                             new Veterinary { Name = "Helena Lindeberg" }
             };
             context.Veterinaries.AddOrUpdate(x => x.Name, veterinaries);
-          //  context.SaveChanges();
+            //  context.SaveChanges();
 
             // Drugs Table
             var drugs = new Drug[]
@@ -136,13 +136,17 @@ namespace ZooER.Migrations
             // --------------------------------------------
             // Animals
             // --------------------------------------------
+            // NOTE! I JUST NEED TO INITIALIZE THE MAIN PROPERTIES and NOT the Navigation Props!
+            // IMPORTANT!! To avoid FK conflicts, I need to specify placeholders for the IDs otherwise
+            // EF Code First (which assigns by defaul the same value ID=0 to all object) will give error
+            // https://stackoverflow.com/questions/11602683/error-seeding-database-foreign-key-issue
             var animals = new Animal[]
             {
-                 new Animal() { Name = "Eagle", Weight = 15.1, IsChildOf = new List<Animal>(), IsParentOf = new List<Animal>() },
-                 new Animal() { Name = "Horse", Weight = 300.3, IsChildOf = new List<Animal>(), IsParentOf = new List<Animal>() },
-                 new Animal() { Name = "Dog", Weight = 15.4, IsChildOf = new List<Animal>(), IsParentOf = new List<Animal>() },
-                 new Animal() { Name = "Cat", Weight = 9.0, IsChildOf = new List<Animal>(), IsParentOf = new List<Animal>() },
-                 new Animal() { Name = "Wale", Weight = 1200.2, IsChildOf = new List<Animal>(), IsParentOf = new List<Animal>() }
+                 new Animal() { AnimalId = 1, Name = "Eagle", Weight = 15.1, IsChildOf = new List<ChildParent>(), IsParentOf = new List<ChildParent>() },
+                 new Animal() { AnimalId = 2, Name = "Horse", Weight = 300.3, IsChildOf = new List<ChildParent>(), IsParentOf = new List<ChildParent>() },
+                 new Animal() { AnimalId = 3, Name = "Dog", Weight = 15.4, IsChildOf = new List<ChildParent>(), IsParentOf = new List<ChildParent>() },
+                 new Animal() { AnimalId = 4, Name = "Cat", Weight = 9.0, IsChildOf = new List<ChildParent>(), IsParentOf = new List<ChildParent>() },
+                 new Animal() { AnimalId = 5, Name = "Wale", Weight = 1200.2, IsChildOf = new List<ChildParent>(), IsParentOf = new List<ChildParent>() }
             };
             // -----------------------------------------------------------------------------------------
             // Need to create the relations from the "1" side and add the animals BEFORE savingChanges()
@@ -182,11 +186,29 @@ namespace ZooER.Migrations
             // --------------------
             // Create all visits
             // --------------------
+            // NOTE! I JUST NEED TO INITIALIZE THE MAIN PROPERTIES and NOT the Navigation Props!
+            // IMPORTANT!! To avoid FK conflicts, I need to specify placeholders for the IDs otherwise
+            // EF Code First (which assigns by defaul the same value ID=0 to all object) will give error
+            // https://stackoverflow.com/questions/11602683/error-seeding-database-foreign-key-issue
             var visits = new Visit[]
             {
-                new Visit { Start = new DateTime(2016, 10, 02, 10, 15, 45), End = new DateTime(2016, 10, 02, 12, 10, 00), Drugs = new List<Drug>() },
-                new Visit { Start = new DateTime(2017, 03, 16, 08, 30, 00), End = new DateTime(2017, 03, 16, 09, 30, 00), Drugs = new List<Drug>() },
-                new Visit { Start = new DateTime(2017, 09, 12, 15, 00, 00), End = new DateTime(2017, 09, 12, 16, 30, 00), Drugs = new List<Drug>() }
+                new Visit { VisitId = 1, Start = new DateTime(2016, 10, 02, 10, 15, 45), End = new DateTime(2016, 10, 02, 12, 10, 00), Drugs = new List<VisitDrug>() },
+                new Visit { VisitId = 2, Start = new DateTime(2017, 03, 16, 08, 30, 00), End = new DateTime(2017, 03, 16, 09, 30, 00), Drugs = new List<VisitDrug>() },
+                new Visit { VisitId = 3, Start = new DateTime(2017, 09, 12, 15, 00, 00), End = new DateTime(2017, 09, 12, 16, 30, 00), Drugs = new List<VisitDrug>() }
+            };
+
+
+            // -------------------------------------
+            // Create the Bridge table VisitDrugs
+            // -------------------------------------
+            // IMPORTANT!! To avoid FK conflicts, I need to specify placeholders for the IDs otherwise
+            // EF Code First (which assigns by defaul the same value ID=0 to all object) will give error
+            // https://stackoverflow.com/questions/11602683/error-seeding-database-foreign-key-issue
+            VisitDrug[] visitDrugs = new VisitDrug[]
+            {
+                new VisitDrug { ID = 1, VisitID = visits[0].VisitId, DrugID = drugs[0].DrugId },
+                new VisitDrug { ID = 2, VisitID = visits[1].VisitId, DrugID = drugs[2].DrugId },
+                new VisitDrug { ID = 3, VisitID = visits[2].VisitId, DrugID = drugs[1].DrugId }
             };
 
 
@@ -198,33 +220,54 @@ namespace ZooER.Migrations
             // visits[0]
             visits[0].Diagnosis = diagnoses[0];
             visits[0].Veterinary = veterinaries[0];
-            visits[0].Drugs.Add(drugs[0]);
+            // visits[0].Drugs.Add(drugs[0]);
             visits[0].Animal = animals[0];
 
             // visits[1]
             visits[1].Diagnosis = diagnoses[1];
             visits[1].Veterinary = veterinaries[0];
-            visits[1].Drugs.Add(drugs[2]);
+            //  visits[1].Drugs.Add(drugs[2]);
             visits[1].Animal = animals[1];
 
             // visits[2]
             visits[2].Diagnosis = diagnoses[2];
             visits[2].Veterinary = veterinaries[1];
-            visits[2].Drugs.Add(drugs[1]);
+            // visits[2].Drugs.Add(drugs[1]);
             visits[2].Animal = animals[2];
 
 
+            // -------------------------------------
+            // Create the Bridge table ChildParents
+            // -------------------------------------
+            // IMPORTANT!! To avoid FK conflicts, I need to specify placeholders for the IDs otherwise
+            // EF Code First (which assigns by defaul the same value ID=0 to all object) will give error
+            // https://stackoverflow.com/questions/11602683/error-seeding-database-foreign-key-issue
+            ChildParent[] childparents = new ChildParent[]
+            {
+                new ChildParent { ID = 1, ChildID = animals[4].AnimalId, ParentID = animals[1].AnimalId },
+                new ChildParent { ID = 2, ChildID = animals[0].AnimalId, ParentID = animals[1].AnimalId },
+                new ChildParent { ID = 3, ChildID = animals[3].AnimalId, ParentID = animals[2].AnimalId },
+                new ChildParent { ID = 4, ChildID = animals[1].AnimalId, ParentID = animals[2].AnimalId }
+            };
             // Family links 
             // Link the relations Parent - Child
             // THIS IS NOT CORRECT BECAUSE DOES NOT INVOLVE THE CONTEXT
-            animals[4].IsChildOf.Add(animals[1]);
-            animals[0].IsChildOf.Add(animals[1]);
-            animals[2].IsParentOf.Add(animals[1]);
-            animals[2].IsParentOf.Add(animals[3]);
+            //animals[4].IsChildOf.Add(animals[1]);
+            //animals[0].IsChildOf.Add(animals[1]);
+            //animals[3].IsParentOf.Add(animals[2]);
+            //animals[1].IsParentOf.Add(animals[2]);
 
             // Add the Animals & Visits to the Context & Save to DB
             context.Animals.AddOrUpdate(x => x.Name, animals);
+            // context.SaveChanges();
+
             context.Visits.AddOrUpdate(x => x.Start, visits);
+            // context.SaveChanges();
+
+            context.ChildParents.AddOrUpdate(c => new { c.ChildID, c.ParentID }, childparents);
+            //  context.SaveChanges();
+
+            context.VisitDrugs.AddOrUpdate(v => new { v.VisitID, v.DrugID }, visitDrugs);
             context.SaveChanges();
         }
     }

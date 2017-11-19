@@ -12,7 +12,11 @@ namespace ZooER.Models
 
     public class VisitDrug
     {
-        public int VisitID { get; set; }
+        public int ID { get; set; }
+        public int? VisitID { get; set; }
+        public int? DrugID { get; set; }
 
+        public virtual Visit Visit { get; set; }
+        public virtual Drug Drug { get; set; }
     }
 }

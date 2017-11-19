@@ -19,9 +19,10 @@ namespace ZooER.Models
         public int? ParentID { get; set; }
 
         // Navigation
-
+      //  [InverseProperty("IsChildOf")]
         public virtual Animal Child { get; set; }
 
+     //   [InverseProperty("IsParentOf")]
         [ForeignKey("ParentID")]  // Here the name of the other entity FK (Parent in this case)
         public virtual Animal Parent { get; set; }
 

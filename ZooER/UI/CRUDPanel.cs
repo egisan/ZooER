@@ -892,32 +892,46 @@ namespace ZooER
                         // Current Child´s Parents if ANY
                         // var currentParents = currentAnimaltoUpdate.IsChildOf.ToList();
 
-                        if (cmbParent1.SelectedItem != null && cmbParent1.SelectedItem?.ToString() != "" && cmbParent1.SelectedItem?.ToString() != "All") 
-                            //||
-                            //cmbParent2.SelectedItem != null && cmbParent2.SelectedItem?.ToString() != "" && cmbParent2.SelectedItem?.ToString() != "All")
+                        if (cmbParent1.SelectedItem != null && cmbParent1.SelectedItem?.ToString() != "" && cmbParent1.SelectedItem?.ToString() != "All")
+                        //||
+                        //cmbParent2.SelectedItem != null && cmbParent2.SelectedItem?.ToString() != "" && cmbParent2.SelectedItem?.ToString() != "All")
                         {
                             // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
                             // as Child 
                             var parentNew1 = db.Animals.Where(c => c.Name == cmbParent1.SelectedItem.ToString()).SingleOrDefault();
-                         //   var parentNew2 = db.Animals.Where(c => c.Name == cmbParent2.SelectedItem.ToString()).SingleOrDefault();
+                            //   var parentNew2 = db.Animals.Where(c => c.Name == cmbParent2.SelectedItem.ToString()).SingleOrDefault();
 
                             if (childParentsLinks.Count() != 0) // noParents == false
                             {
-                                // current Child HAS PARENTS
+                                // The Child being updated has PARENTS
                                 //
                                 foreach (var linkToParent in childParentsLinks)
                                 {
                                     if (cmbParent1.SelectedItem?.ToString() != linkToParent.Parent.Name && cmbParent2.SelectedItem?.ToString() != linkToParent.Parent.Name)
                                     {
-                                        // remove the relashionship between parent and current child
-                                        currentAnimaltoUpdate.IsChildOf.Remove(linkToParent);
+                                        // If the comboboxes have Animals which are NOT in the DB (as parent) => I won´t allow the update!
+                                        // ONLY EXISTING ANIMALS CAN BE ADDED AS Parents!
+                                        // remove the relationshionship between parent and current child
+                                        // Create a New Parent/animal and assign to the Child
+
+                                        MessageBox.Show("Updated aborted: Parents must be ");
+                                        currentAnimaltoUpdate.IsChildOf.Remove(linkToParent); // Remove
+
                                     }
                                     else
                                     {
                                         // need to keep the same parent / parents
 
+
                                     }
                                 }
+                            }
+                            else
+                            {
+                                // The Child being updated has no PARENTS
+
+
+
                             }
 
                         }

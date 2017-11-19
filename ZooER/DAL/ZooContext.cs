@@ -57,13 +57,13 @@ namespace ZooER.DAL
             // I want to DISABLE CASCaDE ON DELETE FOR ANIMALS
             // modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
 
-            modelBuilder.Entity<Animal>()
-              .HasMany(c => c.IsChildOf)
-              .WithOptional(d => d.Parent);
+            //modelBuilder.Entity<Animal>()
+            //  .HasMany(c => c.IsChildOf)
+            //  .WithOptional(d => d.Parent);
 
-            modelBuilder.Entity<Animal>()
-             .HasMany(c => c.IsParentOf)
-             .WithOptional(d => d.Child);
+            //modelBuilder.Entity<Animal>()
+            // .HasMany(c => c.IsParentOf)
+            // .WithOptional(d => d.Child);
 
             //.Map(m =>
             //{

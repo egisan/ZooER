@@ -15,15 +15,16 @@ namespace ZooER.Models
         [ForeignKey ("Child")] // Here the name of the Other Entity(Child) 
         public int? ChildID { get; set; }
 
+        [ForeignKey("Parent")]
         // I test 2 ways of defining FK in this entity
         public int? ParentID { get; set; }
 
         // Navigation
       //  [InverseProperty("IsChildOf")]
+       //  [ForeignKey("ChildID")]  // Here the name of the other entity FK (Parent in this case)
         public virtual Animal Child { get; set; }
 
-     //   [InverseProperty("IsParentOf")]
-        [ForeignKey("ParentID")]  // Here the name of the other entity FK (Parent in this case)
+       // [InverseProperty("IsParentOf")]
         public virtual Animal Parent { get; set; }
 
     }

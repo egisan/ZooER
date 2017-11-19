@@ -10,6 +10,12 @@ namespace ZooER.Models
 {
     public class Animal
     {
+        public Animal()
+        {
+            this.IsChildOf = new HashSet<ChildParent>();
+            this.IsParentOf = new HashSet<ChildParent>();
+        }
+
         // TEst
         public int AnimalId { get; set; }
 
@@ -39,10 +45,10 @@ namespace ZooER.Models
         public virtual Origin Origin { get; set; }
 
         // Navigation to Link table Children-Parents
-      //  [InverseProperty("Child")]
+        [InverseProperty("Child")]
         public virtual ICollection<ChildParent> IsChildOf { get; set; }
 
-      //  [InverseProperty("Parent")]
+        [InverseProperty("Parent")]
         public virtual ICollection<ChildParent> IsParentOf { get; set; }
 
 

@@ -819,6 +819,7 @@ namespace ZooER
 
                     //Check against DB
 
+                    bool noParents = false;
                     var temp = Convert.ToDouble(mskTxtWeight.Text);
 
                     var animalReadyExist = db.Animals.Where(c => c.Name == mskTxtAnimal.Text && c.Weight == temp &&
@@ -828,22 +829,32 @@ namespace ZooER
                                                   c.Diet.Name == cmbDiet.SelectedItem.ToString()).Any();
 
 
-                    var currentAnimaltoUpdate = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).FirstOrDefault();
-                    // Current Child´s Parents if ANY
-                    var currentParents = currentAnimaltoUpdate.IsChildOf.ToList();
+                    var currentAnimaltoUpdate = db.Animals.Find(SelectedAnimalID);   // Where(c => c.AnimalId == SelectedAnimalID).FirstOrDefault();
 
-                    if (currentParents.Count() != 0)
+                    // Current Child´s Parents if ANY
+                    var childParentsLinks = currentAnimaltoUpdate.IsChildOf.ToList();
+
+                    if (childParentsLinks.Count() != 0)
                     {
-                        foreach (var parent in currentParents)
+                        // If at least ONE parent does not match the 2 comboboxes then I assume the Update valid !
+                        foreach (var linkToParent in childParentsLinks)
                         {
-                            if (cmbParent1.SelectedItem?.ToString() != parent.Name && cmbParent2.SelectedItem?.ToString() != parent.Name)
+                            if (cmbParent1.SelectedItem?.ToString() != linkToParent.Parent.Name && cmbParent2.SelectedItem?.ToString() != linkToParent.Parent.Name)
+                            //if (cmbParent1.SelectedItem?.ToString() != parent.Name && cmbParent2.SelectedItem?.ToString() != parent.Name)
                             {
                                 animalReadyExist = false;
-
+                            }
+                            else
+                            {
+                                animalReadyExist = animalReadyExist && true;
                             }
                         }
                     }
-
+                    else
+                    {
+                        // The selected Animal has no Parents currently !
+                        noParents = true;
+                    }
 
                     if (!animalReadyExist)
                     {
@@ -868,7 +879,6 @@ namespace ZooER
                         newAnimal.DietId = db.Diets.Where(c => c.Name == cmbDiet.SelectedItem.ToString()).Select(c => c.DietId).SingleOrDefault();
 
 
-
                         //  var currentAnimaltoUpdate = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).FirstOrDefault();
 
                         // Updating...
@@ -882,24 +892,25 @@ namespace ZooER
                         // Current Child´s Parents if ANY
                         // var currentParents = currentAnimaltoUpdate.IsChildOf.ToList();
 
-                        if (cmbParent1.SelectedItem != null && cmbParent1.SelectedItem?.ToString() != "" && cmbParent1.SelectedItem?.ToString() != "All" ||
-                            cmbParent2.SelectedItem != null && cmbParent2.SelectedItem?.ToString() != "" && cmbParent2.SelectedItem?.ToString() != "All")
+                        if (cmbParent1.SelectedItem != null && cmbParent1.SelectedItem?.ToString() != "" && cmbParent1.SelectedItem?.ToString() != "All") 
+                            //||
+                            //cmbParent2.SelectedItem != null && cmbParent2.SelectedItem?.ToString() != "" && cmbParent2.SelectedItem?.ToString() != "All")
                         {
                             // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
                             // as Child 
                             var parentNew1 = db.Animals.Where(c => c.Name == cmbParent1.SelectedItem.ToString()).SingleOrDefault();
-                            var parentNew2 = db.Animals.Where(c => c.Name == cmbParent2.SelectedItem.ToString()).SingleOrDefault();
+                         //   var parentNew2 = db.Animals.Where(c => c.Name == cmbParent2.SelectedItem.ToString()).SingleOrDefault();
 
-                            if (currentParents.Count() != 0)
+                            if (childParentsLinks.Count() != 0) // noParents == false
                             {
                                 // current Child HAS PARENTS
                                 //
-                                foreach (var parent in currentParents)
+                                foreach (var linkToParent in childParentsLinks)
                                 {
-                                    if (cmbParent1.SelectedItem?.ToString() != parent.Name && cmbParent2.SelectedItem?.ToString() != parent.Name)
+                                    if (cmbParent1.SelectedItem?.ToString() != linkToParent.Parent.Name && cmbParent2.SelectedItem?.ToString() != linkToParent.Parent.Name)
                                     {
                                         // remove the relashionship between parent and current child
-                                        parent.IsParentOf.Remove(currentAnimaltoUpdate);
+                                        currentAnimaltoUpdate.IsChildOf.Remove(linkToParent);
                                     }
                                     else
                                     {

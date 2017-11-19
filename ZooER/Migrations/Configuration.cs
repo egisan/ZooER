@@ -123,10 +123,10 @@ namespace ZooER.Migrations
             // Drugs Table
             var drugs = new Drug[]
             {
-                            new Drug { Name = "Drug 1" },
-                            new Drug { Name = "Drug 2" },
-                            new Drug { Name = "Drug 3" },
-                            new Drug { Name = "Drug 4" }
+                            new Drug { DrugId = 1, Name = "Drug 1" },
+                            new Drug { DrugId = 2, Name = "Drug 2" },
+                            new Drug { DrugId = 3, Name = "Drug 3" },
+                            new Drug { DrugId = 4, Name = "Drug 4" }
             };
             context.Drugs.AddOrUpdate(x => x.Name, drugs);
 
@@ -244,10 +244,10 @@ namespace ZooER.Migrations
             // https://stackoverflow.com/questions/11602683/error-seeding-database-foreign-key-issue
             ChildParent[] childparents = new ChildParent[]
             {
-                new ChildParent { ID = 1, ChildID = animals[4].AnimalId, ParentID = animals[1].AnimalId },
-                new ChildParent { ID = 2, ChildID = animals[0].AnimalId, ParentID = animals[1].AnimalId },
+                new ChildParent { ID = 1, ChildID = animals[0].AnimalId, ParentID = animals[1].AnimalId },
+                new ChildParent { ID = 2, ChildID = animals[1].AnimalId, ParentID = animals[2].AnimalId },
                 new ChildParent { ID = 3, ChildID = animals[3].AnimalId, ParentID = animals[2].AnimalId },
-                new ChildParent { ID = 4, ChildID = animals[1].AnimalId, ParentID = animals[2].AnimalId }
+                new ChildParent { ID = 4, ChildID = animals[4].AnimalId, ParentID = animals[1].AnimalId }
             };
             // Family links 
             // Link the relations Parent - Child

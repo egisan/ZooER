@@ -13,14 +13,87 @@ namespace ZooER.Services
     public class Utility
     {
 
+        public Animal GetSelectedAnimal(int selectedId)
+        {
+            using (var db = new ZooContext())
+            {
+                return db.Animals.SingleOrDefault(c => c.AnimalId == selectedId);
+            }
+        }
+
+        public Animal GetAnimal(string name)
+        {
+            using (var db = new ZooContext())
+            {
+                return db.Animals.SingleOrDefault(c => c.Name == name);
+            }
+        }
+
+        public List<ChildParent> GetParentsLinks(string childName)
+        {
+            using (var db = new ZooContext())
+            {
+                return GetAnimal(childName).IsChildOf.ToList();
+            }
+
+        }
+
+        public List<ChildParent> GetChildrenLinks(string parentName)
+        {
+            using (var db = new ZooContext())
+            {
+                return GetAnimal(parentName).IsParentOf.ToList();
+            }
+
+        }
+
+
+        public bool UpdateChildParentsLinks(Animal currentChildtoUpdate, int numberOfParents, string parentInCombo)
+        {
+            using (var db = new ZooContext())
+            {
+                if (parentInCombo != "All")
+                {
+                    // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
+                    // as Child 
+                    var parentNew = GetAnimal(parentInCombo);
+
+                    switch (numberOfParents)
+                    {
+                        case 0:
+                            // Child has NO EXISTING PARENTS. I need to assign New parents ==> 1 or 2 links in the ChildParent table
+                            parentNew.IsParentOf.Add(
+                                            new ChildParent
+                                            {
+                                                Child = currentChildtoUpdate, // Child getting updated
+                                            Parent = parentNew            // Assigning another parent
+                                        });
+                            break;
+                        case 1:
+                        case 2:
+                            // Child has 1 OR 2 EXISTING PARENT. I need to re-assign the first parent element to combobox1
+                            currentChildtoUpdate.IsChildOf.SingleOrDefault(c => c.ParentID == null).ParentID = parentNew.AnimalId;
+                            break;
+                    }
+                    db.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false; // No update
+                }
+            }
+
+            return true;
+        }
 
         // Retrieve all info for all animals in Zoo
         // return a BindingList ready for View!
-        public List<AnimalDetails> GetAllAnimalsInSublist(List<Animal> anim, ZooContext db)
+        public List<AnimalDetails> GetAllAnimalsInSublist(List<Animal> anim)
         {
             var animals = new List<AnimalDetails>();
 
-            using (db)
+            using (var db = new ZooContext())
             {
                 AnimalDetails animalView;
 

@@ -912,7 +912,7 @@ namespace ZooER
                         {
                             // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
                             // as Child 
-                            var parentNew1 = db.Animals.Where(c => c.Name == cmbParent1.SelectedItem.ToString()).SingleOrDefault();
+                            var parentNew1 = db.Animals.Include(c => c.IsParentOf).Where(c => c.Name == cmbParent1.SelectedItem.ToString()).SingleOrDefault();
                             if (childParentsLinks.Count() >= 1)
                             {
                                 childParentsLinks[0].ParentID = parentNew1.AnimalId;
@@ -936,7 +936,7 @@ namespace ZooER
                         {
                             // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
                             // as Child 
-                            var parentNew2 = db.Animals.Where(c => c.Name == cmbParent2.SelectedItem.ToString()).SingleOrDefault();
+                            var parentNew2 = db.Animals.Include (c => c.IsParentOf).Where(c => c.Name == cmbParent2.SelectedItem.ToString()).SingleOrDefault();
                             if (childParentsLinks.Count() == 1)
                             {
                                 if (!par1mod)
@@ -946,9 +946,33 @@ namespace ZooER
                                 else
                                 {
                                     // I need to create a new relation between the current child and another parent from the DB.
-
-
+                                    parentNew2.IsParentOf.Add(
+                                                    new ChildParent
+                                                    {
+                                                        Child = currentAnimaltoUpdate, // New Child
+                                                        Parent = parentNew2            // Existing Parent
+                                                    });
                                 }
+                            }
+                            else if (childParentsLinks.Count() == 2)
+                            {
+                                if (!par1mod)
+                                {
+                                    childParentsLinks[1].ParentID = parentNew2.AnimalId;
+                                }
+                                else
+                                {
+                                    // I need to create a new relation between the current child and another parent from the DB.
+                                    parentNew2.IsParentOf.Add(
+                                                    new ChildParent
+                                                    {
+                                                        Child = currentAnimaltoUpdate, // New Child
+                                                        Parent = parentNew2            // Existing Parent
+                                                    });
+                                }
+
+
+
                             }
                             //parentNew2.IsParentOf.Add(
                             //                new ChildParent

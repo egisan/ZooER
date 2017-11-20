@@ -52,6 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\201711192000216_Init.cs" />
+    <Compile Include="Migrations\201711192000216_Init.Designer.cs">
+      <DependentUpon>201711192000216_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ChildrenParents.cs" />
+    <Compile Include="Models\VisitDrug.cs" />
     <Compile Include="Services\ObservableListSource.cs" />
     <Compile Include="Services\Utility.cs" />
     <Compile Include="UI\BookingPanel.cs">
@@ -67,6 +73,12 @@
       <DependentUpon>CancelBookingPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="DAL\ZooContext.cs" />
+    <Compile Include="UI\CRUDPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\CRUDPanel.Designer.cs">
+      <DependentUpon>CRUDPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Menu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,15 +107,12 @@
     <Compile Include="Models\Visit.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\CRUDPanel.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\CRUDPanel.Designer.cs">
-      <DependentUpon>CRUDPanel.cs</DependentUpon>
-    </Compile>
     <Compile Include="ViewModels\AnimalDetails.cs" />
     <Compile Include="ViewModels\BookingModel.cs" />
     <Compile Include="ViewModels\CancelBookingModel.cs" />
+    <EmbeddedResource Include="Migrations\201711192000216_Init.resx">
+      <DependentUpon>201711192000216_Init.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\BookingPanel.resx">
       <DependentUpon>BookingPanel.cs</DependentUpon>
     </EmbeddedResource>

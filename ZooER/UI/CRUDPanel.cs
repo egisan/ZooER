@@ -243,8 +243,7 @@ namespace ZooER
         // Click on Previous Menu Button
         private void btnPrevMenu_Click(object sender, EventArgs e)
         {
-            Form frm = new Menu();
-            frm.Show();
+            this.Close();
         }
 
 
@@ -262,46 +261,47 @@ namespace ZooER
                 // retrieve animalId from the datagrid and find attached species value!
                 var species = db.Animals.Where(c => c.AnimalId == selectedAnimalID).Select(c => c.Species).SingleOrDefault();
                 cmbSpecies.SelectedItem = species.Name;
-            }
 
-            // Habitat
-            using (var db = new ZooContext())
-            {
+                // Habitat
+
                 // retrieve animalId from the datagrid and find attached Habitat value!
                 var habitat = db.Animals.Where(c => c.AnimalId == selectedAnimalID).Select(c => c.Habitat).SingleOrDefault();
                 cmbHabitat.Text = habitat.Name;
-            }
 
-            // Diet
-            using (var db = new ZooContext())
-            {
+                // Diet
+
                 // retrieve animalId from the datagrid and find attached Habitat value!
                 var diet = db.Animals.Where(c => c.AnimalId == selectedAnimalID).Select(c => c.Diet).SingleOrDefault();
                 cmbDiet.Text = diet.Name;
-            }
 
-            // Origin
-            using (var db = new ZooContext())
-            {
+                // Origin
+
                 // retrieve animalId from the datagrid and find attached Habitat value!
                 var origin = db.Animals.Where(c => c.AnimalId == selectedAnimalID).Select(c => c.Origin).SingleOrDefault();
                 cmbOrigin.Text = origin.Name;
-            }
 
-            // Parent 1
-            using (var db = new ZooContext())
-            {
+                // Parent 1
                 // retrieve animalId from the datagrid and find attached Habitat value!
+                if (dataGridVedit.Rows[rowIndex].Cells[7].Value.ToString() == "Not available")
+                {
+                    cmbParent1.SelectedIndex = 0;
+                }
+                else
+                {
+                    cmbParent1.SelectedIndex = cmbParent1.FindStringExact(dataGridVedit.Rows[rowIndex].Cells[7].Value.ToString());
+                }
 
-                cmbParent1.Text = dataGridVedit.Rows[rowIndex].Cells[7].Value.ToString();
-            }
-
-            // Parent 2
-            using (var db = new ZooContext())
-            {
+                // Parent 2
                 // retrieve animalId from the datagrid and find attached Habitat value!
+                if (dataGridVedit.Rows[rowIndex].Cells[8].Value.ToString() == "Not available")
+                {
+                    cmbParent2.SelectedIndex = 0;
+                }
+                else
+                {
+                    cmbParent2.SelectedIndex = cmbParent2.FindStringExact(dataGridVedit.Rows[rowIndex].Cells[8].Value.ToString());
+                }
 
-                cmbParent2.Text = dataGridVedit.Rows[rowIndex].Cells[8].Value.ToString();
             }
 
             // Alternative way:
@@ -819,7 +819,7 @@ namespace ZooER
 
                     //Check against DB
 
-                    bool noParents = false;
+                    bool childMissParents = false;
                     var temp = Convert.ToDouble(mskTxtWeight.Text);
 
                     var animalReadyExist = db.Animals.Where(c => c.Name == mskTxtAnimal.Text && c.Weight == temp &&
@@ -832,244 +832,188 @@ namespace ZooER
                     // var currentAnimaltoUpdate = db.Animals.Include(c => c.IsChildOf).Include(d => d.IsParentOf).SingleOrDefault(c => c.AnimalId == SelectedAnimalID);
 
                     // Initializing some variables
-                    var currentAnimaltoUpdate = service.GetSelectedAnimal(SelectedAnimalID);
-                    var childParentsLinks = service.GetParentsLinks(currentAnimaltoUpdate.Name);
+                    var currentAnimaltoUpdate = service.GetSelectedAnimal(db, SelectedAnimalID);
+                    var childParentsLinks = service.GetParentsLinks(db, currentAnimaltoUpdate.Name);
                     string parentInCombo1 = cmbParent1.SelectedItem?.ToString();
                     string parentInCombo2 = cmbParent2.SelectedItem?.ToString();
-                    int childTotParents = childParentsLinks.Count();
+                    int childTotParents = childParentsLinks.Count(); // there might be links to parents which ave ParentID = null! I need to check these fields in the update!
+                    int potentialParents = 0;
 
-                    if (parentInCombo1 == parentInCombo2)
+                    if (parentInCombo1 != "All")
                     {
-                        MessageBox.Show("Select two different parents if any");
+                        potentialParents = 1;
+                    }
+                    if (parentInCombo2 != "All")
+                    {
+                        potentialParents += 1;
+                    }
+
+
+
+                    if (parentInCombo1 != "All" && parentInCombo2 != "All" && parentInCombo1 == parentInCombo2)
+                    {
+                        MessageBox.Show("Select two different parents or set to 'All' for no parents");
                     }
                     else
                     {
                         if (childTotParents == 0)
                         {
                             // The selected Animal has no Parents currently !
-                            noParents = true;
+                            childMissParents = true;
                         }
-                        else
+                        else if (childTotParents == 1)
                         {
                             // Ok. The child has at least a parent.
 
                             // If at least ONE parent does not match the 2 comboboxes then I assume the Update valid !
-                            foreach (var linkToParent in childParentsLinks)
+                            //foreach (var linkToParent in childParentsLinks)
+                            //{
+                            if (potentialParents <= 1)
                             {
-                                // I should actually also check that combo1, combo2 are different from "All", but it is not necessary.
-                                if (parentInCombo1 != linkToParent.Parent.Name && parentInCombo2 != linkToParent.Parent.Name)
+                                if (parentInCombo1 == "All")
                                 {
-                                    animalReadyExist = false;
+                                    if (childParentsLinks[0].ParentID == null)
+                                    {
+                                        // no changes
+                                        animalReadyExist = animalReadyExist && true;
+                                    }
+                                    else
+                                    {
+                                        // Update the current animal!!
+                                        animalReadyExist = false;
+                                    }
+                                }
+                                else // the combo1 has a potential new parent name!
+                                {
+                                    if (childParentsLinks[0].ParentID == null)
+                                    {
+                                        // Update the current animal!!
+                                        animalReadyExist = false;
+                                    }
+                                    else if (childParentsLinks[0].Parent.Name == parentInCombo1)
+                                    {
+                                        // no changes
+                                        animalReadyExist = animalReadyExist && true;
+                                    }
+                                    else
+                                    {
+                                        // Update the current animal!!
+                                        animalReadyExist = false;
+                                    }
+                                }
+
+                            }
+                            else // (potentialParents == 2)
+                            {
+                                animalReadyExist = false;
+                            }
+                        }
+                        else if (childTotParents == 2)
+                        {
+                            if (parentInCombo2 == "All")
+                            {
+                                if (childParentsLinks[1].ParentID == null)
+                                {
+                                    // no changes
+                                    animalReadyExist = animalReadyExist && true;
                                 }
                                 else
                                 {
+                                    // Update the current animal!!
+                                    animalReadyExist = false;
+                                }
+                            }
+                            else // the combo2 has a potential new parent name!
+                            {
+                                if (childParentsLinks[1].ParentID == null)
+                                {
+                                    // Update the current animal!!
+                                    animalReadyExist = false;
+                                }
+                                else if (childParentsLinks[1].Parent.Name == parentInCombo2)
+                                {
+                                    // no changes
                                     animalReadyExist = animalReadyExist && true;
+                                }
+                                else
+                                {
+                                    // Update the current animal!!
+                                    animalReadyExist = false;
                                 }
                             }
                         }
+                    }
 
+                    if (animalReadyExist)
+                    {
+                        MessageBox.Show("Animal is already registered");
+                    }
+                    else
+                    {
 
+                        // Animal IS NOT in DB 
+                        // OK Proceed with MODIFING One existing Animal detected by SelectedAnimalID Globl VAriable
 
-                        if (!animalReadyExist)
+                        // save all data in an new Animal() istance
+
+                        newAnimal.Name = mskTxtAnimal.Text;
+                        if (mskTxtWeight.Text == "")
                         {
-
-                            // Animal IS NOT in DB 
-                            // OK Proceed with MODIFING One existing Animal detected by SelectedAnimalID Globl VAriable
-
-                            // save all data in an new Animal() istance
-
-                            newAnimal.Name = mskTxtAnimal.Text;
-                            if (mskTxtWeight.Text == "")
-                            {
-                                newAnimal.Weight = 0.0;
-                            }
-                            else
-                            {
-                                newAnimal.Weight = Convert.ToDouble(mskTxtWeight.Text);
-                            }
-                            newAnimal.HabitatId = db.Habitats.Where(c => c.Name == cmbHabitat.SelectedItem.ToString()).Select(c => c.HabitatId).SingleOrDefault();
-                            newAnimal.SpeciesId = db.Species.Where(c => c.Name == cmbSpecies.SelectedItem.ToString()).Select(c => c.SpeciesId).SingleOrDefault();
-                            newAnimal.OriginId = db.Origins.Where(c => c.Name == cmbOrigin.SelectedItem.ToString()).Select(c => c.OriginId).SingleOrDefault();
-                            newAnimal.DietId = db.Diets.Where(c => c.Name == cmbDiet.SelectedItem.ToString()).Select(c => c.DietId).SingleOrDefault();
-
-
-                            //  var currentAnimaltoUpdate = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).FirstOrDefault();
-
-                            // Updating...
-                            currentAnimaltoUpdate.Name = newAnimal.Name;
-
-                            currentAnimaltoUpdate.Weight = newAnimal.Weight;
-                            currentAnimaltoUpdate.HabitatId = newAnimal.HabitatId;
-                            currentAnimaltoUpdate.SpeciesId = newAnimal.SpeciesId;
-                            currentAnimaltoUpdate.OriginId = newAnimal.OriginId;
-                            currentAnimaltoUpdate.DietId = newAnimal.DietId;
-
-                            // Current Child´s Parents if ANY
-                            // var currentParents = currentAnimaltoUpdate.IsChildOf.ToList();
-
-
-                            // Since animalReadyExist = false, then it is more efficient to REMOVE the links to the Parent(s) of the currentAnimaltoUpdate
-                            // and ADD the names in the Comboboxes if any.
-                            foreach (var linkToParent in childParentsLinks)
-                            {
-                                linkToParent.ParentID = null; // remove Parent for this child 
-                                                              // currentAnimaltoUpdate.IsChildOf.Remove(linkToParent); // Remove
-                            }
-
-
-                            // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
-                            // as Child 
-                            bool par1mod = false;
-                            bool par2mod = false;
-
-                            if (service.UpdateChildParentsLinks(currentAnimaltoUpdate, childTotParents, parentInCombo1))
-                            {
-                                // test message to be removed
-                                MessageBox.Show("Parent 1 has been updated!");
-
-                            }
-
-                            if (service.UpdateChildParentsLinks(currentAnimaltoUpdate, childTotParents, parentInCombo2))
-                            {
-                                // test message to be removed
-                                MessageBox.Show("Parent 2 has been updated!");
-
-                            }
-
-                            //if (parentInCombo1 != "All")
-                            //{
-                            //    // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
-                            //    // as Child 
-                            //    var parentNew1 = service.GetAnimal(parentInCombo1);
-
-                            //    switch (childTotParents)
-                            //    {
-                            //        case 0:
-                            //            // Child has NO EXISTING PARENTS. I need to assign New parents ==> 1 or 2 links in the ChildParent table
-                            //            parentNew1.IsParentOf.Add(
-                            //                            new ChildParent
-                            //                            {
-                            //                                Child = currentAnimaltoUpdate, // Child getting updated
-                            //                                Parent = parentNew1            // Assigning another parent
-                            //                            });
-                            //            break;
-                            //        case 1:
-                            //        case 2:
-                            //            // Child has 1 OR 2 EXISTING PARENT. I need to re-assign the first parent element to combobox1
-                            //            currentAnimaltoUpdate.IsChildOf.SingleOrDefault(c => c.ParentID == null).ParentID = parentNew1.AnimalId;
-                            //            break;
-                            //    }
-                            //}
-
-                            //if (parentInCombo2 != "All")
-                            //{
-                            //    // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
-                            //    // as Child 
-                            //    var parentNew2 = service.GetAnimal(parentInCombo2);
-
-                            //    switch (childTotParents)
-                            //    {
-                            //        case 0:
-                            //            // Child has NO EXISTING PARENTS. I need to assign New parents ==> 1 or 2 links in the ChildParent table
-                            //            parentNew2.IsParentOf.Add(
-                            //                            new ChildParent
-                            //                            {
-                            //                                Child = currentAnimaltoUpdate, // Child getting updated
-                            //                                Parent = parentNew2            // Assigning another parent
-                            //                            });
-                            //            break;
-                            //        case 1:
-                            //        case 2:
-                            //            // Child has 1 OR 2 EXISTING PARENT. I need to re-assign the first parent element to combobox1
-                            //            currentAnimaltoUpdate.IsChildOf.SingleOrDefault(c => c.ParentID == null).ParentID = parentNew2.AnimalId;
-                            //            break;
-                            //    }
-                            //}
-
-
-                                if (childParentsLinks.Count() >= 1)
-                                {
-                                    childParentsLinks[0].ParentID = parentNew1.AnimalId;
-                                    par1mod = true;
-                                }
-
-                                //parentNew1.IsParentOf.Add(
-                                //                new ChildParent
-                                //                {
-                                //                    Child = currentAnimaltoUpdate, // New Child
-                                //                    Parent = parentNew1    // Existing Parent
-                                //                });
-
-                            }
-                            else
-                            {
-                                // Combobox1 = "All" --> I do not need to update parents/child link. The updated child has no Parent
-                            }
-
-                            if (cmbParent2.SelectedItem?.ToString() != "All")
-                            {
-                                // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
-                                // as Child 
-                                var parentNew2 = db.Animals.Include(c => c.IsParentOf).Where(c => c.Name == cmbParent2.SelectedItem.ToString()).SingleOrDefault();
-                                if (childParentsLinks.Count() == 1)
-                                {
-                                    if (!par1mod)
-                                    {
-                                        childParentsLinks[0].ParentID = parentNew2.AnimalId;
-                                    }
-                                    else
-                                    {
-                                        // I need to create a new relation between the current child and another parent from the DB.
-                                        parentNew2.IsParentOf.Add(
-                                                        new ChildParent
-                                                        {
-                                                            Child = currentAnimaltoUpdate, // New Child
-                                                            Parent = parentNew2            // Existing Parent
-                                                        });
-                                    }
-                                }
-                                else if (childParentsLinks.Count() == 2)
-                                {
-                                    if (!par1mod)
-                                    {
-                                        childParentsLinks[1].ParentID = parentNew2.AnimalId;
-                                    }
-                                    else
-                                    {
-                                        // I need to create a new relation between the current child and another parent from the DB.
-                                        parentNew2.IsParentOf.Add(
-                                                        new ChildParent
-                                                        {
-                                                            Child = currentAnimaltoUpdate, // New Child
-                                                            Parent = parentNew2            // Existing Parent
-                                                        });
-                                    }
-
-
-
-                                }
-                                //parentNew2.IsParentOf.Add(
-                                //                new ChildParent
-                                //                {
-                                //                    Child = currentAnimaltoUpdate, // New Child
-                                //                    Parent = parentNew2            // Existing Parent
-                                //                });
-                            }
-                            else
-                            {
-                                // Combobox2 = "All" --> I do not need to update parents/child link.  The updated child has no Parent
-                            }
-                            // Saving in the DB
-                            db.SaveChanges();
-                            LoadCurrentZoo();
-                            ClearData();
-
-                            MessageBox.Show("Updated record successfull");
+                            newAnimal.Weight = 0.0;
                         }
                         else
                         {
-                            MessageBox.Show("Animal is already registered");
+                            newAnimal.Weight = Convert.ToDouble(mskTxtWeight.Text);
                         }
+                        newAnimal.HabitatId = db.Habitats.Where(c => c.Name == cmbHabitat.SelectedItem.ToString()).Select(c => c.HabitatId).SingleOrDefault();
+                        newAnimal.SpeciesId = db.Species.Where(c => c.Name == cmbSpecies.SelectedItem.ToString()).Select(c => c.SpeciesId).SingleOrDefault();
+                        newAnimal.OriginId = db.Origins.Where(c => c.Name == cmbOrigin.SelectedItem.ToString()).Select(c => c.OriginId).SingleOrDefault();
+                        newAnimal.DietId = db.Diets.Where(c => c.Name == cmbDiet.SelectedItem.ToString()).Select(c => c.DietId).SingleOrDefault();
+
+
+                        //  var currentAnimaltoUpdate = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).FirstOrDefault();
+
+                        // Updating...
+                        currentAnimaltoUpdate.Name = newAnimal.Name;
+
+                        currentAnimaltoUpdate.Weight = newAnimal.Weight;
+                        currentAnimaltoUpdate.HabitatId = newAnimal.HabitatId;
+                        currentAnimaltoUpdate.SpeciesId = newAnimal.SpeciesId;
+                        currentAnimaltoUpdate.OriginId = newAnimal.OriginId;
+                        currentAnimaltoUpdate.DietId = newAnimal.DietId;
+
+                        // Current Child´s Parents if ANY
+                        // var currentParents = currentAnimaltoUpdate.IsChildOf.ToList();
+
+
+                        // Since animalReadyExist = false, then it is more efficient to REMOVE the links to the Parent(s) of the currentAnimaltoUpdate
+                        // and ADD the names in the Comboboxes if any.
+                        foreach (var linkToParent in childParentsLinks)
+                        {
+                            linkToParent.ParentID = null; // remove Parent for this child 
+                                                          // currentAnimaltoUpdate.IsChildOf.Remove(linkToParent); // Remove
+                        }
+                        db.SaveChanges();
+
+                        // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
+                        // as Child 
+
+                        if (service.UpdateChildParentsLinks(db, currentAnimaltoUpdate, childTotParents, parentInCombo1, potentialParents))
+                        {
+                            // test message to be removed
+                            MessageBox.Show("Parent 1 has been updated!");
+                        }
+
+                        if (service.UpdateChildParentsLinks(db, currentAnimaltoUpdate, childTotParents, parentInCombo2, potentialParents))
+                        {
+                            // test message to be removed
+                            MessageBox.Show("Parent 2 has been updated!");
+                        }
+
+                        db.SaveChanges();
+                        LoadCurrentZoo();
+                        ClearData();
+                        MessageBox.Show("Updated record successfull");
                     }
                 } // Using()
             }
@@ -1078,8 +1022,9 @@ namespace ZooER
                 // None of the fields has been changed before SAVE
                 MessageBox.Show("Nothing to Update");
             }
-
         }
+
+
 
         // END OF EditPanel()
     }

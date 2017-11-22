@@ -17,7 +17,7 @@ namespace ZooER.Services
         {
             //using (db)
             //{
-            return db.Animals.SingleOrDefault(c => c.AnimalId == selectedId);
+            return db.Animals.FirstOrDefault(c => c.AnimalId == selectedId);
             //  }
         }
 
@@ -26,7 +26,7 @@ namespace ZooER.Services
         {
             //using (db)
             //{
-            return db.Animals.SingleOrDefault(c => c.Name == name);
+            return db.Animals.FirstOrDefault(c => c.Name == name);
             //}
         }
 
@@ -63,32 +63,33 @@ namespace ZooER.Services
                 {
                     case 0:
                         // Child has NO EXISTING PARENTS. I need to assign New parents ==> 1 or 2 links in the ChildParent table
-                        parentNew.IsParentOf.Add(
+                        currentChildtoUpdate.IsParentOf.Add(
                                         new ChildParent
                                         {
                                             Child = currentChildtoUpdate, // Child getting updated
                                             Parent = parentNew            // Assigning another parent
                                         });
+                        db.SaveChanges();
                         break;
                     case 1:
-                        currentChildtoUpdate.IsChildOf.SingleOrDefault(c => c.ParentID == null).ParentID = parentNew.AnimalId;
+                        currentChildtoUpdate.IsChildOf.FirstOrDefault(c => c.ParentID == null).ParentID = parentNew.AnimalId;
                         if (nrParentsInCombos == 2)
                         {
                             // I need to create a new entry in link table and connect the child with the new combo parent!
-                            parentNew.IsParentOf.Add(
+                            currentChildtoUpdate.IsChildOf.Add(
                                         new ChildParent
                                         {
                                             Child = currentChildtoUpdate, // Child getting updated
-                                            Parent = parentNew            // Assigning another parent
+                                            Parent = null //  parentNew            // Assigning another parent
                                         });
                             db.SaveChanges();
                         }
                         break;
                     case 2:
                         // Child has 1 OR 2 EXISTING PARENT. I need to re-assign the first parent element to combobox1
-                        if (currentChildtoUpdate.IsChildOf.SingleOrDefault(c => c.ParentID == null).ParentID == null)
+                        if (currentChildtoUpdate.IsChildOf.FirstOrDefault(c => c.ParentID == null).ParentID == null)
                         {
-                            currentChildtoUpdate.IsChildOf.SingleOrDefault(c => c.ParentID == null).ParentID = parentNew.AnimalId;
+                            currentChildtoUpdate.IsChildOf.FirstOrDefault(c => c.ParentID == null).ParentID = parentNew.AnimalId;
                             db.SaveChanges();
                         }
                         break;

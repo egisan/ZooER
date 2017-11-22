@@ -910,6 +910,38 @@ namespace ZooER
                         }
                         else if (childTotParents == 2)
                         {
+                            if (parentInCombo1 == "All")
+                            {
+                                if (childParentsLinks[0].ParentID == null)
+                                {
+                                    // no changes
+                                    animalReadyExist = animalReadyExist && true;
+                                }
+                                else
+                                {
+                                    // Update the current animal!!
+                                    animalReadyExist = false;
+                                }
+                            }
+                            else // the combo1 has a potential new parent name!
+                            {
+                                if (childParentsLinks[0].ParentID == null)
+                                {
+                                    // Update the current animal!!
+                                    animalReadyExist = false;
+                                }
+                                else if (childParentsLinks[0].Parent.Name == parentInCombo1)
+                                {
+                                    // no changes
+                                    animalReadyExist = animalReadyExist && true;
+                                }
+                                else
+                                {
+                                    // Update the current animal!!
+                                    animalReadyExist = false;
+                                }
+                            }
+
                             if (parentInCombo2 == "All")
                             {
                                 if (childParentsLinks[1].ParentID == null)
@@ -1003,6 +1035,8 @@ namespace ZooER
                             // test message to be removed
                             MessageBox.Show("Parent 1 has been updated!");
                         }
+                        // I re-evaluate the links attached to the child before calling the method.
+                       // childTotParents = service.GetParentsLinks(db, currentAnimaltoUpdate.Name).Count();
 
                         if (service.UpdateChildParentsLinks(db, currentAnimaltoUpdate, childTotParents, parentInCombo2, potentialParents))
                         {

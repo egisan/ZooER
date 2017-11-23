@@ -50,64 +50,7 @@ namespace ZooER.Services
         }
 
         // Updating the current child if parents in comboboxes are changed
-        public bool UpdateChildParentsLinks(ZooContext db, Animal currentChildtoUpdate, int numberOfParents, string parentInCombo, int nrParentsInCombos)
-        {
-            //using (db)
-            //{
-            if (parentInCombo != "All")
-            {
-                // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
-                // as Child 
-                var parentNew = GetAnimal(db, parentInCombo);
-
-                switch (numberOfParents)
-                {
-                    case 0:
-                        // Child has NO EXISTING PARENTS. I need to assign New parents ==> 1 or 2 links in the ChildParent table
-                        currentChildtoUpdate.IsParentOf.Add(
-                                        new ChildParent
-                                        {
-                                            Child = currentChildtoUpdate, // Child getting updated
-                                            Parent = parentNew            // Assigning another parent
-                                        });
-                        db.SaveChanges();
-                        break;
-                    case 1:
-                        currentChildtoUpdate.IsChildOf.FirstOrDefault(c => c.ParentID == null).ParentID = parentNew.AnimalId;
-                        if (nrParentsInCombos == 2)
-                        {
-                            // I need to create a new entry in link table and connect the child with the new combo parent!
-                            currentChildtoUpdate.IsChildOf.Add(
-                                        new ChildParent
-                                        {
-                                            Child = currentChildtoUpdate, // Child getting updated
-                                            Parent = null //  parentNew            // Assigning another parent
-                                        });
-                            db.SaveChanges();
-                        }
-                        break;
-                    case 2:
-                        // Child has 1 OR 2 EXISTING PARENT. I need to re-assign the first parent element to combobox1
-                        if (currentChildtoUpdate.IsChildOf.FirstOrDefault(c => c.ParentID == null).ParentID == null)
-                        {
-                            currentChildtoUpdate.IsChildOf.FirstOrDefault(c => c.ParentID == null).ParentID = parentNew.AnimalId;
-                            db.SaveChanges();
-                        }
-                        break;
-                }
-                return true;
-            }
-            else
-            {
-                return false; // No update
-            }
-            //}
-        }
-
-
-
-        // Updating the current child if parents in comboboxes are changed
-        public bool UpdateChildParentsLinks2(ZooContext db, Animal currentChildtoUpdate, string parentInCombo)
+        public bool UpdateChildParentsLinks(ZooContext db, Animal currentChildtoUpdate, string parentInCombo)
         {
             if (parentInCombo != "All")
             {
@@ -130,9 +73,6 @@ namespace ZooER.Services
                 return false; // No update
             }
         }
-
-
-
 
 
         // Retrieve all info for all animals in Zoo

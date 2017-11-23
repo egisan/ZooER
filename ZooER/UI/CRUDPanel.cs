@@ -983,14 +983,14 @@ namespace ZooER
                      
                         // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
                         // as Child 
-                        if (service.UpdateChildParentsLinks2(db, currentAnimaltoUpdate, parentInCombo1))
+                        if (service.UpdateChildParentsLinks(db, currentAnimaltoUpdate, parentInCombo1))
                         {
                             // test message to be removed
                             MessageBox.Show("Parent 1 has been updated!");
                         }
                         // I re-evaluate the links attached to the child before calling the method.
 
-                        if (service.UpdateChildParentsLinks2(db, currentAnimaltoUpdate, parentInCombo2))
+                        if (service.UpdateChildParentsLinks(db, currentAnimaltoUpdate, parentInCombo2))
                         {
                             // test message to be removed
                             MessageBox.Show("Parent 2 has been updated!");

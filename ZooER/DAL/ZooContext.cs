@@ -41,7 +41,9 @@ namespace ZooER.DAL
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
-            // Many to many relation Edit for Visits <--> Drugs
+
+            // Many to many relation Edit for Visits < --> Drugs
+
             //modelBuilder.Entity<Visit>()
             //    .HasMany(c => c.Drugs)
             //    .WithMany(c => c.Visits)
@@ -51,31 +53,55 @@ namespace ZooER.DAL
             //        m.MapLeftKey("VisitID");
             //        m.MapRightKey("DrugID");
             //    });
-
             // Many to many relation Edit for Animal.Child <--> Animal.Parent
 
             // I want to DISABLE CASCaDE ON DELETE FOR ANIMALS
             // modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
 
-            //modelBuilder.Entity<Animal>()
-            //  .HasMany(c => c.IsChildOf)
-            //  .WithOptional(d => d.Parent);
+            //modelBuilder.Entity<ChildParent>()
+            //  .HasOptional<Animal>(c => c.Child)
+            //  .WithMany(d => d.IsChildOf)
 
-            //modelBuilder.Entity<Animal>()
-            // .HasMany(c => c.IsParentOf)
-            // .WithOptional(d => d.Child);
-
+            //  .WillCascadeOnDelete(true);
             //.Map(m =>
             //{
-            //    m.ToTable("ChildrenParents");
-            //    m.MapLeftKey("ChildID");
-            //    m.MapRightKey("ParentID");
+            //  m.totable("childrenparents");
+            //  m.mapleftkey("childid");
+            //  m.maprightkey("parentid");
             //});
 
 
-            //WillCascadeOndelete(false);
-            // modelBuilder.Entity<Visit>()
-            //         .HasOptional(p => p.Drugs).WithOptionalPrincipal();
+            /// ****** HO CAMBIATO IL MODELLO! Devo cambiare il seed
+            modelBuilder.Entity<ChildParent>()
+                .HasKey(c => new { c.ChildID, c.ParentID });
+
+            modelBuilder.Entity<ChildParent>()
+                        .HasRequired(i => i.Child)
+                        .WithMany(i => i.IsChildOf)
+                        .HasForeignKey(i => i.ChildID)
+                        .WillCascadeOnDelete(false); //the one
+
+            modelBuilder.Entity<ChildParent>()
+                        .HasRequired(i => i.Parent)
+                        .WithMany(i => i.IsParentOf)
+                        .HasForeignKey(i => i.ParentID)
+                        .WillCascadeOnDelete(false); //the one
+
+
+
+            //modelBuilder.Entity<ChildParent>()
+            // .HasRequired(d => d.Child)
+            // .WithMany(c => c.IsChildOf)
+            // .HasForeignKey(c => c.ChildID)
+            // .WillCascadeOnDelete(false);
+
+            //modelBuilder.Entity<ChildParent>()
+            //.HasRequired(d => d.Parent)
+            //.WithMany(c => c.IsParentOf)
+            //.HasForeignKey(c => c.ParentID)
+            //.WillCascadeOnDelete(false);
+
+
 
         }
 

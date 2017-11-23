@@ -44,6 +44,9 @@ namespace ZooER.Models
         public int? OriginId { get; set; }
         public virtual Origin Origin { get; set; }
 
+
+
+
         // Navigation to Link table Children-Parents
         [InverseProperty("Child")]
         public virtual ICollection<ChildParent> IsChildOf { get; set; }

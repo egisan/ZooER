@@ -837,18 +837,22 @@ namespace ZooER
                     string parentInCombo1 = cmbParent1.SelectedItem?.ToString();
                     string parentInCombo2 = cmbParent2.SelectedItem?.ToString();
                     int childTotParents = childParentsLinks.Count(); // there might be links to parents which ave ParentID = null! I need to check these fields in the update!
-                    int potentialParents = 0;
 
-                    if (parentInCombo1 != "All")
-                    {
-                        potentialParents = 1;
-                    }
-                    if (parentInCombo2 != "All")
-                    {
-                        potentialParents += 1;
-                    }
+                  //  int potentialParents = 0;
 
+                    //if (parentInCombo1 != "All")
+                    //{
+                    //    potentialParents = 1;
+                    //}
+                    //if (parentInCombo2 != "All")
+                    //{
+                    //    potentialParents += 1;
+                    //}
 
+                    bool addParent1 = false;
+                    bool addParent2 = false;
+                    bool remParent1 = false;
+                    bool remParent2 = false;
 
                     if (parentInCombo1 != "All" && parentInCombo2 != "All" && parentInCombo1 == parentInCombo2)
                     {
@@ -856,133 +860,101 @@ namespace ZooER
                     }
                     else
                     {
-                        if (childTotParents == 0)
+                        switch (childTotParents)
                         {
-                            // The selected Animal has no Parents currently !
-                            childMissParents = true;
-                        }
-                        else if (childTotParents == 1)
-                        {
-                            // Ok. The child has at least a parent.
-
-                            // If at least ONE parent does not match the 2 comboboxes then I assume the Update valid !
-                            //foreach (var linkToParent in childParentsLinks)
-                            //{
-                            if (potentialParents <= 1)
-                            {
-                                if (parentInCombo1 == "All")
+                            case 0:
+                                if (parentInCombo1 != "All")
                                 {
-                                    if (childParentsLinks[0].ParentID == null)
+                                    addParent1 = true;
+                                }
+                                if (parentInCombo2 != "All")
+                                {
+                                    addParent2 = true;
+                                }
+                                break;
+                            case 1:
+                                if (parentInCombo1 != "All")
+                                {
+                                    if (parentInCombo1 == childParentsLinks.ToList()[0].Parent.Name)
                                     {
-                                        // no changes
-                                        animalReadyExist = animalReadyExist && true;
+                                        addParent1 = false;
                                     }
                                     else
                                     {
-                                        // Update the current animal!!
-                                        animalReadyExist = false;
+                                        addParent1 = true;
                                     }
                                 }
-                                else // the combo1 has a potential new parent name!
+                                else
                                 {
-                                    if (childParentsLinks[0].ParentID == null)
+                                    remParent1 = true;
+                                }
+
+                                if (parentInCombo2 != "All")
+                                {
+                                    if (parentInCombo2 == childParentsLinks.ToList()[0].Parent.Name)
                                     {
-                                        // Update the current animal!!
-                                        animalReadyExist = false;
-                                    }
-                                    else if (childParentsLinks[0].Parent.Name == parentInCombo1)
-                                    {
-                                        // no changes
-                                        animalReadyExist = animalReadyExist && true;
+                                        addParent2 = false;
                                     }
                                     else
                                     {
-                                        // Update the current animal!!
-                                        animalReadyExist = false;
+                                        addParent2 = true;
                                     }
                                 }
+                                break;
+                            case 2:
+                                if (parentInCombo1 != "All")
+                                {
+                                    if (parentInCombo1 == childParentsLinks.ToList()[0].Parent.Name)
+                                    {
+                                        addParent1 = false;
+                                    }
+                                    else if (parentInCombo1 == childParentsLinks.ToList()[1].Parent.Name)
+                                    {
+                                        addParent1 = false;
+                                    }
+                                    else
+                                    {
+                                        addParent1 = true;
 
-                            }
-                            else // (potentialParents == 2)
-                            {
-                                animalReadyExist = false;
-                            }
-                        }
-                        else if (childTotParents == 2)
-                        {
-                            if (parentInCombo1 == "All")
-                            {
-                                if (childParentsLinks[0].ParentID == null)
-                                {
-                                    // no changes
-                                    animalReadyExist = animalReadyExist && true;
+                                    }
                                 }
                                 else
                                 {
-                                    // Update the current animal!!
-                                    animalReadyExist = false;
+                                    remParent1 = true;
                                 }
-                            }
-                            else // the combo1 has a potential new parent name!
-                            {
-                                if (childParentsLinks[0].ParentID == null)
-                                {
-                                    // Update the current animal!!
-                                    animalReadyExist = false;
-                                }
-                                else if (childParentsLinks[0].Parent.Name == parentInCombo1)
-                                {
-                                    // no changes
-                                    animalReadyExist = animalReadyExist && true;
-                                }
-                                else
-                                {
-                                    // Update the current animal!!
-                                    animalReadyExist = false;
-                                }
-                            }
 
-                            if (parentInCombo2 == "All")
-                            {
-                                if (childParentsLinks[1].ParentID == null)
+                                if (parentInCombo2 != "All")
                                 {
-                                    // no changes
-                                    animalReadyExist = animalReadyExist && true;
+                                    if (parentInCombo2 == childParentsLinks.ToList()[0].Parent.Name)
+                                    {
+                                        addParent2 = false;
+                                    }
+                                    else if (parentInCombo2 == childParentsLinks.ToList()[1].Parent.Name)
+                                    {
+                                        addParent2 = false;
+                                    }
+                                    else
+                                    {
+                                        addParent2 = true;
+                                    }
                                 }
                                 else
                                 {
-                                    // Update the current animal!!
-                                    animalReadyExist = false;
+                                    remParent2 = true;
                                 }
-                            }
-                            else // the combo2 has a potential new parent name!
-                            {
-                                if (childParentsLinks[1].ParentID == null)
-                                {
-                                    // Update the current animal!!
-                                    animalReadyExist = false;
-                                }
-                                else if (childParentsLinks[1].Parent.Name == parentInCombo2)
-                                {
-                                    // no changes
-                                    animalReadyExist = animalReadyExist && true;
-                                }
-                                else
-                                {
-                                    // Update the current animal!!
-                                    animalReadyExist = false;
-                                }
-                            }
+                                break;
                         }
                     }
 
-                    if (animalReadyExist)
+                  //  animalReadyExist = (!addParent1 && !addParent2) || (!remParent1 && !remParent2);
+
+                   if (!addParent1 && !addParent2 && !remParent1 && !remParent2)
+
                     {
                         MessageBox.Show("Animal is already registered");
                     }
                     else
                     {
-
                         // Animal IS NOT in DB 
                         // OK Proceed with MODIFING One existing Animal detected by SelectedAnimalID Globl VAriable
 
@@ -1020,25 +992,35 @@ namespace ZooER
 
                         // Since animalReadyExist = false, then it is more efficient to REMOVE the links to the Parent(s) of the currentAnimaltoUpdate
                         // and ADD the names in the Comboboxes if any.
-                        foreach (var linkToParent in childParentsLinks)
+                        //foreach (var linkToParent in childParentsLinks)
+                        var myanimal = new Animal();
+                        var relation = new ChildParent();
+                        while (currentAnimaltoUpdate.IsChildOf.Count() != 0)
                         {
-                            linkToParent.ParentID = null; // remove Parent for this child 
-                                                          // currentAnimaltoUpdate.IsChildOf.Remove(linkToParent); // Remove
+                            myanimal = db.Animals.Include("IsChildOf").Where(c => c.AnimalId == SelectedAnimalID).FirstOrDefault();
+                            relation = myanimal.IsChildOf.FirstOrDefault();
+                            myanimal.IsChildOf.Remove(relation);
+                            db.SaveChanges();
+
+
+                            //  linkToParent.ParentID = null; // remove Parent for this child 
+                         //   currentAnimaltoUpdate.IsChildOf.Remove(linkToParent); // Remove
                         }
-                        db.SaveChanges();
+                      //  db.SaveChanges();
 
                         // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
                         // as Child 
 
-                        if (service.UpdateChildParentsLinks(db, currentAnimaltoUpdate, childTotParents, parentInCombo1, potentialParents))
+                        //  if (service.UpdateChildParentsLinks(db, currentAnimaltoUpdate, childTotParents, parentInCombo1, potentialParents))
+                        if (service.UpdateChildParentsLinks2(db, currentAnimaltoUpdate, parentInCombo1))
                         {
                             // test message to be removed
                             MessageBox.Show("Parent 1 has been updated!");
                         }
                         // I re-evaluate the links attached to the child before calling the method.
-                       // childTotParents = service.GetParentsLinks(db, currentAnimaltoUpdate.Name).Count();
+                        // childTotParents = service.GetParentsLinks(db, currentAnimaltoUpdate.Name).Count();
 
-                        if (service.UpdateChildParentsLinks(db, currentAnimaltoUpdate, childTotParents, parentInCombo2, potentialParents))
+                        if (service.UpdateChildParentsLinks2(db, currentAnimaltoUpdate, parentInCombo2))
                         {
                             // test message to be removed
                             MessageBox.Show("Parent 2 has been updated!");

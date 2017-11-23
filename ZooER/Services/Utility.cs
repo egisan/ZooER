@@ -34,7 +34,8 @@ namespace ZooER.Services
         {
             //using (db)
             //{
-            return GetAnimal(db, childName).IsChildOf.ToList();
+              return GetAnimal(db, childName).IsChildOf.ToList();
+           
             //}
 
         }
@@ -103,6 +104,37 @@ namespace ZooER.Services
             //}
         }
 
+
+
+        // Updating the current child if parents in comboboxes are changed
+        public bool UpdateChildParentsLinks2(ZooContext db, Animal currentChildtoUpdate, string parentInCombo)
+        {
+            if (parentInCombo != "All")
+            {
+                // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
+                // as Child 
+                var parentNew = GetAnimal(db, parentInCombo);
+
+                // Child has NO EXISTING PARENTS. I need to assign New parents ==> 1 or 2 links in the ChildParent table
+                currentChildtoUpdate.IsChildOf.Add(
+                                new ChildParent
+                                {
+                                    Child = currentChildtoUpdate, // Child getting updated
+                                    Parent = parentNew            // Assigning another parent
+                                });
+                db.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false; // No update
+            }
+        }
+
+
+
+
+
         // Retrieve all info for all animals in Zoo
         // return a BindingList ready for View!
         public List<AnimalDetails> GetAllAnimalsInSublist(List<Animal> anim)
@@ -128,8 +160,8 @@ namespace ZooER.Services
                     animalView.Weight = animal.Weight;
 
                     // Search for possible parents and store in a list
-                    if (animal.IsChildOf.Any(c => c.ParentID != null))
-                    //  if (animal.IsChildOf != null && animal.IsChildOf.Count() != 0)
+                    // if (animal.IsChildOf.Any(c => c.ParentID != null))
+                    if (animal.IsChildOf.Count() != 0)
                     {
                         if (animal.IsChildOf.ToList().Count() == 1)
                         {

@@ -474,102 +474,142 @@ namespace ZooER
 
 
 
-        // ***********************
-        // Pressing SAVE
-        // ************************
+        // ***************************
+        // Pressing SAVE NEW - INSERT
+        // ***************************
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (animalNameChgd || speciesChgd || habitatChgd || dietChgd || weightChgd || originChgd || parent1Chgd || parent2Chgd)
+            if (mskTxtAnimal.Text != "" && cmbHabitat.SelectedIndex != 0 && cmbSpecies.SelectedIndex != 0 && cmbDiet.SelectedIndex != 0 &&
+                  mskTxtWeight.Text != "")
             {
+
                 // at least one field has been changed before pressin SAVE
                 // Need to check:
                 // - if data is ALREADY in DB or NEW records
                 // 
+
                 var newAnimal = new Animal();
 
-                if (cmbParent1.SelectedItem != null && cmbParent2.SelectedItem != null &&
-                    cmbParent2.SelectedItem.ToString() == cmbParent1.SelectedItem.ToString())
+                using (var db = new ZooContext())
                 {
-                    // Check that parent1 IS NOT EQUAL to parent 2
-                    MessageBox.Show("Animal MUST have different parents or none");
-                }
-                else
-                {
-                    using (var db = new ZooContext())
-                    {
-                        // Case with NEW insert
+                    //Check against DB
+                    var temp = Convert.ToDouble(mskTxtWeight.Text);
 
-                        // save all data in an new Animal() istance
-                        newAnimal.Name = mskTxtAnimal.Text;
+
+                    Origin newOrigin = new Origin();
+                    newAnimal.Name = mskTxtAnimal.Text;
+
+                    if (cmbOrigin.SelectedIndex == 0 || cmbOrigin.Text == "") // All or empty
+                    {
+                        MessageBox.Show("Please choose an Origin country/continent.");
+                        // Need to jump all the code below!
+                    }
+                    else //if (cmbOrigin.SelectedIndex == -1)  // A new country/continent has been inserted
+                    {
+                        newOrigin = (cmbOrigin.SelectedIndex == -1) ? db.Origins.FirstOrDefault(c => c.Name == cmbOrigin.Text) : db.Origins.FirstOrDefault(c => c.Name == cmbOrigin.SelectedItem.ToString());
+                        if (newOrigin == null)
+                        {
+                            // need to create a new origin object
+                            newAnimal.Origin = new Origin { Name = cmbOrigin.Text };
+                        }
+                        else
+                        {
+                            // Search the ID of the existing country/continent and save it in "newAnimal"
+                            newAnimal.Origin = newOrigin; // db.Origins.Where(c => c.Name == cmbOrigin.SelectedItem.ToString()).Select(c => c.OriginId).SingleOrDefault();
+                        }
+
+                        var animalReadyExist = db.Animals.Where(c => c.Name == mskTxtAnimal.Text && c.Weight == temp &&
+                                                      c.Habitat.Name == cmbHabitat.SelectedItem.ToString() &&
+                                                      c.Species.Name == cmbSpecies.SelectedItem.ToString() &&
+                                                      c.Origin.Name == newOrigin.Name &&
+                                                      c.Diet.Name == cmbDiet.SelectedItem.ToString()).Any();
+
                         newAnimal.Weight = Convert.ToDouble(mskTxtWeight.Text);
                         newAnimal.HabitatId = db.Habitats.Where(c => c.Name == cmbHabitat.SelectedItem.ToString()).Select(c => c.HabitatId).SingleOrDefault();
                         newAnimal.SpeciesId = db.Species.Where(c => c.Name == cmbSpecies.SelectedItem.ToString()).Select(c => c.SpeciesId).SingleOrDefault();
-                        newAnimal.OriginId = db.Origins.Where(c => c.Name == cmbOrigin.SelectedItem.ToString()).Select(c => c.OriginId).SingleOrDefault();
+                        // newAnimal.OriginId = db.Origins.Where(c => c.Name == cmbOrigin.SelectedItem.ToString()).Select(c => c.OriginId).SingleOrDefault();
                         newAnimal.DietId = db.Diets.Where(c => c.Name == cmbDiet.SelectedItem.ToString()).Select(c => c.DietId).SingleOrDefault();
 
-                        if (cmbParent1.SelectedItem != null && cmbParent1.SelectedItem?.ToString() != "" && cmbParent1.SelectedItem?.ToString() != "All")
+                        string parentInCombo1 = cmbParent1.SelectedItem?.ToString();
+                        string parentInCombo2 = cmbParent2.SelectedItem?.ToString();
+                        bool sameName = false;
+
+                        if (parentInCombo1 != "All" && parentInCombo2 != "All" && parentInCombo1 == parentInCombo2)
                         {
-                            // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal as Child 
-                            //var parent = db.Animals.Where(c => c.Name == cmbParent1.SelectedItem.ToString()).SingleOrDefault();
-                            var parent = db.Animals.Include(c => c.IsChildOf).SingleOrDefault(c => c.Name == cmbParent1.SelectedItem.ToString());
-
-                            // If there is an Animal with Name in comboBox1 I can add the new Child!
-                            if (parent != null)
-                            {
-                                parent.IsParentOf.Add(
-                                    new ChildParent
-                                    {
-                                        Child = newAnimal, // New Child
-                                        Parent = parent    // Existing Parent
-                                    });
-
-                                // Add istance to Navigation Parent1
-                                //  parent.IsParentOf.Add(newAnimal); // Adding this new Animal as Child
-                            }
+                            MessageBox.Show("Select two different parents or set to 'All' for no parents");
+                            sameName = true;
                         }
-
-                        // I add th 2nd parent if it exist
-                        if (cmbParent2.SelectedItem != null && cmbParent2.SelectedItem?.ToString() != "" && cmbParent2.SelectedItem?.ToString() != "All")
+                        else if (parentInCombo1 != "All" && parentInCombo1 == mskTxtAnimal.Text)
                         {
-
-                            // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
-                            // as Child 
-                            // var parent = db.Animals.Where(c => c.Name == cmbParent2.SelectedItem.ToString()).SingleOrDefault();
-                            var parent = db.Animals.Include(c => c.IsChildOf).SingleOrDefault(c => c.Name == cmbParent2.SelectedItem.ToString());
-
-                            if (parent != null)
-                            {
-                                parent.IsParentOf.Add(
-                                            new ChildParent
-                                            {
-                                                Child = newAnimal, // New Child
-                                                Parent = parent    // Existing Parent
-                                            });
-
-                                // Add istance to Navigation Parent1
-                                // parent.IsParentOf.Add(newAnimal); // Adding this new Animal as Child
-                            }
+                            // Parent1 name is SAME as Child --> update not possible
+                            MessageBox.Show("Parent cannot have the same Name as the new Animal");
+                            sameName = true;
                         }
-                        //// Add Animal to Context
-                        //var attachedDiet = db.Diets.Where(c => c.Name == cmbDiet.SelectedItem.ToString()).SingleOrDefault();
-                        //attachedDiet.Animals.Add(newAnimal);
+                        else if (parentInCombo2 != "All" && parentInCombo2 == mskTxtAnimal.Text)
+                        {
+                            // Parent1 name is SAME as Child --> update not possible
+                            MessageBox.Show("Parent cannot have the same Name as the new Animal");
+                            sameName = true;
+                        }
+                        else if (parentInCombo1 != "All" || parentInCombo2 != "All")
+                        {
+                            if (parentInCombo1 != "All")
+                            {
+                                // if (cmbParent1.SelectedItem != null && cmbParent1.SelectedItem?.ToString() != "" && cmbParent1.SelectedItem?.ToString() != "All")
 
-                        // This might be unnecessary! CHECK **********************************
-                        db.Animals.Add(newAnimal);
+                                // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal as Child 
+                                //var parent = db.Animals.Where(c => c.Name == cmbParent1.SelectedItem.ToString()).SingleOrDefault();
+                                var selectedParent = db.Animals.Include(c => c.IsChildOf).SingleOrDefault(c => c.Name == parentInCombo1);
 
-                        // Saving in the DB
-                        db.SaveChanges();
+                                // If there is an Animal with Name in comboBox1 I can add the new Child!
+                                if (selectedParent != null)
+                                {
+                                    selectedParent.IsParentOf.Add(
+                                        new ChildParent
+                                        {
+                                            Child = newAnimal,         // New Child
+                                            Parent = selectedParent    // Existing Parent
+                                        });
+                                }
+                            }
+                            // I add th 2nd parent if it exist
+                            //if (cmbParent2.SelectedItem != null && cmbParent2.SelectedItem?.ToString() != "" && cmbParent2.SelectedItem?.ToString() != "All")
+                            if (parentInCombo2 != "All")
+                            {
 
-                    } // Using()
-                    LoadCurrentZoo();
-                    ClearData();
-                    MessageBox.Show("New record has been recorded");
-                }
+                                // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
+                                // as Child 
+                                // var parent = db.Animals.Where(c => c.Name == cmbParent2.SelectedItem.ToString()).SingleOrDefault();
+                                var selectedParent = db.Animals.Include(c => c.IsChildOf).SingleOrDefault(c => c.Name == parentInCombo2);
+
+                                if (selectedParent != null)
+                                {
+                                    selectedParent.IsParentOf.Add(
+                                        new ChildParent
+                                        {
+                                            Child = newAnimal, // New Child
+                                            Parent = selectedParent    // Existing Parent
+                                        });
+                                }
+                            }
+                            // This Below is necessary!!
+                        }
+                        if (!sameName)
+                        {
+                            db.Animals.Add(newAnimal);
+                            // Saving in the DB
+                            db.SaveChanges();
+                            MessageBox.Show("A New animal has been saved successfully!");
+                            LoadCurrentZoo();
+                            ClearData();
+                        }
+                    }
+                } // Using()
             }
             else
             {
                 // None of the fields has been changed before SAVE
-                MessageBox.Show("Nothing to Save");
+                MessageBox.Show("Nothing to Save.");
             }
         }
 
@@ -846,9 +886,9 @@ namespace ZooER
                             }
                             break;
                         case 2:
-                            if (childChildrenLinks[0].Child.Name == parentInCombo1 || 
-                                childChildrenLinks[0].Child.Name == parentInCombo2 || 
-                                childChildrenLinks[1].Child.Name == parentInCombo1 || 
+                            if (childChildrenLinks[0].Child.Name == parentInCombo1 ||
+                                childChildrenLinks[0].Child.Name == parentInCombo2 ||
+                                childChildrenLinks[1].Child.Name == parentInCombo1 ||
                                 childChildrenLinks[1].Child.Name == parentInCombo2)
                             {
                                 MessageBox.Show("This Animal cannot have Parent(s) with same Name as his own children");
@@ -971,7 +1011,7 @@ namespace ZooER
 
                         //  animalReadyExist = (!addParent1 && !addParent2) || (!remParent1 && !remParent2);
 
-                        if (!addParent1 && !addParent2 && !remParent1 && !remParent2)
+                        if (!animalReadyExist && !addParent1 && !addParent2 && !remParent1 && !remParent2)
                         {
                             if (!sameName)
                             {

@@ -10,7 +10,7 @@ namespace ZooER.Models
 {
     public class ChildParent
     {
-        public int ID { get; set; }
+       //  public int ID { get; set; }
 
         [ForeignKey ("Child")] // Here the name of the Other Entity(Child) 
         public int ChildID { get; set; }

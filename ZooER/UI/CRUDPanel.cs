@@ -818,8 +818,6 @@ namespace ZooER
                     // Case with UPDATE Existing record
 
                     //Check against DB
-
-                    bool childMissParents = false;
                     var temp = Convert.ToDouble(mskTxtWeight.Text);
 
                     var animalReadyExist = db.Animals.Where(c => c.Name == mskTxtAnimal.Text && c.Weight == temp &&
@@ -828,26 +826,13 @@ namespace ZooER
                                                   c.Origin.Name == cmbOrigin.SelectedItem.ToString() &&
                                                   c.Diet.Name == cmbDiet.SelectedItem.ToString()).Any();
 
-                    // var parent = db.Animals.Include(c => c.IsChildOf).SingleOrDefault(c => c.Name == cmbParent1.SelectedItem.ToString());
-                    // var currentAnimaltoUpdate = db.Animals.Include(c => c.IsChildOf).Include(d => d.IsParentOf).SingleOrDefault(c => c.AnimalId == SelectedAnimalID);
-
+                    
                     // Initializing some variables
                     var currentAnimaltoUpdate = service.GetSelectedAnimal(db, SelectedAnimalID);
                     var childParentsLinks = service.GetParentsLinks(db, currentAnimaltoUpdate.Name);
                     string parentInCombo1 = cmbParent1.SelectedItem?.ToString();
                     string parentInCombo2 = cmbParent2.SelectedItem?.ToString();
                     int childTotParents = childParentsLinks.Count(); // there might be links to parents which ave ParentID = null! I need to check these fields in the update!
-
-                  //  int potentialParents = 0;
-
-                    //if (parentInCombo1 != "All")
-                    //{
-                    //    potentialParents = 1;
-                    //}
-                    //if (parentInCombo2 != "All")
-                    //{
-                    //    potentialParents += 1;
-                    //}
 
                     bool addParent1 = false;
                     bool addParent2 = false;
@@ -974,20 +959,13 @@ namespace ZooER
                         newAnimal.OriginId = db.Origins.Where(c => c.Name == cmbOrigin.SelectedItem.ToString()).Select(c => c.OriginId).SingleOrDefault();
                         newAnimal.DietId = db.Diets.Where(c => c.Name == cmbDiet.SelectedItem.ToString()).Select(c => c.DietId).SingleOrDefault();
 
-
-                        //  var currentAnimaltoUpdate = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).FirstOrDefault();
-
                         // Updating...
                         currentAnimaltoUpdate.Name = newAnimal.Name;
-
                         currentAnimaltoUpdate.Weight = newAnimal.Weight;
                         currentAnimaltoUpdate.HabitatId = newAnimal.HabitatId;
                         currentAnimaltoUpdate.SpeciesId = newAnimal.SpeciesId;
                         currentAnimaltoUpdate.OriginId = newAnimal.OriginId;
                         currentAnimaltoUpdate.DietId = newAnimal.DietId;
-
-                        // Current Child´s Parents if ANY
-                        // var currentParents = currentAnimaltoUpdate.IsChildOf.ToList();
 
 
                         // Since animalReadyExist = false, then it is more efficient to REMOVE the links to the Parent(s) of the currentAnimaltoUpdate
@@ -1001,31 +979,22 @@ namespace ZooER
                             relation = myanimal.IsChildOf.FirstOrDefault();
                             myanimal.IsChildOf.Remove(relation);
                             db.SaveChanges();
-
-
-                            //  linkToParent.ParentID = null; // remove Parent for this child 
-                         //   currentAnimaltoUpdate.IsChildOf.Remove(linkToParent); // Remove
                         }
-                      //  db.SaveChanges();
-
+                     
                         // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
                         // as Child 
-
-                        //  if (service.UpdateChildParentsLinks(db, currentAnimaltoUpdate, childTotParents, parentInCombo1, potentialParents))
                         if (service.UpdateChildParentsLinks2(db, currentAnimaltoUpdate, parentInCombo1))
                         {
                             // test message to be removed
                             MessageBox.Show("Parent 1 has been updated!");
                         }
                         // I re-evaluate the links attached to the child before calling the method.
-                        // childTotParents = service.GetParentsLinks(db, currentAnimaltoUpdate.Name).Count();
 
                         if (service.UpdateChildParentsLinks2(db, currentAnimaltoUpdate, parentInCombo2))
                         {
                             // test message to be removed
                             MessageBox.Show("Parent 2 has been updated!");
                         }
-
                         db.SaveChanges();
                         LoadCurrentZoo();
                         ClearData();
@@ -1039,9 +1008,6 @@ namespace ZooER
                 MessageBox.Show("Nothing to Update");
             }
         }
-
-
-
         // END OF EditPanel()
     }
 }

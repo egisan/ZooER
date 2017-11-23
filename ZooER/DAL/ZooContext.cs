@@ -71,7 +71,7 @@ namespace ZooER.DAL
             //});
 
 
-            /// ****** HO CAMBIATO IL MODELLO! Devo cambiare il seed
+            // ****** HO CAMBIATO IL MODELLO! Devo cambiare il seed
             modelBuilder.Entity<ChildParent>()
                 .HasKey(c => new { c.ChildID, c.ParentID });
 
@@ -79,30 +79,13 @@ namespace ZooER.DAL
                         .HasRequired(i => i.Child)
                         .WithMany(i => i.IsChildOf)
                         .HasForeignKey(i => i.ChildID)
-                        .WillCascadeOnDelete(false); //the one
+                        .WillCascadeOnDelete(false); 
 
             modelBuilder.Entity<ChildParent>()
                         .HasRequired(i => i.Parent)
                         .WithMany(i => i.IsParentOf)
                         .HasForeignKey(i => i.ParentID)
-                        .WillCascadeOnDelete(false); //the one
-
-
-
-            //modelBuilder.Entity<ChildParent>()
-            // .HasRequired(d => d.Child)
-            // .WithMany(c => c.IsChildOf)
-            // .HasForeignKey(c => c.ChildID)
-            // .WillCascadeOnDelete(false);
-
-            //modelBuilder.Entity<ChildParent>()
-            //.HasRequired(d => d.Parent)
-            //.WithMany(c => c.IsParentOf)
-            //.HasForeignKey(c => c.ParentID)
-            //.WillCascadeOnDelete(false);
-
-
-
+                        .WillCascadeOnDelete(false); 
         }
 
         // I override the SaveChanges() for Troubleshooting purposes when I get Validation Errors in 

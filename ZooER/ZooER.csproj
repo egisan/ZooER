@@ -52,9 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201711192000216_Init.cs" />
-    <Compile Include="Migrations\201711192000216_Init.Designer.cs">
-      <DependentUpon>201711192000216_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201711231659445_Init.cs" />
+    <Compile Include="Migrations\201711231659445_Init.Designer.cs">
+      <DependentUpon>201711231659445_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ChildrenParents.cs" />
     <Compile Include="Models\VisitDrug.cs" />
@@ -110,8 +110,8 @@
     <Compile Include="ViewModels\AnimalDetails.cs" />
     <Compile Include="ViewModels\BookingModel.cs" />
     <Compile Include="ViewModels\CancelBookingModel.cs" />
-    <EmbeddedResource Include="Migrations\201711192000216_Init.resx">
-      <DependentUpon>201711192000216_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201711231659445_Init.resx">
+      <DependentUpon>201711231659445_Init.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\BookingPanel.resx">
       <DependentUpon>BookingPanel.cs</DependentUpon>

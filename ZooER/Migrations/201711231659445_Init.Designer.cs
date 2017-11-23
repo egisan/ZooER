@@ -13,7 +13,7 @@ namespace ZooER.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201711192000216_Init"; }
+            get { return "201711231659445_Init"; }
         }
         
         string IMigrationMetadata.Source

@@ -26,12 +26,9 @@ namespace ZooER.Migrations
         protected override void Seed(ZooContext context)
         {
             //  This method will be called after migrating to the latest version.
-
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
-
             // Add first the Entities on the "one" side
-
 
             // -------------------------------------------
             // All Entities around Animal
@@ -64,7 +61,6 @@ namespace ZooER.Migrations
             };
             // species.ForEach(s => context.Species.Add(s));
             context.Species.AddOrUpdate(x => x.Name, species);
-            //  context.SaveChanges();
 
 
             // Diets table
@@ -75,8 +71,8 @@ namespace ZooER.Migrations
             };
             // diets.ForEach(s => context.Diets.Add(s));
             context.Diets.AddOrUpdate(x => x.Name, diets);
-            //  context.SaveChanges();
-
+          
+            
             // Origins Table
             var origins = new Origin[]
             {
@@ -90,8 +86,7 @@ namespace ZooER.Migrations
             };
             // origins.ForEach(s => context.Origins.Add(s));
             context.Origins.AddOrUpdate(x => x.Name, origins);
-            // context.SaveChanges();
-
+         
 
             // -------------------------------------------
             // All Entities around Visit
@@ -107,7 +102,7 @@ namespace ZooER.Migrations
             };
             // Add the collection in the Context and then save in the DB
             context.Diagnoses.AddOrUpdate(x => x.Description, diagnoses);
-            //  context.SaveChanges();
+
 
             // Vets Table
             var veterinaries = new Veterinary[]
@@ -118,7 +113,7 @@ namespace ZooER.Migrations
                             new Veterinary { Name = "Helena Lindeberg" }
             };
             context.Veterinaries.AddOrUpdate(x => x.Name, veterinaries);
-            //  context.SaveChanges();
+
 
             // Drugs Table
             var drugs = new Drug[]
@@ -244,29 +239,16 @@ namespace ZooER.Migrations
             // https://stackoverflow.com/questions/11602683/error-seeding-database-foreign-key-issue
             ChildParent[] childparents = new ChildParent[]
             {
-                new ChildParent { ID = 1, ChildID = animals[0].AnimalId, ParentID = animals[1].AnimalId },
-                new ChildParent { ID = 2, ChildID = animals[1].AnimalId, ParentID = animals[2].AnimalId },
-                new ChildParent { ID = 3, ChildID = animals[3].AnimalId, ParentID = animals[2].AnimalId },
-                new ChildParent { ID = 4, ChildID = animals[4].AnimalId, ParentID = animals[1].AnimalId }
+                new ChildParent { ChildID = animals[0].AnimalId, ParentID = animals[1].AnimalId },
+                new ChildParent { ChildID = animals[1].AnimalId, ParentID = animals[2].AnimalId },
+                new ChildParent { ChildID = animals[3].AnimalId, ParentID = animals[2].AnimalId },
+                new ChildParent { ChildID = animals[4].AnimalId, ParentID = animals[1].AnimalId }
             };
-            // Family links 
-            // Link the relations Parent - Child
-            // THIS IS NOT CORRECT BECAUSE DOES NOT INVOLVE THE CONTEXT
-            //animals[4].IsChildOf.Add(animals[1]);
-            //animals[0].IsChildOf.Add(animals[1]);
-            //animals[3].IsParentOf.Add(animals[2]);
-            //animals[1].IsParentOf.Add(animals[2]);
 
             // Add the Animals & Visits to the Context & Save to DB
             context.Animals.AddOrUpdate(x => x.Name, animals);
-            // context.SaveChanges();
-
             context.Visits.AddOrUpdate(x => x.Start, visits);
-            // context.SaveChanges();
-
             context.ChildParents.AddOrUpdate(c => new { c.ChildID, c.ParentID }, childparents);
-            //  context.SaveChanges();
-
             context.VisitDrugs.AddOrUpdate(v => new { v.VisitID, v.DrugID }, visitDrugs);
             context.SaveChanges();
         }

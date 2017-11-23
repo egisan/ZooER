@@ -53,11 +53,10 @@ namespace ZooER.Migrations
                 "dbo.ChildParents",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
-                        ChildID = c.Int(),
-                        ParentID = c.Int(),
+                        ChildID = c.Int(nullable: false),
+                        ParentID = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.ID)
+                .PrimaryKey(t => new { t.ChildID, t.ParentID })
                 .ForeignKey("dbo.Animals", t => t.ChildID)
                 .ForeignKey("dbo.Animals", t => t.ParentID)
                 .Index(t => t.ChildID)

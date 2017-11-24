@@ -10,6 +10,11 @@ namespace ZooER.Models
 {
     public class Visit
     {
+        public Visit()
+        {
+            this.Drugs = new HashSet<VisitDrug>();
+        }
+
         public int VisitId { get; set; }
 
         [DataType(DataType.Date)]

@@ -41,9 +41,6 @@ namespace ZooER
         {
             InitializeComponent();
             LoadCurrentZoo();
-
-            //BindingList<AnimalDetails> showAll = GetAnimalDetails();
-            //dataGridVedit.DataSource = showAll;
         }
 
         private void SetComboBoxProperties()
@@ -55,8 +52,6 @@ namespace ZooER
             // Perhaps this should be editable !!
             cmbSpecies.DropDownStyle = ComboBoxStyle.DropDownList;
             //cmbSpecies.Properties.TextEditStyle = DisableTextEditor;
-
-
         }
 
 

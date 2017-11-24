@@ -16,7 +16,6 @@ namespace ZooER.Models
             this.IsParentOf = new HashSet<ChildParent>();
         }
 
-        // TEst
         public int AnimalId { get; set; }
 
         [Required]

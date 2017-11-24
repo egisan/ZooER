@@ -34,6 +34,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.cmbDoctor = new System.Windows.Forms.ComboBox();
+            this.veterinaryBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.cmbAnimal = new System.Windows.Forms.ComboBox();
             this.mskTxtDes = new System.Windows.Forms.MaskedTextBox();
             this.cmbDrugs = new System.Windows.Forms.ComboBox();
@@ -42,16 +43,15 @@
             this.label6 = new System.Windows.Forms.Label();
             this.btnBook = new System.Windows.Forms.Button();
             this.btnPrevMenu = new System.Windows.Forms.Button();
+            this.animalBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.drugBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.drugBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.bookingModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.bookingModelBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.bookingModelBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
-            this.bookingModelBindingSource3 = new System.Windows.Forms.BindingSource(this.components);
-            this.bookingModelBindingSource4 = new System.Windows.Forms.BindingSource(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.veterinaryBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.animalBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.drugBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.drugBindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bookingModelBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bookingModelBindingSource1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bookingModelBindingSource2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bookingModelBindingSource3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bookingModelBindingSource4)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -96,9 +96,10 @@
             // 
             // cmbDoctor
             // 
-            this.cmbDoctor.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.bookingModelBindingSource1, "DoctorName", true));
+            this.cmbDoctor.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.veterinaryBindingSource, "Name", true));
             this.cmbDoctor.DataSource = this.bookingModelBindingSource;
             this.cmbDoctor.DisplayMember = "DoctorName";
+            this.cmbDoctor.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cmbDoctor.FormattingEnabled = true;
             this.cmbDoctor.Location = new System.Drawing.Point(223, 100);
             this.cmbDoctor.Name = "cmbDoctor";
@@ -106,11 +107,16 @@
             this.cmbDoctor.TabIndex = 5;
             this.cmbDoctor.ValueMember = "DoctorName";
             // 
+            // veterinaryBindingSource
+            // 
+            this.veterinaryBindingSource.DataSource = typeof(ZooER.Models.Veterinary);
+            // 
             // cmbAnimal
             // 
-            this.cmbAnimal.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.bookingModelBindingSource3, "NamePatient", true));
-            this.cmbAnimal.DataSource = this.bookingModelBindingSource2;
+            this.cmbAnimal.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.animalBindingSource, "Name", true));
+            this.cmbAnimal.DataSource = this.bookingModelBindingSource;
             this.cmbAnimal.DisplayMember = "NamePatient";
+            this.cmbAnimal.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cmbAnimal.FormattingEnabled = true;
             this.cmbAnimal.Location = new System.Drawing.Point(223, 137);
             this.cmbAnimal.Name = "cmbAnimal";
@@ -127,11 +133,15 @@
             // 
             // cmbDrugs
             // 
+            this.cmbDrugs.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.drugBindingSource1, "Name", true));
+            this.cmbDrugs.DataSource = this.drugBindingSource;
+            this.cmbDrugs.DisplayMember = "Name";
             this.cmbDrugs.FormattingEnabled = true;
             this.cmbDrugs.Location = new System.Drawing.Point(223, 251);
             this.cmbDrugs.Name = "cmbDrugs";
             this.cmbDrugs.Size = new System.Drawing.Size(121, 21);
             this.cmbDrugs.TabIndex = 8;
+            this.cmbDrugs.ValueMember = "Name";
             // 
             // mskTxtTime
             // 
@@ -170,6 +180,7 @@
             this.btnBook.TabIndex = 13;
             this.btnBook.Text = "BOOK";
             this.btnBook.UseVisualStyleBackColor = true;
+            this.btnBook.Click += new System.EventHandler(this.btnBook_Click);
             // 
             // btnPrevMenu
             // 
@@ -179,26 +190,23 @@
             this.btnPrevMenu.TabIndex = 14;
             this.btnPrevMenu.Text = "Previous menu";
             this.btnPrevMenu.UseVisualStyleBackColor = true;
+            this.btnPrevMenu.Click += new System.EventHandler(this.btnPrevMenu_Click);
+            // 
+            // animalBindingSource
+            // 
+            this.animalBindingSource.DataSource = typeof(ZooER.Models.Animal);
+            // 
+            // drugBindingSource
+            // 
+            this.drugBindingSource.DataSource = typeof(ZooER.Models.Drug);
+            // 
+            // drugBindingSource1
+            // 
+            this.drugBindingSource1.DataSource = typeof(ZooER.Models.Drug);
             // 
             // bookingModelBindingSource
             // 
             this.bookingModelBindingSource.DataSource = typeof(ZooER.ViewModels.BookingModel);
-            // 
-            // bookingModelBindingSource1
-            // 
-            this.bookingModelBindingSource1.DataSource = typeof(ZooER.ViewModels.BookingModel);
-            // 
-            // bookingModelBindingSource2
-            // 
-            this.bookingModelBindingSource2.DataSource = typeof(ZooER.ViewModels.BookingModel);
-            // 
-            // bookingModelBindingSource3
-            // 
-            this.bookingModelBindingSource3.DataSource = typeof(ZooER.ViewModels.BookingModel);
-            // 
-            // bookingModelBindingSource4
-            // 
-            this.bookingModelBindingSource4.DataSource = typeof(ZooER.ViewModels.BookingModel);
             // 
             // BookingPanel
             // 
@@ -220,11 +228,11 @@
             this.Controls.Add(this.label1);
             this.Name = "BookingPanel";
             this.Text = "Veterinary Booking Panel";
+            ((System.ComponentModel.ISupportInitialize)(this.veterinaryBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.animalBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.drugBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.drugBindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bookingModelBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bookingModelBindingSource1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bookingModelBindingSource2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bookingModelBindingSource3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bookingModelBindingSource4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -245,10 +253,10 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnBook;
         private System.Windows.Forms.Button btnPrevMenu;
-        private System.Windows.Forms.BindingSource bookingModelBindingSource1;
+        private System.Windows.Forms.BindingSource veterinaryBindingSource;
+        private System.Windows.Forms.BindingSource animalBindingSource;
+        private System.Windows.Forms.BindingSource drugBindingSource1;
+        private System.Windows.Forms.BindingSource drugBindingSource;
         private System.Windows.Forms.BindingSource bookingModelBindingSource;
-        private System.Windows.Forms.BindingSource bookingModelBindingSource3;
-        private System.Windows.Forms.BindingSource bookingModelBindingSource2;
-        private System.Windows.Forms.BindingSource bookingModelBindingSource4;
     }
 }

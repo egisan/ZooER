@@ -16,5 +16,15 @@ namespace ZooER
         {
             InitializeComponent();
         }
+
+        private void btnBook_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnPrevMenu_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

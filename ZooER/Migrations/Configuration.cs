@@ -247,9 +247,9 @@ namespace ZooER.Migrations
 
             // Add the Animals & Visits to the Context & Save to DB
             context.Animals.AddOrUpdate(x => x.Name, animals);
-        //    context.Visits.AddOrUpdate(x => x.Start, visits);
+            context.Visits.AddOrUpdate(x => x.Start, visits);
             context.ChildParents.AddOrUpdate(c => new { c.ChildID, c.ParentID }, childparents);
-        //    context.VisitDrugs.AddOrUpdate(v => new { v.VisitID, v.DrugID }, visitDrugs);
+            context.VisitDrugs.AddOrUpdate(v => new { v.VisitID, v.DrugID }, visitDrugs);
             context.SaveChanges();
         }
     }

@@ -390,9 +390,9 @@ namespace ZooER
         }
 
 
-        // ************************
+        // ****************
         // Pressing DELETE
-        // *************************
+        // ****************
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (mskTxtAnimal.Text != "" && cmbHabitat.SelectedIndex != 0 && cmbSpecies.SelectedIndex != 0 && cmbDiet.SelectedIndex != 0 &&
@@ -409,58 +409,31 @@ namespace ZooER
                     // IF YES, remove MESSAGE TO USER, REMOVE VISITS, then ANIMAL
                     if (SelectedAnimalID < 0)
                     {
-                        SelectedAnimalID = 1;
-                    }
-                    var parents = new List<Animal>();
-                    var animalToRemove = db.Animals.FirstOrDefault(x => x.AnimalId == SelectedAnimalID);
-
-                    //var diet = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).Select(c => c.Diet).SingleOrDefault();
-                    //var origin = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).Select(c => c.Diet).SingleOrDefault();
-                    //var habitat = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).Select(c => c.Diet).SingleOrDefault();
-                    //var species = db.Animals.Where(c => c.AnimalId == SelectedAnimalID).Select(c => c.Diet).SingleOrDefault();
-
-                    if (animalToRemove.Visits.Count() != 0)
-                    {
-                        // Animal cannot be removed!
-                        MessageBox.Show("Warning! The Animal has some pending visits at the veterinary. Cancel the visits first please.");
+                        MessageBox.Show("Please select an Animal to DELETE from the list below first.");
                     }
                     else
                     {
-                        // call Remove method from navigation property for any instance
+                        var parents = new List<Animal>();
+                        var animalToRemove = db.Animals.Include("IsChildOf").Include("IsParentOf").FirstOrDefault(x => x.AnimalId == SelectedAnimalID);
 
-                        // REMOVING the relations around ANIMAL
+                        if (animalToRemove.Visits.Count() != 0)
+                        {
+                            // Animal cannot be removed!
+                            MessageBox.Show("Warning! The Animal has some pending visits at the veterinary. Cancel the visits first please.");
+                        }
+                        else
+                        {
+                            // call Remove method from navigation property for any instance
+                           
+                          //  animalToRemove.IsChildOf
+                            db.Animals.Remove(animalToRemove);     // REMOVE the animal from Animals!!
 
-                        // Need to check that ComboBoxes are NOT EMPTY otherwise Crash
-
-                        // parents = db.Animals.Where(c => c.Name == cmbParent1.SelectedItem.ToString() ||
-                        //                                 c.Name == cmbParent2.SelectedItem.ToString()).ToList();
-
-                        //    animalToRemove.
-                        //if (parents.Count() != 0)
-                        //{
-                        //    foreach (var parent in parents)
-                        //    {
-                        //        parent.IsParentOf.Remove(animalToRemove); // Removing this new Animal as Child     OK
-                        //    }
-                        //}
-                        //else
-                        //{
-                        db.Animals.Remove(animalToRemove);     // REMOVE the animal from Animals!!
-
-                        //diet.Animals.Remove(animalToRemove);
-                        //origin.Animals.Remove(animalToRemove);
-                        //habitat.Animals.Remove(animalToRemove);
-                        //species.Animals.Remove(animalToRemove);
-
-                        // parent[0].IsParentOf.Remove(animalToRemove); // Removing this new Animal as Child
-                        //}
-                        // call SaveChanges from context
-                        db.SaveChanges();
-
-                        LoadCurrentZoo();
-                        ClearData();
-                        MessageBox.Show("Animal removed!");
-
+                            // call SaveChanges from context
+                            db.SaveChanges();
+                            MessageBox.Show("Animal removed!");
+                            LoadCurrentZoo();
+                            ClearData();
+                        }
                     }
                 }
             }
@@ -551,29 +524,6 @@ namespace ZooER
                             MessageBox.Show("Existing animal. Do you want to update perhaps?");
 
                         }
-                        //else
-                        //{
-                        //string parentInCombo1 = cmbParent1.SelectedItem?.ToString();
-                        //string parentInCombo2 = cmbParent2.SelectedItem?.ToString();
-                        //bool sameName = false;
-
-                        //if (parentInCombo1 != "All" && parentInCombo2 != "All" && parentInCombo1 == parentInCombo2)
-                        //{
-                        //    MessageBox.Show("Select two different parents or set to 'All' for no parents");
-                        //    sameName = true;
-                        //}
-                        //else if (parentInCombo1 != "All" && parentInCombo1 == mskTxtAnimal.Text)
-                        //{
-                        //    // Parent1 name is SAME as Child --> update not possible
-                        //    MessageBox.Show("Parent cannot have the same Name as the new Animal");
-                        //    sameName = true;
-                        //}
-                        //else if (parentInCombo2 != "All" && parentInCombo2 == mskTxtAnimal.Text)
-                        //{
-                        //    // Parent1 name is SAME as Child --> update not possible
-                        //    MessageBox.Show("Parent cannot have the same Name as the new Animal");
-                        //    sameName = true;
-                        //}
                         else if (parentInCombo1 != "All" || parentInCombo2 != "All")
                         {
                             newAnimal.Weight = Convert.ToDouble(mskTxtWeight.Text);
@@ -583,10 +533,8 @@ namespace ZooER
 
                             if (parentInCombo1 != "All")
                             {
-                                // if (cmbParent1.SelectedItem != null && cmbParent1.SelectedItem?.ToString() != "" && cmbParent1.SelectedItem?.ToString() != "All")
-
-                                // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal as Child 
-                                //var parent = db.Animals.Where(c => c.Name == cmbParent1.SelectedItem.ToString()).SingleOrDefault();
+                                // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal as Child
+                                // Of the Parents in the DB
                                 var selectedParent = db.Animals.Include(c => c.IsChildOf).SingleOrDefault(c => c.Name == parentInCombo1);
 
                                 // If there is an Animal with Name in comboBox1 I can add the new Child!
@@ -601,13 +549,10 @@ namespace ZooER
                                 }
                             }
                             // I add th 2nd parent if it exist
-                            //if (cmbParent2.SelectedItem != null && cmbParent2.SelectedItem?.ToString() != "" && cmbParent2.SelectedItem?.ToString() != "All")
                             if (parentInCombo2 != "All")
                             {
-
-                                // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal
-                                // as Child 
-                                // var parent = db.Animals.Where(c => c.Name == cmbParent2.SelectedItem.ToString()).SingleOrDefault();
+                                // I need to search in the db the Entities mapped to the parent 1/2 comboboxes and from there Add this new Animal as Child
+                                // Of the Parents in the DB
                                 var selectedParent = db.Animals.Include(c => c.IsChildOf).SingleOrDefault(c => c.Name == parentInCombo2);
 
                                 if (selectedParent != null)
@@ -615,15 +560,15 @@ namespace ZooER
                                     selectedParent.IsParentOf.Add(
                                         new ChildParent
                                         {
-                                            Child = newAnimal, // New Child
-                                            Parent = selectedParent    // Existing Parent
+                                            Child = newAnimal,          // New Child
+                                            Parent = selectedParent     // Existing Parent
                                         });
                                 }
                             }
-                            // This Below is necessary!!
                         }
                         if (!sameName && !animalReadyExist)
                         {
+                            // This Below is necessary!!
                             db.Animals.Add(newAnimal);
                             // Saving in the DB
                             db.SaveChanges();

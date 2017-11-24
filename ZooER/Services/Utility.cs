@@ -90,7 +90,7 @@ namespace ZooER.Services
                     // Search for possible parents and store in a list
                     if (animal.IsChildOf.Count() != 0)
                     {
-                        if (animal.IsChildOf.ToList().Count() == 1)
+                        if (animal.IsChildOf.Count() == 1)
                         {
                             animalView.Parent1 = animal.IsChildOf.ToList()[0].Parent.Name;
                             animalView.Parent2 = "Not available";  // Missing one parent
@@ -117,9 +117,6 @@ namespace ZooER.Services
             }
             return animals;
         }
-
-
-
 
 
         // Retrieve all info for all animals in Zoo

@@ -1,6 +1,6 @@
 ﻿namespace ZooER
 {
-    partial class EditPanel
+    partial class CRUDPanel
     {
         /// <summary>
         /// Required designer variable.
@@ -181,7 +181,6 @@
             this.cmbHabitat.Name = "cmbHabitat";
             this.cmbHabitat.Size = new System.Drawing.Size(121, 21);
             this.cmbHabitat.TabIndex = 1;
-            this.cmbHabitat.TextChanged += new System.EventHandler(this.cmbHabitat_TextChanged);
             // 
             // habitatBindingSource
             // 
@@ -197,7 +196,6 @@
             this.cmbSpecies.Name = "cmbSpecies";
             this.cmbSpecies.Size = new System.Drawing.Size(121, 21);
             this.cmbSpecies.TabIndex = 2;
-            this.cmbSpecies.TextChanged += new System.EventHandler(this.cmbSpecies_TextChanged);
             // 
             // speciesBindingSource
             // 
@@ -212,7 +210,6 @@
             this.cmbDiet.Name = "cmbDiet";
             this.cmbDiet.Size = new System.Drawing.Size(121, 21);
             this.cmbDiet.TabIndex = 3;
-            this.cmbDiet.TextChanged += new System.EventHandler(this.cmbDiet_TextChanged);
             // 
             // dietBindingSource
             // 
@@ -224,7 +221,6 @@
             this.mskTxtAnimal.Name = "mskTxtAnimal";
             this.mskTxtAnimal.Size = new System.Drawing.Size(100, 20);
             this.mskTxtAnimal.TabIndex = 4;
-            this.mskTxtAnimal.TextChanged += new System.EventHandler(this.mskTxtAnimal_TextChanged);
             // 
             // btnSave
             // 
@@ -345,7 +341,6 @@
             this.cmbOrigin.Name = "cmbOrigin";
             this.cmbOrigin.Size = new System.Drawing.Size(121, 21);
             this.cmbOrigin.TabIndex = 16;
-            this.cmbOrigin.TextChanged += new System.EventHandler(this.cmbOrigin_TextChanged);
             // 
             // label9
             // 
@@ -363,7 +358,6 @@
             this.mskTxtWeight.Name = "mskTxtWeight";
             this.mskTxtWeight.Size = new System.Drawing.Size(121, 20);
             this.mskTxtWeight.TabIndex = 20;
-            this.mskTxtWeight.TextChanged += new System.EventHandler(this.mskTxtWeight_TextChanged);
             // 
             // label10
             // 
@@ -395,7 +389,6 @@
             this.cmbParent2.Name = "cmbParent2";
             this.cmbParent2.Size = new System.Drawing.Size(121, 21);
             this.cmbParent2.TabIndex = 25;
-            this.cmbParent2.TextChanged += new System.EventHandler(this.cmbParent2_TextChanged);
             // 
             // cmbParent1
             // 
@@ -407,7 +400,6 @@
             this.cmbParent1.Name = "cmbParent1";
             this.cmbParent1.Size = new System.Drawing.Size(121, 21);
             this.cmbParent1.TabIndex = 26;
-            this.cmbParent1.TextChanged += new System.EventHandler(this.cmbParent1_TextChanged);
             // 
             // btnClear
             // 
@@ -453,7 +445,7 @@
             // 
             this.habitatBindingSource1.DataSource = typeof(ZooER.Models.Habitat);
             // 
-            // EditPanel
+            // CRUDPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -485,7 +477,7 @@
             this.Controls.Add(this.cmbSpecies);
             this.Controls.Add(this.cmbHabitat);
             this.Controls.Add(this.dataGridVedit);
-            this.Name = "EditPanel";
+            this.Name = "CRUDPanel";
             this.Text = "Animals Management";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridVedit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.animalDetailsBindingSource)).EndInit();

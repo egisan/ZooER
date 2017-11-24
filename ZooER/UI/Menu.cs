@@ -43,7 +43,7 @@ namespace ZooER
         private void btnEdit_Click(object sender, EventArgs e)
         {
 
-            Form frm = new EditPanel();
+            Form frm = new CRUDPanel();
             frm.Show();
         }
 

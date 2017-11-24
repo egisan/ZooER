@@ -832,6 +832,7 @@ namespace ZooER
 
                     var newAnimal = new Animal();
                     var newOrigin = new Origin();
+                    var tmpOrigin = new Origin();
 
                     if (cmbOrigin.SelectedIndex == 0 || cmbOrigin.Text == "") // All or empty
                     {
@@ -840,16 +841,19 @@ namespace ZooER
                     }
                     else //if (cmbOrigin.SelectedIndex == -1)  // A new country/continent has been inserted
                     {
-                        newOrigin = (cmbOrigin.SelectedIndex == -1) ? db.Origins.Include("Animals").FirstOrDefault(c => c.Name == cmbOrigin.Text) : db.Origins.Include("Animals").FirstOrDefault(c => c.Name == cmbOrigin.SelectedItem.ToString());
-                        if (newOrigin == null)
+
+                        tmpOrigin = (cmbOrigin.SelectedIndex == -1) ? db.Origins.Include("Animals").FirstOrDefault(c => c.Name == cmbOrigin.Text) : db.Origins.Include("Animals").FirstOrDefault(c => c.Name == cmbOrigin.SelectedItem.ToString());
+                        if (tmpOrigin == null)
                         {
-                            // need to create a new origin object
-                            newAnimal.Origin = new Origin { Name = cmbOrigin.Text };
+                            newOrigin.Name = cmbOrigin.Text;
+                            newOrigin.Animals.Add(newAnimal);
                         }
                         else
                         {
+                           // newAnimal.Origin.OriginId = tmpOrigin.OriginId;
+                            
                             // Search the ID of the existing country/continent and save it in "newAnimal"
-                            newAnimal.Origin = newOrigin; // db.Origins.Where(c => c.Name == cmbOrigin.SelectedItem.ToString()).Select(c => c.OriginId).SingleOrDefault();
+                           newAnimal.Origin = tmpOrigin; // db.Origins.Where(c => c.Name == cmbOrigin.SelectedItem.ToString()).Select(c => c.OriginId).SingleOrDefault();
                         }
 
                         //Check against DB
@@ -1034,7 +1038,7 @@ namespace ZooER
                                 }
                                 newAnimal.HabitatId = db.Habitats.Where(c => c.Name == cmbHabitat.SelectedItem.ToString()).Select(c => c.HabitatId).SingleOrDefault();
                                 newAnimal.SpeciesId = db.Species.Where(c => c.Name == cmbSpecies.SelectedItem.ToString()).Select(c => c.SpeciesId).SingleOrDefault();
-                                //  newAnimal.OriginId = db.Origins.Where(c => c.Name == newAnimal.Origin.Name).Select(c => c.OriginId).SingleOrDefault();
+                                newAnimal.OriginId = newAnimal.Origin.OriginId; // db.Origins.Where(c => c.Name == newAnimal.Origin.Name).Select(c => c.OriginId).SingleOrDefault();
                                 newAnimal.DietId = db.Diets.Where(c => c.Name == cmbDiet.SelectedItem.ToString()).Select(c => c.DietId).SingleOrDefault();
 
                                 db.SaveChanges(); // I need this because when i create a new Origin, I have NO id assigned to the class Origin.

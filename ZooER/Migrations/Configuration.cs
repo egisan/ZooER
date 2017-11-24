@@ -201,9 +201,9 @@ namespace ZooER.Migrations
             // https://stackoverflow.com/questions/11602683/error-seeding-database-foreign-key-issue
             VisitDrug[] visitDrugs = new VisitDrug[]
             {
-                new VisitDrug { ID = 1, VisitID = visits[0].VisitId, DrugID = drugs[0].DrugId },
-                new VisitDrug { ID = 2, VisitID = visits[1].VisitId, DrugID = drugs[2].DrugId },
-                new VisitDrug { ID = 3, VisitID = visits[2].VisitId, DrugID = drugs[1].DrugId }
+                new VisitDrug { VisitID = visits[0].VisitId, DrugID = drugs[0].DrugId },
+                new VisitDrug { VisitID = visits[1].VisitId, DrugID = drugs[2].DrugId },
+                new VisitDrug { VisitID = visits[2].VisitId, DrugID = drugs[1].DrugId }
             };
 
 
@@ -247,9 +247,9 @@ namespace ZooER.Migrations
 
             // Add the Animals & Visits to the Context & Save to DB
             context.Animals.AddOrUpdate(x => x.Name, animals);
-            context.Visits.AddOrUpdate(x => x.Start, visits);
+        //    context.Visits.AddOrUpdate(x => x.Start, visits);
             context.ChildParents.AddOrUpdate(c => new { c.ChildID, c.ParentID }, childparents);
-            context.VisitDrugs.AddOrUpdate(v => new { v.VisitID, v.DrugID }, visitDrugs);
+        //    context.VisitDrugs.AddOrUpdate(v => new { v.VisitID, v.DrugID }, visitDrugs);
             context.SaveChanges();
         }
     }

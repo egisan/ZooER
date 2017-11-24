@@ -21,7 +21,7 @@ namespace ZooER.Models
 
         // Nav
         [ForeignKey("Animal")]
-        public int AnimalId { get; set; }
+        public int? AnimalId { get; set; }
         public virtual Animal Animal { get; set; }
 
         [ForeignKey("Diagnosis")]
@@ -33,8 +33,6 @@ namespace ZooER.Models
         public virtual Veterinary Veterinary { get; set; }
 
         public virtual ICollection<VisitDrug> Drugs { get; set; }
-
-
 
     }
 }

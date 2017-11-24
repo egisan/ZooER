@@ -72,6 +72,8 @@ namespace ZooER.DAL
 
 
             // ****** HO CAMBIATO IL MODELLO! Devo cambiare il seed
+            // Child-Parent - Bridge Table configuration
+            // To Disable Cascade ON DELETE!
             modelBuilder.Entity<ChildParent>()
                 .HasKey(c => new { c.ChildID, c.ParentID });
 
@@ -85,7 +87,25 @@ namespace ZooER.DAL
                         .HasRequired(i => i.Parent)
                         .WithMany(i => i.IsParentOf)
                         .HasForeignKey(i => i.ParentID)
-                        .WillCascadeOnDelete(false); 
+                        .WillCascadeOnDelete(false);
+
+
+            // Visit - drugs - Bridge Table configuration
+            // To Disable Cascade ON DELETE!
+            modelBuilder.Entity<VisitDrug>()
+                .HasKey(c => new { c.VisitID, c.DrugID });
+
+            modelBuilder.Entity<VisitDrug>()
+                       .HasRequired(i => i.Visit)
+                       .WithMany(i => i.Drugs)
+                       .HasForeignKey(i => i.VisitID)
+                       .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<VisitDrug>()
+                        .HasRequired(i => i.Drug)
+                        .WithMany(i => i.Visits)
+                        .HasForeignKey(i => i.DrugID)
+                        .WillCascadeOnDelete(false);
         }
 
         // I override the SaveChanges() for Troubleshooting purposes when I get Validation Errors in 

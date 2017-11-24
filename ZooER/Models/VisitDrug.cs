@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,9 +14,14 @@ namespace ZooER.Models
 
     public class VisitDrug
     {
-        public int ID { get; set; }
-        public int? VisitID { get; set; }
-        public int? DrugID { get; set; }
+       // public int ID { get; set; }
+        //[Key]
+        //[Column(Order = 1)]
+        public int VisitID { get; set; }
+
+        //[Key]
+        //[Column(Order = 2)]
+        public int DrugID { get; set; }
 
         public virtual Visit Visit { get; set; }
         public virtual Drug Drug { get; set; }

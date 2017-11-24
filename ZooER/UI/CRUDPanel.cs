@@ -845,8 +845,10 @@ namespace ZooER
                         tmpOrigin = (cmbOrigin.SelectedIndex == -1) ? db.Origins.Include("Animals").FirstOrDefault(c => c.Name == cmbOrigin.Text) : db.Origins.Include("Animals").FirstOrDefault(c => c.Name == cmbOrigin.SelectedItem.ToString());
                         if (tmpOrigin == null)
                         {
-                            newOrigin.Name = cmbOrigin.Text;
-                            newOrigin.Animals.Add(newAnimal);
+                            newAnimal.Origin = new Origin { Name = cmbOrigin.Text };
+                          //  newOrigin.Name = cmbOrigin.Text;
+                            // newOrigin.Animals.Add(newAnimal);
+                          //  newAnimal.Origin = newOrigin;
                         }
                         else
                         {
@@ -1038,7 +1040,7 @@ namespace ZooER
                                 }
                                 newAnimal.HabitatId = db.Habitats.Where(c => c.Name == cmbHabitat.SelectedItem.ToString()).Select(c => c.HabitatId).SingleOrDefault();
                                 newAnimal.SpeciesId = db.Species.Where(c => c.Name == cmbSpecies.SelectedItem.ToString()).Select(c => c.SpeciesId).SingleOrDefault();
-                                newAnimal.OriginId = newAnimal.Origin.OriginId; // db.Origins.Where(c => c.Name == newAnimal.Origin.Name).Select(c => c.OriginId).SingleOrDefault();
+                               // newAnimal.OriginId = newAnimal.Origin.OriginId; // db.Origins.Where(c => c.Name == newAnimal.Origin.Name).Select(c => c.OriginId).SingleOrDefault();
                                 newAnimal.DietId = db.Diets.Where(c => c.Name == cmbDiet.SelectedItem.ToString()).Select(c => c.DietId).SingleOrDefault();
 
                                 db.SaveChanges(); // I need this because when i create a new Origin, I have NO id assigned to the class Origin.
@@ -1047,7 +1049,7 @@ namespace ZooER
                                 currentAnimaltoUpdate.Weight = newAnimal.Weight;
                                 currentAnimaltoUpdate.HabitatId = newAnimal.HabitatId;
                                 currentAnimaltoUpdate.SpeciesId = newAnimal.SpeciesId;
-                                currentAnimaltoUpdate.OriginId = newAnimal.OriginId;
+                                currentAnimaltoUpdate.Origin = newAnimal.Origin;        // In this specific case I save the object as I have NOT YET a valid Id for Origin (when I created a new one)
                                 currentAnimaltoUpdate.DietId = newAnimal.DietId;
 
 

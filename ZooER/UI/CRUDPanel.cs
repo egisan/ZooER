@@ -893,7 +893,7 @@ namespace ZooER
                             newAnimal.Origin = newOrigin;
                         }
 
-                        var animalReadyExist = db.Animals.Where(c => c.Name == mskTxtAnimal.Text && c.Weight == temp &&
+                        var animalAlreadyExist = db.Animals.Where(c => c.Name == mskTxtAnimal.Text && c.Weight == temp &&
                                                       c.Habitat.Name == cmbHabitat.SelectedItem.ToString() &&
                                                       c.Species.Name == cmbSpecies.SelectedItem.ToString() &&
                                                       c.Origin.Name == newAnimal.Origin.Name &&
@@ -925,7 +925,7 @@ namespace ZooER
                             MessageBox.Show("Parent cannot have the same Name as the new Animal");
                             sameName = true;
                         }
-                        else if (animalReadyExist)
+                        else if (animalAlreadyExist)
                         {
                             MessageBox.Show("Existing animal. Do you want to update perhaps?");
 
@@ -967,7 +967,7 @@ namespace ZooER
                                 }
                             }
                         }
-                        if (!sameName && !animalReadyExist)
+                        if (!sameName && !animalAlreadyExist)
                         {
                             // This Below is necessary!!
                             db.Animals.Add(newAnimal);

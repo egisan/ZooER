@@ -100,6 +100,8 @@ namespace ZooER
                 bool doctorIsIn = false;
                 bool drugsIsIn = false;
 
+                var newVisit = new Visit();
+
                 using (var db = new ZooContext())
                 {
                     // Doctor Validation
@@ -130,36 +132,76 @@ namespace ZooER
                         {
                             doctor = tmpDoctor;
                         }
-
                     }
 
-                    // Drug Validation
-                    var tmpDrug = new Drug();
-                    var drug = new Drug();
-
-                    if (cmbDrugs.SelectedIndex == 0 || cmbDrugs.Text == "") // All or empty
+                    if (doctorIsIn)
                     {
-                        MessageBox.Show("Please choose or insert a new drug");
-                    }
-                    else
-                    {
-                        drugsIsIn = true;
+                        // Drug Validation
+                        var tmpDrug = new Drug();
+                        var drug = new Drug();
 
-                        tmpDrug = (cmbDrugs.SelectedIndex == -1) ? db.Drugs.FirstOrDefault(c => c.Name == cmbDrugs.Text) : db.Drugs.Include("Visit").Include("VisitDrug").FirstOrDefault(c => c.Name == cmbDrugs.SelectedItem.ToString());
-                        if (tmpDrug == null)
+                        if (cmbDrugs.SelectedIndex == 0 || cmbDrugs.Text == "") // All or empty
                         {
-                            // A New doctor name has been inserted.
-                            drug = new Drug { Name = cmbDrugs.Text };
+                            MessageBox.Show("Please choose or insert a new drug");
+                        }
+                        else
+                        {
+                            drugsIsIn = true;
 
-                            // invoke the form
-                            Form frm = new SaveNewDrug(drug);
-                            frm.Show();
+                            tmpDrug = (cmbDrugs.SelectedIndex == -1) ? db.Drugs.FirstOrDefault(c => c.Name == cmbDrugs.Text) : db.Drugs.Include("Visit").Include("VisitDrug").FirstOrDefault(c => c.Name == cmbDrugs.SelectedItem.ToString());
+                            if (tmpDrug == null)
+                            {
+                                // A New doctor name has been inserted.
+                                drug = new Drug { Name = cmbDrugs.Text };
+
+                                // invoke the form
+                                Form frm = new SaveNewDrug(drug);
+                                frm.Show();
+
+                            }
+                            else
+                            {
+                                drug = tmpDrug;
+                            }
+
+                        }
+
+                        if (drugsIsIn)
+                        {
+                            // I can check the other fields
+                            // I need to check whether this visit is already in DB (animal, doctor & Date/Time booking)
+
+                            var visitAlreadyExist = db.Visits.Where(c => DateTime.Compare(c.Start.Date, dateTimePicker1.Value.Date) == 0 &&
+                                                                    dateTimePicker2.Value.CompareTo(c.Start.TimeOfDay) == 0 &&
+                                                                    c.Animal.Name == cmbAnimal.SelectedItem.ToString() &&
+                                                                    c.Veterinary.Name == cmbDoctor.SelectedItem.ToString());
+
+                            newVisit.Start = dateTimePicker1.Value.Date + dateTimePicker2.Value.TimeOfDay;
+                            newVisit.Veterinary = 
+
+
+
+
+
+
+
+
+
+
+
 
                         }
                         else
                         {
-                            drug = tmpDrug;
+                            // I have not inserted a valid Drug and need to repeat the input
                         }
+
+
+
+                    }
+                    else
+                    {
+                        // the doctor field is not valid and I need to repeat the input
 
                     }
 
@@ -171,8 +213,8 @@ namespace ZooER
 
 
 
-                }
-            }
+                } // Using
+            } // Check for empty fields at start
             else
             {
                 MessageBox.Show("All fields are required to book a visit!");

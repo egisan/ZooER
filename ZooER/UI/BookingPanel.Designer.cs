@@ -38,7 +38,7 @@
             this.bookingModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.cmbAnimal = new System.Windows.Forms.ComboBox();
             this.animalBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.mskTxtDes = new System.Windows.Forms.MaskedTextBox();
+            this.mskTxtDesc = new System.Windows.Forms.MaskedTextBox();
             this.cmbDrugs = new System.Windows.Forms.ComboBox();
             this.drugBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.drugBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -47,6 +47,7 @@
             this.btnBook = new System.Windows.Forms.Button();
             this.btnPrevMenu = new System.Windows.Forms.Button();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.veterinaryBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bookingModelBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.animalBindingSource)).BeginInit();
@@ -103,7 +104,7 @@
             this.cmbDoctor.FormattingEnabled = true;
             this.cmbDoctor.Location = new System.Drawing.Point(223, 100);
             this.cmbDoctor.Name = "cmbDoctor";
-            this.cmbDoctor.Size = new System.Drawing.Size(121, 21);
+            this.cmbDoctor.Size = new System.Drawing.Size(171, 21);
             this.cmbDoctor.TabIndex = 5;
             this.cmbDoctor.ValueMember = "DoctorName";
             // 
@@ -125,7 +126,7 @@
             this.cmbAnimal.FormattingEnabled = true;
             this.cmbAnimal.Location = new System.Drawing.Point(223, 137);
             this.cmbAnimal.Name = "cmbAnimal";
-            this.cmbAnimal.Size = new System.Drawing.Size(121, 21);
+            this.cmbAnimal.Size = new System.Drawing.Size(171, 21);
             this.cmbAnimal.TabIndex = 6;
             this.cmbAnimal.ValueMember = "NamePatient";
             // 
@@ -133,12 +134,12 @@
             // 
             this.animalBindingSource.DataSource = typeof(ZooER.Models.Animal);
             // 
-            // mskTxtDes
+            // mskTxtDesc
             // 
-            this.mskTxtDes.Location = new System.Drawing.Point(223, 214);
-            this.mskTxtDes.Name = "mskTxtDes";
-            this.mskTxtDes.Size = new System.Drawing.Size(208, 20);
-            this.mskTxtDes.TabIndex = 9;
+            this.mskTxtDesc.Location = new System.Drawing.Point(223, 214);
+            this.mskTxtDesc.Name = "mskTxtDesc";
+            this.mskTxtDesc.Size = new System.Drawing.Size(236, 20);
+            this.mskTxtDesc.TabIndex = 9;
             // 
             // cmbDrugs
             // 
@@ -148,7 +149,7 @@
             this.cmbDrugs.FormattingEnabled = true;
             this.cmbDrugs.Location = new System.Drawing.Point(223, 251);
             this.cmbDrugs.Name = "cmbDrugs";
-            this.cmbDrugs.Size = new System.Drawing.Size(121, 21);
+            this.cmbDrugs.Size = new System.Drawing.Size(171, 21);
             this.cmbDrugs.TabIndex = 8;
             this.cmbDrugs.ValueMember = "Name";
             // 
@@ -166,9 +167,9 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(87, 176);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(43, 17);
+            this.label3.Size = new System.Drawing.Size(105, 17);
             this.label3.TabIndex = 11;
-            this.label3.Text = "Time:";
+            this.label3.Text = "Date and Time:";
             // 
             // label6
             // 
@@ -202,25 +203,36 @@
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.CustomFormat = "yyyy-MM-dd H:mm";
+            this.dateTimePicker1.CustomFormat = "yyyy-MM-dd";
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePicker1.Location = new System.Drawing.Point(223, 176);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(121, 20);
+            this.dateTimePicker1.Size = new System.Drawing.Size(95, 20);
             this.dateTimePicker1.TabIndex = 15;
             this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            // 
+            // dateTimePicker2
+            // 
+            this.dateTimePicker2.CustomFormat = "hh:mm";
+            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dateTimePicker2.Location = new System.Drawing.Point(337, 175);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.ShowUpDown = true;
+            this.dateTimePicker2.Size = new System.Drawing.Size(68, 20);
+            this.dateTimePicker2.TabIndex = 16;
             // 
             // BookingPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(578, 382);
+            this.Controls.Add(this.dateTimePicker2);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.btnPrevMenu);
             this.Controls.Add(this.btnBook);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.mskTxtDes);
+            this.Controls.Add(this.mskTxtDesc);
             this.Controls.Add(this.cmbDrugs);
             this.Controls.Add(this.cmbAnimal);
             this.Controls.Add(this.cmbDoctor);
@@ -248,7 +260,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cmbDoctor;
         private System.Windows.Forms.ComboBox cmbAnimal;
-        private System.Windows.Forms.MaskedTextBox mskTxtDes;
+        private System.Windows.Forms.MaskedTextBox mskTxtDesc;
         private System.Windows.Forms.ComboBox cmbDrugs;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label6;
@@ -260,5 +272,6 @@
         private System.Windows.Forms.BindingSource drugBindingSource;
         private System.Windows.Forms.BindingSource bookingModelBindingSource;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dateTimePicker2;
     }
 }

@@ -35,23 +35,23 @@
             this.label5 = new System.Windows.Forms.Label();
             this.cmbDoctor = new System.Windows.Forms.ComboBox();
             this.veterinaryBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.bookingModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.cmbAnimal = new System.Windows.Forms.ComboBox();
+            this.animalBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.mskTxtDes = new System.Windows.Forms.MaskedTextBox();
             this.cmbDrugs = new System.Windows.Forms.ComboBox();
+            this.drugBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.drugBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.mskTxtTime = new System.Windows.Forms.MaskedTextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.btnBook = new System.Windows.Forms.Button();
             this.btnPrevMenu = new System.Windows.Forms.Button();
-            this.animalBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.drugBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.drugBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.bookingModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.veterinaryBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.animalBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.drugBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.drugBindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bookingModelBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.animalBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.drugBindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.drugBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -111,11 +111,16 @@
             // 
             this.veterinaryBindingSource.DataSource = typeof(ZooER.Models.Veterinary);
             // 
+            // bookingModelBindingSource
+            // 
+            this.bookingModelBindingSource.DataSource = typeof(ZooER.ViewModels.BookingModel);
+            // 
             // cmbAnimal
             // 
             this.cmbAnimal.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.animalBindingSource, "Name", true));
             this.cmbAnimal.DataSource = this.bookingModelBindingSource;
             this.cmbAnimal.DisplayMember = "NamePatient";
+            this.cmbAnimal.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbAnimal.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cmbAnimal.FormattingEnabled = true;
             this.cmbAnimal.Location = new System.Drawing.Point(223, 137);
@@ -123,6 +128,10 @@
             this.cmbAnimal.Size = new System.Drawing.Size(121, 21);
             this.cmbAnimal.TabIndex = 6;
             this.cmbAnimal.ValueMember = "NamePatient";
+            // 
+            // animalBindingSource
+            // 
+            this.animalBindingSource.DataSource = typeof(ZooER.Models.Animal);
             // 
             // mskTxtDes
             // 
@@ -142,6 +151,14 @@
             this.cmbDrugs.Size = new System.Drawing.Size(121, 21);
             this.cmbDrugs.TabIndex = 8;
             this.cmbDrugs.ValueMember = "Name";
+            // 
+            // drugBindingSource1
+            // 
+            this.drugBindingSource1.DataSource = typeof(ZooER.Models.Drug);
+            // 
+            // drugBindingSource
+            // 
+            this.drugBindingSource.DataSource = typeof(ZooER.Models.Drug);
             // 
             // mskTxtTime
             // 
@@ -192,22 +209,6 @@
             this.btnPrevMenu.UseVisualStyleBackColor = true;
             this.btnPrevMenu.Click += new System.EventHandler(this.btnPrevMenu_Click);
             // 
-            // animalBindingSource
-            // 
-            this.animalBindingSource.DataSource = typeof(ZooER.Models.Animal);
-            // 
-            // drugBindingSource
-            // 
-            this.drugBindingSource.DataSource = typeof(ZooER.Models.Drug);
-            // 
-            // drugBindingSource1
-            // 
-            this.drugBindingSource1.DataSource = typeof(ZooER.Models.Drug);
-            // 
-            // bookingModelBindingSource
-            // 
-            this.bookingModelBindingSource.DataSource = typeof(ZooER.ViewModels.BookingModel);
-            // 
             // BookingPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -229,10 +230,10 @@
             this.Name = "BookingPanel";
             this.Text = "Veterinary Booking Panel";
             ((System.ComponentModel.ISupportInitialize)(this.veterinaryBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.animalBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.drugBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.drugBindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bookingModelBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.animalBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.drugBindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.drugBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

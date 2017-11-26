@@ -26,16 +26,6 @@ namespace ZooER
         int SelectedAnimalID = -1; // Initialize the ID (out of range!)
 
         // Used to detect changed in the textboxes/combos
-        bool animalNameChgd;
-        bool habitatChgd;
-        bool speciesChgd;
-        bool dietChgd;
-        bool weightChgd;
-        bool originChgd;
-        bool parent1Chgd;
-        bool parent2Chgd;
-
-
 
         public CRUDPanel()
         {
@@ -87,8 +77,6 @@ namespace ZooER
             FillParent2Combo();
         }
 
-
-        private BindingSource industryGroupFilter = new BindingSource();
 
         private void FillOrigin()
         {

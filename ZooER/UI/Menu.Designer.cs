@@ -49,10 +49,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(258, 27);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(146, 31);
+            this.label1.Size = new System.Drawing.Size(148, 33);
             this.label1.TabIndex = 3;
             this.label1.Text = "Main Menu";
             // 

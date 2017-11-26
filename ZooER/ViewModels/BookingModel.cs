@@ -15,8 +15,8 @@ namespace ZooER.ViewModels
         public string DoctorName { get; set; }
 
         [Display(Name = "Patient Name")]
-        public string NamePatient { get; set;
-        }
+        public string NamePatient { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm:ss}", ApplyFormatInEditMode = true)]
         [Display(Name = "Time booked")]

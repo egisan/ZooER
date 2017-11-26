@@ -348,6 +348,7 @@ namespace ZooER
                     // I need to remove animal from any of the "1" relations,before that I need to 
                     // check that there are NO VISITS conection to Animal.
                     // IF YES, remove MESSAGE TO USER, REMOVE VISITS, then ANIMAL
+
                     if (SelectedAnimalID < 0)
                     {
                         MessageBox.Show("Please select an Animal to DELETE from the list below first.");
@@ -571,7 +572,7 @@ namespace ZooER
                     }
                     else
                     {
-                        
+
                         MessageBox.Show("No data can be retrieved with the current search criteria.");
                         // None among among: Animal Name, Species, Habitat, Diet has been FILLED. THe Search cannot start!
                         MessageBox.Show("Please choose at least one among: Animal name, Habitat, Diet and Species to Search Animals");
@@ -606,7 +607,6 @@ namespace ZooER
                     if (cmbOrigin.SelectedIndex == 0 || cmbOrigin.Text == "") // All or empty
                     {
                         MessageBox.Show("Please choose an Origin country/continent.");
-                        // Need to jump all the code below!
                     }
                     else //if (cmbOrigin.SelectedIndex == -1)  // A new country/continent has been inserted
                     {
@@ -617,7 +617,7 @@ namespace ZooER
                         }
                         else
                         {
-                           newAnimal.Origin = tmpOrigin;
+                            newAnimal.Origin = tmpOrigin;
                         }
 
                         //Check against DB
@@ -802,7 +802,7 @@ namespace ZooER
                                 }
                                 newAnimal.HabitatId = db.Habitats.Where(c => c.Name == cmbHabitat.SelectedItem.ToString()).Select(c => c.HabitatId).SingleOrDefault();
                                 newAnimal.SpeciesId = db.Species.Where(c => c.Name == cmbSpecies.SelectedItem.ToString()).Select(c => c.SpeciesId).SingleOrDefault();
-                               // newAnimal.OriginId = newAnimal.Origin.OriginId; // db.Origins.Where(c => c.Name == newAnimal.Origin.Name).Select(c => c.OriginId).SingleOrDefault();
+                                // newAnimal.OriginId = newAnimal.Origin.OriginId; // db.Origins.Where(c => c.Name == newAnimal.Origin.Name).Select(c => c.OriginId).SingleOrDefault();
                                 newAnimal.DietId = db.Diets.Where(c => c.Name == cmbDiet.SelectedItem.ToString()).Select(c => c.DietId).SingleOrDefault();
 
                                 db.SaveChanges(); // I need this because when i create a new Origin, I have NO id assigned to the class Origin.
@@ -847,7 +847,7 @@ namespace ZooER
                 MessageBox.Show("Nothing to Update");
             }
         }
-      
+
 
 
         // ***************************

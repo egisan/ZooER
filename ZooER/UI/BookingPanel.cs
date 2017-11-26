@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ZooER.DAL;
 using ZooER.Models;
+using ZooER.UI;
 
 namespace ZooER
 {
@@ -63,7 +64,7 @@ namespace ZooER
                     mappedAnimals[j] = db.Animals.ToList()[i].Name;
                 }
                 cmbAnimal.DataSource = mappedAnimals;
-               
+
             }
         }
 
@@ -86,15 +87,108 @@ namespace ZooER
 
 
 
-
+        // *********************
+        // Click on BOOK button
+        // *********************
         private void btnBook_Click(object sender, EventArgs e)
         {
+            if (cmbDoctor.SelectedIndex != 0 && cmbAnimal.SelectedIndex != 0 && cmbDrugs.SelectedIndex != 0 &&
+                dateTimePicker1.Text != "")
+            {
+                // All fields are REQUIRED
 
+                bool doctorIsIn = false;
+                bool drugsIsIn = false;
+
+                using (var db = new ZooContext())
+                {
+                    // Doctor Validation
+
+                    var tmpDoctor = new Veterinary();
+                    var doctor = new Veterinary();
+
+                    if (cmbDoctor.SelectedIndex == 0 || cmbDoctor.Text == "") // All or empty
+                    {
+                        MessageBox.Show("Please choose or insert a new doctor ");
+                    }
+                    else
+                    {
+                        doctorIsIn = true;
+
+                        tmpDoctor = (cmbDoctor.SelectedIndex == -1) ? db.Veterinaries.FirstOrDefault(c => c.Name == cmbDoctor.Text) : db.Veterinaries.Include("Animals").Include("Diagnosis").Include("VisitDrug").Include("Drug").FirstOrDefault(c => c.Name == cmbDoctor.SelectedItem.ToString());
+                        if (tmpDoctor == null)
+                        {
+                            // A New doctor name has been inserted.
+                            doctor = new Veterinary { Name = cmbDoctor.Text };
+
+                            // invoke the form
+                            Form frm = new SaveNewVet(doctor);
+                            frm.Show();
+
+                        }
+                        else
+                        {
+                            doctor = tmpDoctor;
+                        }
+
+                    }
+
+                    // Drug Validation
+                    var tmpDrug = new Drug();
+                    var drug = new Drug();
+
+                    if (cmbDrugs.SelectedIndex == 0 || cmbDrugs.Text == "") // All or empty
+                    {
+                        MessageBox.Show("Please choose or insert a new drug");
+                    }
+                    else
+                    {
+                        drugsIsIn = true;
+
+                        tmpDrug = (cmbDrugs.SelectedIndex == -1) ? db.Drugs.FirstOrDefault(c => c.Name == cmbDrugs.Text) : db.Drugs.Include("Visit").Include("VisitDrug").FirstOrDefault(c => c.Name == cmbDrugs.SelectedItem.ToString());
+                        if (tmpDrug == null)
+                        {
+                            // A New doctor name has been inserted.
+                            drug = new Drug { Name = cmbDrugs.Text };
+
+                            // invoke the form
+                            Form frm = new SaveNewDrug(drug);
+                            frm.Show();
+
+                        }
+                        else
+                        {
+                            drug = tmpDrug;
+                        }
+
+                    }
+
+
+
+
+
+
+
+
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("All fields are required to book a visit!");
+
+            }
         }
+
 
         private void btnPrevMenu_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

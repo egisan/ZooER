@@ -32,6 +32,7 @@
             this.SaveDrug = new System.Windows.Forms.Label();
             this.DrugName = new System.Windows.Forms.Label();
             this.btnDrugSave = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtDrug
@@ -66,18 +67,30 @@
             // 
             // btnDrugSave
             // 
-            this.btnDrugSave.Location = new System.Drawing.Point(64, 119);
+            this.btnDrugSave.Location = new System.Drawing.Point(162, 129);
             this.btnDrugSave.Name = "btnDrugSave";
-            this.btnDrugSave.Size = new System.Drawing.Size(126, 40);
+            this.btnDrugSave.Size = new System.Drawing.Size(81, 27);
             this.btnDrugSave.TabIndex = 3;
             this.btnDrugSave.Text = "SAVE";
             this.btnDrugSave.UseVisualStyleBackColor = true;
+            this.btnDrugSave.Click += new System.EventHandler(this.btnDrugSave_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(31, 129);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(81, 27);
+            this.btnCancel.TabIndex = 4;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // SaveNewDrug
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(274, 181);
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnDrugSave);
             this.Controls.Add(this.DrugName);
             this.Controls.Add(this.SaveDrug);
@@ -95,5 +108,6 @@
         private System.Windows.Forms.Label SaveDrug;
         private System.Windows.Forms.Label DrugName;
         private System.Windows.Forms.Button btnDrugSave;
+        private System.Windows.Forms.Button btnCancel;
     }
 }

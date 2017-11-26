@@ -7,34 +7,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ZooER.DAL;
+using ZooER.Models;
 
 namespace ZooER.UI
 {
     public partial class SaveNewVet : Form
     {
-        public SaveNewVet()
+
+        Veterinary myDoctor = new Veterinary();
+
+        public SaveNewVet(Veterinary doctor)
         {
             InitializeComponent();
+            myDoctor = doctor;
         }
 
-        private void SaveDrug_Click(object sender, EventArgs e)
-        {
 
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
-        private void DoctorName_Click(object sender, EventArgs e)
+
+        private void btnDoctorSave_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void btnDrugSave_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
+            using (var db = new ZooContext())
+            {
+                db.Veterinaries.Add(myDoctor);
+            }
         }
     }
 }

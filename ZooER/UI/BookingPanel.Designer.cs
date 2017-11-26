@@ -42,11 +42,11 @@
             this.cmbDrugs = new System.Windows.Forms.ComboBox();
             this.drugBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.drugBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.mskTxtTime = new System.Windows.Forms.MaskedTextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.btnBook = new System.Windows.Forms.Button();
             this.btnPrevMenu = new System.Windows.Forms.Button();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.veterinaryBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bookingModelBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.animalBindingSource)).BeginInit();
@@ -160,15 +160,6 @@
             // 
             this.drugBindingSource.DataSource = typeof(ZooER.Models.Drug);
             // 
-            // mskTxtTime
-            // 
-            this.mskTxtTime.Location = new System.Drawing.Point(223, 175);
-            this.mskTxtTime.Mask = "00/00/0000 90:00";
-            this.mskTxtTime.Name = "mskTxtTime";
-            this.mskTxtTime.Size = new System.Drawing.Size(100, 20);
-            this.mskTxtTime.TabIndex = 10;
-            this.mskTxtTime.ValidatingType = typeof(System.DateTime);
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -209,16 +200,26 @@
             this.btnPrevMenu.UseVisualStyleBackColor = true;
             this.btnPrevMenu.Click += new System.EventHandler(this.btnPrevMenu_Click);
             // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.CustomFormat = "yyyy-MM-dd H:mm";
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePicker1.Location = new System.Drawing.Point(223, 176);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(121, 20);
+            this.dateTimePicker1.TabIndex = 15;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            // 
             // BookingPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(578, 382);
+            this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.btnPrevMenu);
             this.Controls.Add(this.btnBook);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.mskTxtTime);
             this.Controls.Add(this.mskTxtDes);
             this.Controls.Add(this.cmbDrugs);
             this.Controls.Add(this.cmbAnimal);
@@ -249,7 +250,6 @@
         private System.Windows.Forms.ComboBox cmbAnimal;
         private System.Windows.Forms.MaskedTextBox mskTxtDes;
         private System.Windows.Forms.ComboBox cmbDrugs;
-        private System.Windows.Forms.MaskedTextBox mskTxtTime;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnBook;
@@ -259,5 +259,6 @@
         private System.Windows.Forms.BindingSource drugBindingSource1;
         private System.Windows.Forms.BindingSource drugBindingSource;
         private System.Windows.Forms.BindingSource bookingModelBindingSource;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }

@@ -27,6 +27,7 @@ namespace ZooER.UI
             using (var db = new ZooContext())
             {
                 db.Drugs.Add(myDrug);
+                db.SaveChanges();
             }
         }
 

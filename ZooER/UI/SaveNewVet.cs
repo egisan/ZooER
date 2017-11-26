@@ -35,6 +35,7 @@ namespace ZooER.UI
             using (var db = new ZooContext())
             {
                 db.Veterinaries.Add(myDoctor);
+                db.SaveChanges();
             }
         }
     }

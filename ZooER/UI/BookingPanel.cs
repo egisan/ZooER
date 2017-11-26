@@ -117,7 +117,7 @@ namespace ZooER
                     {
                         doctorIsIn = true;
 
-                        tmpDoctor = (cmbDoctor.SelectedIndex == -1) ? db.Veterinaries.FirstOrDefault(c => c.Name == cmbDoctor.Text) : db.Veterinaries.Include("Animals").Include("Diagnosis").Include("VisitDrug").Include("Drug").FirstOrDefault(c => c.Name == cmbDoctor.SelectedItem.ToString());
+                        tmpDoctor = (cmbDoctor.SelectedIndex == -1) ? db.Veterinaries.FirstOrDefault(c => c.Name == cmbDoctor.Text) : db.Veterinaries.Include("Visits").FirstOrDefault(c => c.Name == cmbDoctor.SelectedItem.ToString());
                         if (tmpDoctor == null)
                         {
                             // A New doctor name has been inserted.
@@ -148,7 +148,7 @@ namespace ZooER
                         {
                             drugsIsIn = true;
 
-                            tmpDrug = (cmbDrugs.SelectedIndex == -1) ? db.Drugs.FirstOrDefault(c => c.Name == cmbDrugs.Text) : db.Drugs.Include("Visit").Include("VisitDrug").FirstOrDefault(c => c.Name == cmbDrugs.SelectedItem.ToString());
+                            tmpDrug = (cmbDrugs.SelectedIndex == -1) ? db.Drugs.FirstOrDefault(c => c.Name == cmbDrugs.Text) : db.Drugs.Include("Visits").FirstOrDefault(c => c.Name == cmbDrugs.SelectedItem.ToString());
                             if (tmpDrug == null)
                             {
                                 // A New doctor name has been inserted.
@@ -157,13 +157,11 @@ namespace ZooER
                                 // invoke the form
                                 Form frm = new SaveNewDrug(drug);
                                 frm.Show();
-
                             }
                             else
                             {
                                 drug = tmpDrug;
                             }
-
                         }
 
                         if (drugsIsIn)
@@ -171,32 +169,65 @@ namespace ZooER
                             // I can check the other fields
                             // I need to check whether this visit is already in DB (animal, doctor & Date/Time booking)
 
-                            var visitAlreadyExist = db.Visits.Where(c => DateTime.Compare(c.Start.Date, dateTimePicker1.Value.Date) == 0 &&
-                                                                    dateTimePicker2.Value.CompareTo(c.Start.TimeOfDay) == 0 &&
-                                                                    c.Animal.Name == cmbAnimal.SelectedItem.ToString() &&
-                                                                    c.Veterinary.Name == cmbDoctor.SelectedItem.ToString());
+                        
+                            bool allFieldsAlreadyExist = db.Visits.Where(c => c.Start.Year == dateTimePicker1.Value.Year &&
+                                                                              c.Start.Month == dateTimePicker1.Value.Month &&
+                                                                              c.Start.Day == dateTimePicker1.Value.Day &&
+                                                                              c.Start.Hour == dateTimePicker2.Value.Hour &&
+                                                                              c.Start.Minute == dateTimePicker2.Value.Minute &&
+                                                                              c.Animal.Name == cmbAnimal.SelectedItem.ToString() &&
+                                                                              c.Veterinary.Name == cmbDoctor.SelectedItem.ToString()).Any();
 
-                            newVisit.Start = dateTimePicker1.Value.Date + dateTimePicker2.Value.TimeOfDay;
-                            newVisit.Veterinary = 
+                            bool doctorTimeExist = db.Visits.Where(c => c.Start.Year == dateTimePicker1.Value.Year &&
+                                                                       c.Start.Month == dateTimePicker1.Value.Month &&
+                                                                       c.Start.Day == dateTimePicker1.Value.Day &&
+                                                                       c.Start.Hour == dateTimePicker2.Value.Hour &&
+                                                                       c.Start.Minute == dateTimePicker2.Value.Minute &&
+                                                                       c.Veterinary.Name == cmbDoctor.SelectedItem.ToString()).Any();
 
+                            bool animalTimeExist = db.Visits.Where(c => c.Start.Year == dateTimePicker1.Value.Year &&
+                                                                       c.Start.Month == dateTimePicker1.Value.Month &&
+                                                                       c.Start.Day == dateTimePicker1.Value.Day &&
+                                                                       c.Start.Hour == dateTimePicker2.Value.Hour &&
+                                                                       c.Start.Minute == dateTimePicker2.Value.Minute &&
+                                                                       c.Animal.Name == cmbAnimal.SelectedItem.ToString()).Any();
 
+                            // Check overlapping of time/doctor/animal and visit
+                            if (allFieldsAlreadyExist)
+                            {
+                                MessageBox.Show("This animal has already this time slot reserved with the same doctor. Please choose another time slot/doctor.");
+                            }
+                            else if (doctorTimeExist)
+                            {
+                                MessageBox.Show("This doctor has already this time slot reserved with another animal. Please choose another time slot/doctor.");
+                            }
+                            else if (animalTimeExist)
+                            {
+                                MessageBox.Show("This animal has already this time slot reserved with another doctor. Please choose another time slot.");
+                            }
+                            else
+                            { 
+                                newVisit.Start = dateTimePicker1.Value.Date + dateTimePicker2.Value.TimeOfDay;
+                                newVisit.Veterinary = doctor;
+                                newVisit.Drugs.Add(
+                                    new VisitDrug
+                                    {
+                                        Visit = newVisit,
+                                        Drug = drug
+                                    });
+                                newVisit.Diagnosis = new Diagnosis { Description = mskTxtDesc.Text };
+                                newVisit.Animal = db.Animals.Where(c => c.Name == cmbAnimal.SelectedItem.ToString()).FirstOrDefault();
 
-
-
-
-
-
-
-
-
+                                db.Visits.Add(newVisit);
+                                db.SaveChanges();
+                                MessageBox.Show("A new visit has been reserved for this animal!");
+                            }
 
                         }
                         else
                         {
                             // I have not inserted a valid Drug and need to repeat the input
                         }
-
-
 
                     }
                     else

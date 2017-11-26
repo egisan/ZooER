@@ -21,8 +21,8 @@ namespace ZooER.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime Start { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", NullDisplayText = "END Date not set", ApplyFormatInEditMode = true)]
-        public DateTime? End { get; set; }
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", NullDisplayText = "END Date not set", ApplyFormatInEditMode = true)]
+        //public DateTime? End { get; set; }
 
         // Nav
         [ForeignKey("Animal")]

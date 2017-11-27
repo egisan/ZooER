@@ -69,12 +69,12 @@
             // 
             // textDoctor
             // 
+            this.textDoctor.Enabled = false;
             this.textDoctor.Location = new System.Drawing.Point(102, 80);
             this.textDoctor.Name = "textDoctor";
             this.textDoctor.ReadOnly = true;
             this.textDoctor.Size = new System.Drawing.Size(158, 20);
             this.textDoctor.TabIndex = 4;
-            this.textDoctor.Visible = false;
             // 
             // btnCancel
             // 

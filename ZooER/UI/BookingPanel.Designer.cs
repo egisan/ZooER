@@ -189,7 +189,7 @@
             // 
             // btnBook
             // 
-            this.btnBook.Location = new System.Drawing.Point(576, 112);
+            this.btnBook.Location = new System.Drawing.Point(675, 126);
             this.btnBook.Name = "btnBook";
             this.btnBook.Size = new System.Drawing.Size(107, 44);
             this.btnBook.TabIndex = 13;
@@ -199,7 +199,7 @@
             // 
             // btnPrevMenu
             // 
-            this.btnPrevMenu.Location = new System.Drawing.Point(576, 295);
+            this.btnPrevMenu.Location = new System.Drawing.Point(675, 299);
             this.btnPrevMenu.Name = "btnPrevMenu";
             this.btnPrevMenu.Size = new System.Drawing.Size(104, 28);
             this.btnPrevMenu.TabIndex = 14;
@@ -234,14 +234,14 @@
             this.dataGridVisits.Location = new System.Drawing.Point(12, 337);
             this.dataGridVisits.Name = "dataGridVisits";
             this.dataGridVisits.ReadOnly = true;
-            this.dataGridVisits.Size = new System.Drawing.Size(697, 269);
+            this.dataGridVisits.Size = new System.Drawing.Size(806, 269);
             this.dataGridVisits.TabIndex = 17;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(242, 299);
+            this.label7.Location = new System.Drawing.Point(297, 299);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(198, 24);
             this.label7.TabIndex = 18;
@@ -279,7 +279,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(721, 623);
+            this.ClientSize = new System.Drawing.Size(830, 623);
             this.Controls.Add(this.btnSaveDrug);
             this.Controls.Add(this.lblDrugList);
             this.Controls.Add(this.txtSelDrugs);

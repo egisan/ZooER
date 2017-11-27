@@ -74,6 +74,7 @@
             this.textDoctor.ReadOnly = true;
             this.textDoctor.Size = new System.Drawing.Size(158, 20);
             this.textDoctor.TabIndex = 4;
+            this.textDoctor.Visible = false;
             // 
             // btnCancel
             // 

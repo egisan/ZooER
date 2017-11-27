@@ -20,15 +20,17 @@ namespace ZooER.UI
         {
             InitializeComponent();
             myDrug = drug;
+            txtDrug.Text = myDrug.Name;
         }
 
-        private void btnDrugSave_Click(object sender, EventArgs e)
+        private void btnConfirmDrug_Click(object sender, EventArgs e)
         {
             using (var db = new ZooContext())
             {
                 db.Drugs.Add(myDrug);
                 db.SaveChanges();
             }
+            this.Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

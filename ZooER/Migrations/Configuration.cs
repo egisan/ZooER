@@ -187,9 +187,9 @@ namespace ZooER.Migrations
             // https://stackoverflow.com/questions/11602683/error-seeding-database-foreign-key-issue
             var visits = new Visit[]
             {
-                new Visit { VisitId = 1, Start = new DateTime(2016, 10, 02, 10, 15, 45), End = new DateTime(2016, 10, 02, 12, 10, 00), Drugs = new List<VisitDrug>() },
-                new Visit { VisitId = 2, Start = new DateTime(2017, 03, 16, 08, 30, 00), End = new DateTime(2017, 03, 16, 09, 30, 00), Drugs = new List<VisitDrug>() },
-                new Visit { VisitId = 3, Start = new DateTime(2017, 09, 12, 15, 00, 00), End = new DateTime(2017, 09, 12, 16, 30, 00), Drugs = new List<VisitDrug>() }
+                new Visit { VisitId = 1, Start = new DateTime(2016, 10, 02, 10, 15, 45), Drugs = new List<VisitDrug>() },
+                new Visit { VisitId = 2, Start = new DateTime(2017, 03, 16, 08, 30, 00), Drugs = new List<VisitDrug>() },
+                new Visit { VisitId = 3, Start = new DateTime(2017, 09, 12, 15, 00, 00), Drugs = new List<VisitDrug>() }
             };
 
 

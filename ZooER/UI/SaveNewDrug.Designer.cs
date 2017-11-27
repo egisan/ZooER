@@ -31,12 +31,13 @@
             this.txtDrug = new System.Windows.Forms.TextBox();
             this.SaveDrug = new System.Windows.Forms.Label();
             this.DrugName = new System.Windows.Forms.Label();
-            this.btnDrugSave = new System.Windows.Forms.Button();
+            this.btnConfirmDrug = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtDrug
             // 
+            this.txtDrug.Enabled = false;
             this.txtDrug.Location = new System.Drawing.Point(97, 75);
             this.txtDrug.Name = "txtDrug";
             this.txtDrug.ReadOnly = true;
@@ -65,15 +66,15 @@
             this.DrugName.TabIndex = 2;
             this.DrugName.Text = "Drug Name:";
             // 
-            // btnDrugSave
+            // btnConfirmDrug
             // 
-            this.btnDrugSave.Location = new System.Drawing.Point(162, 129);
-            this.btnDrugSave.Name = "btnDrugSave";
-            this.btnDrugSave.Size = new System.Drawing.Size(81, 27);
-            this.btnDrugSave.TabIndex = 3;
-            this.btnDrugSave.Text = "SAVE";
-            this.btnDrugSave.UseVisualStyleBackColor = true;
-            this.btnDrugSave.Click += new System.EventHandler(this.btnDrugSave_Click);
+            this.btnConfirmDrug.Location = new System.Drawing.Point(162, 129);
+            this.btnConfirmDrug.Name = "btnConfirmDrug";
+            this.btnConfirmDrug.Size = new System.Drawing.Size(81, 27);
+            this.btnConfirmDrug.TabIndex = 3;
+            this.btnConfirmDrug.Text = "Confirm";
+            this.btnConfirmDrug.UseVisualStyleBackColor = true;
+            this.btnConfirmDrug.Click += new System.EventHandler(this.btnConfirmDrug_Click);
             // 
             // btnCancel
             // 
@@ -91,7 +92,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(274, 181);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnDrugSave);
+            this.Controls.Add(this.btnConfirmDrug);
             this.Controls.Add(this.DrugName);
             this.Controls.Add(this.SaveDrug);
             this.Controls.Add(this.txtDrug);
@@ -107,7 +108,7 @@
         private System.Windows.Forms.TextBox txtDrug;
         private System.Windows.Forms.Label SaveDrug;
         private System.Windows.Forms.Label DrugName;
-        private System.Windows.Forms.Button btnDrugSave;
+        private System.Windows.Forms.Button btnConfirmDrug;
         private System.Windows.Forms.Button btnCancel;
     }
 }

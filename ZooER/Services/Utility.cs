@@ -179,9 +179,9 @@ namespace ZooER.Services
             using (var db = new ZooContext())
             {
                 BookingModel visitView;
-                string drugName = "";
                 foreach (var visit in db.Visits)
                 {
+                    string drugName = "";
                     visitView = new BookingModel();
 
                     visitView.Id = visit.VisitId;  // PK of Visit !
@@ -193,11 +193,10 @@ namespace ZooER.Services
 
                     foreach (var drug in visit.Drugs) // I lookup in the link table for all drugs attached to current visit
                     {
-                        // Retrieve for each drug attached to the current visit, the name and create a list.
-                        if (drug.VisitID == visit.VisitId)
-                        {
-                            drugName = drugName + db.Drugs.Where(c => c.DrugId == drug.DrugID).Select(c => c.Name).FirstOrDefault().ToString() + ",";
-                        }
+                        // Retrieve for each drug attached to the current visit via navigation, the name and append to a string .
+
+                        drugName = drugName + drug.Drug.Name +",";
+
                     }
                     visitView.Drugs = drugName;
 

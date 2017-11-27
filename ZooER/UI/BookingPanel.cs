@@ -18,6 +18,8 @@ namespace ZooER
     {
 
         Utility service;
+        string selDrugs = "";
+        List<string> drugList = new List<string>();
 
         public BookingPanel()
         {
@@ -278,13 +280,6 @@ namespace ZooER
                     }
 
 
-
-
-
-
-
-
-
                 } // Using
             } // Check for empty fields at start
             else
@@ -300,9 +295,60 @@ namespace ZooER
             this.Close();
         }
 
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
 
+        private void btnSaveDrug_Click(object sender, EventArgs e)
+        {
+            if (cmbDrugs.SelectedIndex != 0)
+            {
+                var tmpDrug = new Drug();
+                var drug = new Drug();
+
+                using (var db = new ZooContext())
+                {
+                    tmpDrug = (cmbDrugs.SelectedIndex == -1) ? db.Drugs.FirstOrDefault(c => c.Name == cmbDrugs.Text) : db.Drugs.Include("Visits").FirstOrDefault(c => c.Name == cmbDrugs.SelectedItem.ToString());
+                    if (tmpDrug == null)
+                    {
+                        // A New Drug has been inserted.
+                        drug = new Drug { Name = cmbDrugs.Text };
+
+                        // invoke the Drug save confirmation form
+                        Form frm = new SaveNewDrug(drug);
+                        frm.Show();
+                    }
+                    else
+                    {
+                        // existing drug selected. I don´t need to save it in DB again
+                        drug = tmpDrug;
+                    }
+
+                    // I need to add a check that the new drug has not already been selected !! I need to keep truck in a 
+                    // list of the names so I can spot if there is already one in the list!
+                    // Update the list of selected drugs
+                    if (drugList.Count() != 0)
+                    {
+                        if (drugList.Contains(drug.Name))
+                        {
+                            MessageBox.Show("Drug has already been selected!");
+                        }
+                        else
+                        {
+                            // add the drug to the list and update the string of selected drugs
+                            drugList.Add(drug.Name);
+
+                            selDrugs = selDrugs + cmbDrugs.Text + ",";
+                            txtSelDrugs.Text = selDrugs;
+                        }
+                    }
+                    else
+                    {
+                        // It is the very first drug to be inserted in the list
+                        drugList.Add(drug.Name);
+                        selDrugs = selDrugs + cmbDrugs.Text + ",";
+                        txtSelDrugs.Text = selDrugs;
+                    }
+
+                } // Using
+            }
         }
     }
 }

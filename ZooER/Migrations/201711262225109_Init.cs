@@ -88,13 +88,12 @@ namespace ZooER.Migrations
                     {
                         VisitId = c.Int(nullable: false, identity: true),
                         Start = c.DateTime(nullable: false),
-                        End = c.DateTime(),
-                        AnimalId = c.Int(nullable: false),
+                        AnimalId = c.Int(),
                         DiagnosisId = c.Int(),
                         VeterinaryId = c.Int(),
                     })
                 .PrimaryKey(t => t.VisitId)
-                .ForeignKey("dbo.Animals", t => t.AnimalId, cascadeDelete: true)
+                .ForeignKey("dbo.Animals", t => t.AnimalId)
                 .ForeignKey("dbo.Diagnosis", t => t.DiagnosisId)
                 .ForeignKey("dbo.Veterinaries", t => t.VeterinaryId)
                 .Index(t => t.AnimalId)
@@ -114,11 +113,10 @@ namespace ZooER.Migrations
                 "dbo.VisitDrugs",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
-                        VisitID = c.Int(),
-                        DrugID = c.Int(),
+                        VisitID = c.Int(nullable: false),
+                        DrugID = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.ID)
+                .PrimaryKey(t => new { t.VisitID, t.DrugID })
                 .ForeignKey("dbo.Drugs", t => t.DrugID)
                 .ForeignKey("dbo.Visits", t => t.VisitID)
                 .Index(t => t.VisitID)

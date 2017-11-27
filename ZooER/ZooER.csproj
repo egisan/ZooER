@@ -52,9 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201711231659445_Init.cs" />
-    <Compile Include="Migrations\201711231659445_Init.Designer.cs">
-      <DependentUpon>201711231659445_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201711262225109_Init.cs" />
+    <Compile Include="Migrations\201711262225109_Init.Designer.cs">
+      <DependentUpon>201711262225109_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ChildrenParents.cs" />
     <Compile Include="Models\VisitDrug.cs" />
@@ -107,11 +107,23 @@
     <Compile Include="Models\Visit.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\SaveNewDrug.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SaveNewDrug.Designer.cs">
+      <DependentUpon>SaveNewDrug.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\SaveNewVet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\SaveNewVet.Designer.cs">
+      <DependentUpon>SaveNewVet.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AnimalDetails.cs" />
     <Compile Include="ViewModels\BookingModel.cs" />
     <Compile Include="ViewModels\CancelBookingModel.cs" />
-    <EmbeddedResource Include="Migrations\201711231659445_Init.resx">
-      <DependentUpon>201711231659445_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201711262225109_Init.resx">
+      <DependentUpon>201711262225109_Init.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\BookingPanel.resx">
       <DependentUpon>BookingPanel.cs</DependentUpon>
@@ -134,6 +146,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UI\SaveNewDrug.resx">
+      <DependentUpon>SaveNewDrug.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\SaveNewVet.resx">
+      <DependentUpon>SaveNewVet.cs</DependentUpon>
+    </EmbeddedResource>
     <EntityDeploy Include="Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>

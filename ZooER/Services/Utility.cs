@@ -27,7 +27,7 @@ namespace ZooER.Services
 
         public List<ChildParent> GetParentsLinks(ZooContext db, string childName)
         {
-              return GetAnimal(db, childName).IsChildOf.ToList();
+            return GetAnimal(db, childName).IsChildOf.ToList();
         }
 
 
@@ -167,6 +167,44 @@ namespace ZooER.Services
                 }
             }
             return animals;
+        }
+
+
+        // Retrieve all info for all visits 
+        // return a BindingList ready for View!
+        public BindingList<BookingModel> GetVisitsDetails()
+        {
+            var visits = new BindingList<BookingModel>();
+
+            using (var db = new ZooContext())
+            {
+                BookingModel visitView;
+                string drugName = "";
+                foreach (var visit in db.Visits)
+                {
+                    visitView = new BookingModel();
+
+                    visitView.Id = visit.VisitId;  // PK of Visit !
+
+                    visitView.DoctorName = visit.Veterinary.Name;
+                    visitView.NamePatient = visit.Animal.Name;
+                    visitView.TimeBooked = visit.Start;
+                    visitView.Diagnosis = visit.Diagnosis.Description;
+
+                    foreach (var drug in visit.Drugs) // I lookup in the link table for all drugs attached to current visit
+                    {
+                        // Retrieve for each drug attached to the current visit, the name and create a list.
+                        if (drug.VisitID == visit.VisitId)
+                        {
+                            drugName = drugName + db.Drugs.Where(c => c.DrugId == drug.DrugID).Select(c => c.Name).FirstOrDefault().ToString() + ",";
+                        }
+                    }
+                    visitView.Drugs = drugName;
+
+                    visits.Add(visitView);
+                }
+            }
+            return visits;
         }
     }
 }

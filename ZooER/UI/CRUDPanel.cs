@@ -30,6 +30,7 @@ namespace ZooER
         public CRUDPanel()
         {
             InitializeComponent();
+            SetComboBoxProperties();
             LoadCurrentZoo();
         }
 
@@ -48,7 +49,6 @@ namespace ZooER
         public void LoadCurrentZoo()
         {
             service = new Utility();
-            SetComboBoxProperties();
             FillComboBoxes();
 
             // Test

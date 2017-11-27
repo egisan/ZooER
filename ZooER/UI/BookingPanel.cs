@@ -9,19 +9,21 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ZooER.DAL;
 using ZooER.Models;
+using ZooER.Services;
 using ZooER.UI;
 
 namespace ZooER
 {
     public partial class BookingPanel : Form
     {
+
+        Utility service;
+
         public BookingPanel()
         {
             InitializeComponent();
             SetComboBoxProperties();
-            FillDoctorsCombo();
-            FillAnimalsCombo();
-            FillDrugsCombo();
+            LoadCurrentVisits();
         }
 
 
@@ -34,6 +36,34 @@ namespace ZooER
             // Animal can only be selected
             cmbAnimal.DropDownStyle = ComboBoxStyle.DropDownList;
         }
+
+        public void LoadCurrentVisits()
+        {
+            service = new Utility();
+            FillComboBoxes();
+
+            var lista = service.GetVisitsDetails();
+            if (lista.Count() != 0)
+            {
+                dataGridVisits.DataSource = lista;
+            }
+            else
+            {
+                while (dataGridVisits.Rows.Count > 0)
+                {
+                    dataGridVisits.Rows.RemoveAt(0);
+                }
+            }
+        }
+
+        private void FillComboBoxes()
+        {
+            FillDoctorsCombo();
+            FillAnimalsCombo();
+            FillDrugsCombo();
+        }
+
+
 
         private void FillDoctorsCombo()
         {
@@ -85,6 +115,15 @@ namespace ZooER
             }
         }
 
+
+        private void ClearData()
+        {
+            cmbDoctor.SelectedIndex = 0;
+            cmbAnimal.SelectedIndex = 0;
+            dateTimePicker1.Value = DateTime.Now;
+            mskTxtDesc.Text = "";
+            cmbDrugs.SelectedIndex = 0;
+        }
 
 
         // *********************
@@ -169,7 +208,7 @@ namespace ZooER
                             // I can check the other fields
                             // I need to check whether this visit is already in DB (animal, doctor & Date/Time booking)
 
-                        
+
                             bool allFieldsAlreadyExist = db.Visits.Where(c => c.Start.Year == dateTimePicker1.Value.Year &&
                                                                               c.Start.Month == dateTimePicker1.Value.Month &&
                                                                               c.Start.Day == dateTimePicker1.Value.Day &&
@@ -206,7 +245,7 @@ namespace ZooER
                                 MessageBox.Show("This animal has already this time slot reserved with another doctor. Please choose another time slot.");
                             }
                             else
-                            { 
+                            {
                                 newVisit.Start = dateTimePicker1.Value.Date + dateTimePicker2.Value.TimeOfDay;
                                 newVisit.Veterinary = doctor;
                                 newVisit.Drugs.Add(
@@ -221,6 +260,8 @@ namespace ZooER
                                 db.Visits.Add(newVisit);
                                 db.SaveChanges();
                                 MessageBox.Show("A new visit has been reserved for this animal!");
+                                LoadCurrentVisits();
+                                ClearData();
                             }
 
                         }

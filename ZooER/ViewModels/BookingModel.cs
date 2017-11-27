@@ -18,11 +18,11 @@ namespace ZooER.ViewModels
         public string NamePatient { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd H:mm:ss}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
         [Display(Name = "Time booked")]
         public DateTime TimeBooked { get; set; }
 
         public string Diagnosis { get; set; }
-        public List<string> Drugs { get; set; }
+        public string Drugs { get; set; } // I will concatenate the drugs
     }
 }

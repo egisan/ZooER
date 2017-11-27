@@ -48,11 +48,14 @@
             this.btnPrevMenu = new System.Windows.Forms.Button();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.dataGridVisits = new System.Windows.Forms.DataGridView();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.veterinaryBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bookingModelBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.animalBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.drugBindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.drugBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridVisits)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -104,7 +107,7 @@
             this.cmbDoctor.FormattingEnabled = true;
             this.cmbDoctor.Location = new System.Drawing.Point(223, 100);
             this.cmbDoctor.Name = "cmbDoctor";
-            this.cmbDoctor.Size = new System.Drawing.Size(171, 21);
+            this.cmbDoctor.Size = new System.Drawing.Size(203, 21);
             this.cmbDoctor.TabIndex = 5;
             this.cmbDoctor.ValueMember = "DoctorName";
             // 
@@ -126,7 +129,7 @@
             this.cmbAnimal.FormattingEnabled = true;
             this.cmbAnimal.Location = new System.Drawing.Point(223, 137);
             this.cmbAnimal.Name = "cmbAnimal";
-            this.cmbAnimal.Size = new System.Drawing.Size(171, 21);
+            this.cmbAnimal.Size = new System.Drawing.Size(113, 21);
             this.cmbAnimal.TabIndex = 6;
             this.cmbAnimal.ValueMember = "NamePatient";
             // 
@@ -149,7 +152,7 @@
             this.cmbDrugs.FormattingEnabled = true;
             this.cmbDrugs.Location = new System.Drawing.Point(223, 251);
             this.cmbDrugs.Name = "cmbDrugs";
-            this.cmbDrugs.Size = new System.Drawing.Size(171, 21);
+            this.cmbDrugs.Size = new System.Drawing.Size(182, 21);
             this.cmbDrugs.TabIndex = 8;
             this.cmbDrugs.ValueMember = "Name";
             // 
@@ -183,7 +186,7 @@
             // 
             // btnBook
             // 
-            this.btnBook.Location = new System.Drawing.Point(388, 294);
+            this.btnBook.Location = new System.Drawing.Point(521, 114);
             this.btnBook.Name = "btnBook";
             this.btnBook.Size = new System.Drawing.Size(107, 44);
             this.btnBook.TabIndex = 13;
@@ -193,7 +196,7 @@
             // 
             // btnPrevMenu
             // 
-            this.btnPrevMenu.Location = new System.Drawing.Point(91, 310);
+            this.btnPrevMenu.Location = new System.Drawing.Point(524, 246);
             this.btnPrevMenu.Name = "btnPrevMenu";
             this.btnPrevMenu.Size = new System.Drawing.Size(104, 28);
             this.btnPrevMenu.TabIndex = 14;
@@ -221,11 +224,34 @@
             this.dateTimePicker2.Size = new System.Drawing.Size(68, 20);
             this.dateTimePicker2.TabIndex = 16;
             // 
+            // dataGridVisits
+            // 
+            this.dataGridVisits.AllowUserToAddRows = false;
+            this.dataGridVisits.AllowUserToDeleteRows = false;
+            this.dataGridVisits.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridVisits.Location = new System.Drawing.Point(12, 337);
+            this.dataGridVisits.Name = "dataGridVisits";
+            this.dataGridVisits.ReadOnly = true;
+            this.dataGridVisits.Size = new System.Drawing.Size(642, 269);
+            this.dataGridVisits.TabIndex = 17;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(242, 299);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(198, 24);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "Currently booked visits";
+            // 
             // BookingPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(578, 382);
+            this.ClientSize = new System.Drawing.Size(666, 623);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.dataGridVisits);
             this.Controls.Add(this.dateTimePicker2);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.btnPrevMenu);
@@ -247,6 +273,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.animalBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.drugBindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.drugBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridVisits)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -273,5 +300,7 @@
         private System.Windows.Forms.BindingSource bookingModelBindingSource;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
+        private System.Windows.Forms.DataGridView dataGridVisits;
+        private System.Windows.Forms.Label label7;
     }
 }
